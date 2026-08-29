@@ -425,3 +425,86 @@
         </div>
 
     </header>
+
+    <div class="container py-5">
+
+        <div class="main-card">
+
+            <div class="progress-wrapper">
+
+                <div class="step-indicator">
+
+                    <span class="step-label active">
+                        1. Annadan
+                    </span>
+
+                    <span class="step-label">
+                        2. Timing
+                    </span>
+
+                    <span class="step-label">
+                        3. Status
+                    </span>
+
+                </div>
+
+                <div class="progress">
+
+                    <div
+                        id="progressBar"
+                        class="progress-bar"
+                        style="width: 33.33%;"
+                    ></div>
+
+                </div>
+
+            </div>
+
+            <form
+                method="POST"
+                class="p-4 p-md-5"
+                onsubmit="showDonationSuccess(event)"
+            >
+
+                <div class="step active">
+
+                    <div class="section-icon">
+                        <i class="bi bi-egg-fried"></i>
+                    </div>
+
+                    <h5 class="step-title">
+                        Annadan Details
+                    </h5>
+
+                    <p class="step-description">
+                        Select your Annadan centre and enter the basic
+                        information about the meal service.
+                    </p>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Annadan Centre
+                        </label>
+
+                        <select
+                            name="centre_id"
+                            class="form-select"
+                            required
+                        >
+
+                            <option value="">
+                                Select Annadan Centre
+                            </option>
+
+                            {% for centre in centres %}
+
+                                <option value="{{ centre[0] }}">
+                                    {{ centre[1] }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
