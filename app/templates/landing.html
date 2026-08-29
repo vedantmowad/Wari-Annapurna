@@ -1634,8 +1634,7 @@
             </div>
         </div>
     </section>
-
-    <section class="section features-section" id="features">
+  <section class="section features-section" id="features">
         <div class="container">
             <div class="text-center reveal">
                 <div class="section-label">Technology for Seva</div>
@@ -2104,3 +2103,19 @@
                     }
                 });
             });
+
+        document.querySelectorAll(".navbar-nav .nav-link")
+            .forEach(link => {
+                link.addEventListener("click", function () {
+                    const nav = document.querySelector(".navbar-collapse");
+
+                    if (nav.classList.contains("show")) {
+                        new bootstrap.Collapse(nav).hide();
+                    }
+                });
+            });
+    </script>
+
+</body>
+
+</html>
