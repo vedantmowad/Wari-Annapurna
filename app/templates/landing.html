@@ -181,3 +181,41 @@
             border-color: var(--saffron);
             color: var(--deep);
         }
+
+        .nav-join {
+            background: white;
+            color: var(--deep);
+            border-radius: 50px;
+            padding: 10px 22px;
+            font-weight: 700;
+            transition: .3s;
+        }
+
+        .nav-join:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .15);
+        }
+
+        .hero {
+            min-height: 850px;
+            position: relative;
+            overflow: hidden;
+            color: white;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg,
+                rgba(60, 25, 5, .65),
+                rgba(130, 55, 10, .45),
+                rgba(220, 110, 20, .25)),
+            url("{{ url_for('static', filename='wari-background.png') }}");
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            clip-path: polygon(0 0,
+                    100% 0,
+                    100% 91%,
+                    75% 96%,
+                    50% 100%,
+                    25% 96%,
+                    0 91%);
+        }
