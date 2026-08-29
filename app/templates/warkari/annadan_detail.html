@@ -96,3 +96,141 @@
             color: #e65100;
             margin-bottom: 12px;
         }
+
+         .location-box {
+            background: #fff8f0;
+            border-radius: 14px;
+            padding: 15px;
+        }
+
+        #map {
+            width: 100%;
+            height: 420px;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .map-card {
+            position: sticky;
+            top: 20px;
+        }
+
+        .orange-btn {
+            background: #e65100;
+            border: none;
+            color: white;
+            border-radius: 12px;
+            padding: 11px 18px;
+            font-weight: 600;
+        }
+
+        .orange-btn:hover {
+            background: #bf360c;
+            color: white;
+        }
+
+        .outline-orange-btn {
+            border: 1px solid #e65100;
+            color: #e65100;
+            background: white;
+            border-radius: 12px;
+            padding: 10px 18px;
+            font-weight: 600;
+        }
+
+        .outline-orange-btn:hover {
+            background: #e65100;
+            color: white;
+        }
+
+        .availability-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #e65100;
+        }
+
+        .divider {
+            height: 1px;
+            background: #eee;
+            margin: 22px 0;
+        }
+
+        .demand-box {
+            background: #fff3e0;
+            border: 1px solid #ffcc80;
+            border-radius: 14px;
+            padding: 15px;
+        }
+
+        .demand-number {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #e65100;
+        }
+
+        .shortage-box {
+            background: #ffebee;
+            border: 1px solid #ffcdd2;
+            border-radius: 14px;
+            padding: 15px;
+        }
+
+        .shortage-number {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #c62828;
+        }
+
+        @media (max-width: 768px) {
+            .page-wrapper {
+                padding: 20px 10px;
+            }
+
+            #map {
+                height: 330px;
+            }
+
+            .map-card {
+                position: static;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container page-wrapper">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="fw-bold header-title mb-1">
+                <i class="bi bi-shop me-2"></i>
+                Annadan Details
+            </h4>
+
+            <small class="text-muted">
+                Food service information for Warkaris
+            </small>
+        </div>
+
+        <a
+            href="{{ url_for('warkari.annadan') }}"
+            class="btn back-btn rounded-pill px-4"
+        >
+            <i class="bi bi-arrow-left me-1"></i>
+            Back
+        </a>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-lg-7">
+
+            <div class="card p-4">
+
+                <div class="d-flex justify-content-between align-items-start mb-4">
+
+                    <div>
+                        <div class="centre-title">
+                            {{ centre.name }}
+                        </div>
