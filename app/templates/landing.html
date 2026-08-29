@@ -116,3 +116,106 @@
             from {
                 transform: translateX(-100%);
             }
+
+            to {
+                transform: translateX(300%);
+            }
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 2000;
+            padding: 18px 0;
+            transition: .4s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, .94);
+            backdrop-filter: blur(18px);
+            box-shadow: 0 8px 30px rgba(50, 25, 5, .1);
+            padding: 10px 0;
+        }
+
+        .navbar-brand {
+            color: white !important;
+            font-family: 'Poppins';
+            font-weight: 800;
+            font-size: 1.4rem;
+        }
+
+        .navbar.scrolled .navbar-brand {
+            color: var(--dark) !important;
+        }
+
+        .brand-icon {
+            color: #ff9800;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, .88) !important;
+            font-weight: 600;
+            margin: 0 5px;
+            transition: .3s;
+        }
+
+        .navbar.scrolled .nav-link {
+            color: var(--dark) !important;
+        }
+
+        .nav-link:hover {
+            color: #ffd166 !important;
+            transform: translateY(-2px);
+        }
+
+        .nav-login {
+            border: 1px solid rgba(255, 255, 255, .7);
+            color: white;
+            border-radius: 50px;
+            padding: 9px 22px;
+        }
+
+        .navbar.scrolled .nav-login {
+            border-color: var(--saffron);
+            color: var(--deep);
+        }
+
+        .nav-join {
+            background: white;
+            color: var(--deep);
+            border-radius: 50px;
+            padding: 10px 22px;
+            font-weight: 700;
+            transition: .3s;
+        }
+
+        .nav-join:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .15);
+        }
+
+        .hero {
+            min-height: 850px;
+            position: relative;
+            overflow: hidden;
+            color: white;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg,
+                rgba(60, 25, 5, .65),
+                rgba(130, 55, 10, .45),
+                rgba(220, 110, 20, .25)),
+            url("{{ url_for('static', filename='wari-background.png') }}");
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            clip-path: polygon(0 0,
+                    100% 0,
+                    100% 91%,
+                    75% 96%,
+                    50% 100%,
+                    25% 96%,
+                    0 91%);
+        }
