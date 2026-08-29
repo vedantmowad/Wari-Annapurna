@@ -1216,3 +1216,135 @@
                 width: 190px;
                 height: 100px;
             }
+
+            .palkhi-roof {
+                width: 160px;
+            }
+
+            .route-line {
+                width: 300px;
+            }
+
+            .warkari-row {
+                font-size: 1.7rem;
+            }
+
+            .trust-box {
+                padding: 30px 20px;
+            }
+
+            .mobility-dashboard {
+                padding: 20px;
+            }
+
+            .map-area {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="loader">
+        <div class="loader-flag">🚩</div>
+        <div class="loader-title">Wari Annapurna</div>
+        <div class="loader-line">
+            <span></span>
+        </div>
+        <small class="mt-3 opacity-75">Technology for Seva</small>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="bi bi-flower1 brand-icon me-2"></i>
+                Wari Annapurna
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="#how-it-works">How It Works</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="#mobility">Crowd Mobility</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="#features">Features</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="#impact">Impact</a>
+                    </li>
+
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                        <a href="/login" class="nav-login">Login</a>
+                    </li>
+
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                        <a href="/register" class="nav-join">Join Wari Annapurna</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-grid"></div>
+
+        <div class="wari-particle" style="left:5%;animation-duration:12s;animation-delay:1s">🚩</div>
+        <div class="wari-particle" style="left:14%;animation-duration:16s;animation-delay:4s">✦</div>
+        <div class="wari-particle" style="left:28%;animation-duration:14s;animation-delay:2s">🚩</div>
+        <div class="wari-particle" style="left:72%;animation-duration:17s;animation-delay:3s">✦</div>
+        <div class="wari-particle" style="left:84%;animation-duration:13s;animation-delay:6s">🚩</div>
+        <div class="wari-particle" style="left:94%;animation-duration:15s;animation-delay:1s">✦</div>
+
+        <div class="container hero-content">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <div class="hero-badge">
+                        <i class="bi bi-flag-fill"></i>
+                        Serving the Warkaris of Pandharpur Wari
+                    </div>
+
+                    <h1>
+                        Annadan for Every
+                        <span>Warkari</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        A smart crowd-mobility and Annadan coordination platform
+                        that helps Warkaris discover nearby food centres,
+                        understand live availability, and helps Seva providers
+                        coordinate food where it is needed most.
+                    </p>
+
+                    <div class="hero-buttons">
+                        <a href="/register" class="btn-main">
+                            <i class="bi bi-geo-alt-fill me-2"></i>
+                            Find Annadan
+                        </a>
+
+                        <a href="{{ url_for('auth.register_centre') }}" class="btn-secondary">
+                            <i class="bi bi-heart-fill me-2"></i>
+                            Join Annadan Seva
+                        </a>
+                    </div>
+
+                    <div class="live-status">
+                        <span class="live-dot"></span>
+                        Live Wari Network
+                        <span class="mx-1">•</span>
+                        <span id="heroCrowd">2,847</span>
+                        Warkaris tracked
+                    </div>
+                </div>
+            </div>
+        </div>
