@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-<<<<<<< HEAD
+
     <title>Warkari</title>
 </head>
+
 <body>
 
-=======
+    =======
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Warkari Dashboard | Wari Annapurna</title>
 
@@ -35,7 +37,7 @@
             padding: 20px;
             margin: 0;
             font-weight: 700;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .sidebar a {
@@ -49,7 +51,7 @@
 
         .sidebar a:hover,
         .sidebar a.active {
-            background: rgba(255,255,255,0.16);
+            background: rgba(255, 255, 255, 0.16);
         }
 
         .main {
@@ -60,7 +62,7 @@
         .topbar {
             background: #fff;
             padding: 15px 30px;
-            box-shadow: 0 4px 15px rgba(107,61,0,0.08);
+            box-shadow: 0 4px 15px rgba(107, 61, 0, 0.08);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -76,7 +78,7 @@
         .crowd-card {
             background: #fff;
             border-radius: 18px;
-            box-shadow: 0 10px 28px rgba(107,61,0,0.08);
+            box-shadow: 0 10px 28px rgba(107, 61, 0, 0.08);
             border: 1px solid #F3E2CB;
         }
 
@@ -105,22 +107,22 @@
         }
 
         .icon-centres {
-            background: rgba(168,67,0,0.12);
+            background: rgba(168, 67, 0, 0.12);
             color: #A84300;
         }
 
         .icon-meals {
-            background: rgba(230,168,0,0.16);
+            background: rgba(230, 168, 0, 0.16);
             color: #D69A00;
         }
 
         .icon-active {
-            background: rgba(47,125,50,0.13);
+            background: rgba(47, 125, 50, 0.13);
             color: #2F7D32;
         }
 
         .icon-map {
-            background: rgba(180,83,9,0.12);
+            background: rgba(180, 83, 9, 0.12);
             color: #B45309;
         }
 
@@ -129,7 +131,7 @@
             color: #fff;
             border-radius: 18px;
             padding: 30px;
-            box-shadow: 0 12px 30px rgba(107,61,0,0.15);
+            box-shadow: 0 12px 30px rgba(107, 61, 0, 0.15);
         }
 
         .welcome-card h4 {
@@ -137,7 +139,7 @@
         }
 
         .welcome-card p {
-            color: rgba(255,255,255,0.88);
+            color: rgba(255, 255, 255, 0.88);
         }
 
         .quick-card {
@@ -286,197 +288,200 @@
                 padding: 15px;
             }
         }
+    </style>
+    </head>
 
-           </style>
-</head>
+    <body>
 
-<body>
+        <div class="sidebar">
+            <h4>
+                <i class="bi bi-sun-fill me-2"></i>
+                Wari Annapurna
+            </h4>
 
-<div class="sidebar">
-    <h4>
-        <i class="bi bi-sun-fill me-2"></i>
-        Wari Annapurna
-    </h4>
+            <a href="{{ url_for('warkari.dashboard') }}" class="active">
+                <i class="bi bi-speedometer2 me-2"></i>
+                Dashboard
+            </a>
 
-    <a href="{{ url_for('warkari.dashboard') }}" class="active">
-        <i class="bi bi-speedometer2 me-2"></i>
-        Dashboard
-    </a>
+            <a href="{{ url_for('warkari.annadan') }}">
+                <i class="bi bi-shop me-2"></i>
+                Annadan Centres
+            </a>
 
-    <a href="{{ url_for('warkari.annadan') }}">
-        <i class="bi bi-shop me-2"></i>
-        Annadan Centres
-    </a>
-
-    <a href="{{ url_for('warkari.wari_map') }}">
-        <i class="bi bi-map me-2"></i>
-        Wari Map
-    </a>
-
-    <a href="{{ url_for('warkari.logout') }}">
-        <i class="bi bi-box-arrow-right me-2"></i>
-        Logout
-    </a>
-</div>
-
-<div class="main">
-
-    <div class="topbar">
-        <h5 class="mb-0">
-            <i class="bi bi-sun me-2"></i>
-            Warkari Dashboard
-        </h5>
-
-        <div>
-            <i class="bi bi-person-circle me-2"></i>
-            {{ session.user_name }}
-        </div>
-    </div>
-
-    <div class="container-fluid p-4">
-
-        <div class="welcome-card mb-4">
-            <h4>Welcome to Wari Annapurna</h4>
-            <p class="mb-0">
-                Find nearby Annadan centres, check meal availability and plan your journey through the Wari.
-            </p>
+            <a href="{{ url_for('warkari.wari_map') }}">
+                <i class="bi bi-map me-2"></i>
+                Wari Map
+            </a>
+            <a href="{{ url_for('warkari.rate_centre')}}">
+                <i class="bi bi-arrow-left"></i>
+                Rate Centre
+            </a>
+            <a href="{{ url_for('donor.logout') }}">
+                <i class="bi bi-box-arrow-right me-2"></i>
+                Logout
+            </a>
         </div>
 
-        <div class="row g-4 mb-4">
+        <div class="main">
 
-            <div class="col-xl-3 col-md-6">
-                <div class="stat-card">
-                    <div class="stat-icon icon-centres">
-                        <i class="bi bi-shop"></i>
-                    </div>
-                    <h3>{{ available_centres }}</h3>
-                    <p class="dashboard-label mb-0">Available Annadan Centres</p>
-                </div>
-            </div>
+            <div class="topbar">
+                <h5 class="mb-0">
+                    <i class="bi bi-sun me-2"></i>
+                    Warkari Dashboard
+                </h5>
 
-            <div class="col-xl-3 col-md-6">
-                <div class="stat-card">
-                    <div class="stat-icon icon-meals">
-                        <i class="bi bi-egg-fried"></i>
-                    </div>
-                    <h3>{{ available_meals }}</h3>
-                    <p class="dashboard-label mb-0">Meals Available</p>
-                </div>
-            </div>
-
-            <div class="col-xl-3 col-md-6">
-                <div class="stat-card">
-                    <div class="stat-icon icon-active">
-                        <i class="bi bi-broadcast-pin"></i>
-                    </div>
-                    <h3>{{ active_services }}</h3>
-                    <p class="dashboard-label mb-0">Active Annadan Services</p>
-                </div>
-            </div>
-
-            <div class="col-xl-3 col-md-6">
-                <div class="stat-card">
-                    <div class="stat-icon icon-map">
-                        <i class="bi bi-geo-alt-fill"></i>
-                    </div>
-                    <h3>{{ nearby_centres }}</h3>
-                    <p class="dashboard-label mb-0">Nearby Centres</p>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="crowd-section">
-
-            <div class="d-flex justify-content-between align-items-center mb-3">
                 <div>
-                    <h5 class="mb-1">Live Annadan Centres</h5>
-                    <p class="text-muted mb-0">
-                        Crowd and food availability near Annadan centres
+                    <i class="bi bi-person-circle me-2"></i>
+                    {{ session.user_name }}
+                </div>
+            </div>
+
+            <div class="container-fluid p-4">
+
+                <div class="welcome-card mb-4">
+                    <h4>Welcome to Wari Annapurna</h4>
+                    <p class="mb-0">
+                        Find nearby Annadan centres, check meal availability and plan your journey through the Wari.
                     </p>
                 </div>
 
-                <span class="live-indicator">
-                    <i class="bi bi-circle-fill me-1"></i>
-                    LIVE
-                </span>
-            </div>
+                <div class="row g-4 mb-4">
 
-            <div class="row g-4" id="centreContainer">
-                <div class="col-12">
-                    <div class="empty-crowd">
-                        <div class="spinner-border text-success mb-3" role="status"></div>
-                        <p class="mb-0">Loading nearby centres...</p>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon icon-centres">
+                                <i class="bi bi-shop"></i>
+                            </div>
+                            <h3>{{ available_centres }}</h3>
+                            <p class="dashboard-label mb-0">Available Annadan Centres</p>
+                        </div>
                     </div>
-                </div>
-            </div>
 
+                    <div class="col-xl-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon icon-meals">
+                                <i class="bi bi-egg-fried"></i>
+                            </div>
+                            <h3>{{ available_meals }}</h3>
+                            <p class="dashboard-label mb-0">Meals Available</p>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon icon-active">
+                                <i class="bi bi-broadcast-pin"></i>
+                            </div>
+                            <h3>{{ active_services }}</h3>
+                            <p class="dashboard-label mb-0">Active Annadan Services</p>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon icon-map">
+                                <i class="bi bi-geo-alt-fill"></i>
+                            </div>
+                            <h3>{{ nearby_centres }}</h3>
+                            <p class="dashboard-label mb-0">Nearby Centres</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="crowd-section">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <h5 class="mb-1">Live Annadan Centres</h5>
+                            <p class="text-muted mb-0">
+                                Crowd and food availability near Annadan centres
+                            </p>
+                        </div>
+
+                        <span class="live-indicator">
+                            <i class="bi bi-circle-fill me-1"></i>
+                            LIVE
+                        </span>
+                    </div>
+
+                    <div class="row g-4" id="centreContainer">
+                        <div class="col-12">
+                            <div class="empty-crowd">
+                                <div class="spinner-border text-success mb-3" role="status"></div>
+                                <p class="mb-0">Loading nearby centres...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row g-4 mt-2">
+
+                    <div class="col-lg-7">
+                        <div class="quick-card">
+
+                            <div class="quick-icon">
+                                <i class="bi bi-search"></i>
+                            </div>
+
+                            <h5>Find Annadan</h5>
+
+                            <p class="text-muted">
+                                Discover nearby food centres providing Annadan along your Wari route.
+                            </p>
+
+                            <a href="{{ url_for('warkari.annadan') }}" class="btn btn-success rounded-pill px-4">
+                                <i class="bi bi-shop me-2"></i>
+                                Find Annadan Centres
+                            </a>
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5">
+                        <div class="quick-card">
+
+                            <div class="quick-icon">
+                                <i class="bi bi-map"></i>
+                            </div>
+
+                            <h5>Explore Wari Map</h5>
+
+                            <p class="text-muted">
+                                View Annadan centres and important locations along the Wari route.
+                            </p>
+
+                            <a href="{{ url_for('warkari.wari_map') }}"
+                                class="btn btn-outline-success rounded-pill px-4">
+                                <i class="bi bi-map me-2"></i>
+                                Open Wari Map
+                            </a>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
         </div>
 
-        <div class="row g-4 mt-2">
+        <script>
+            async function loadNearbyCentres() {
+                const container = document.getElementById('centreContainer');
 
-            <div class="col-lg-7">
-                <div class="quick-card">
+                try {
+                    const response = await fetch('/warkari/api/nearby-centres');
 
-                    <div class="quick-icon">
-                        <i class="bi bi-search"></i>
-                    </div>
+                    if (!response.ok) {
+                        throw new Error('Failed to load centre data');
+                    }
 
-                    <h5>Find Annadan</h5>
+                    const centres = await response.json();
 
-                    <p class="text-muted">
-                        Discover nearby food centres providing Annadan along your Wari route.
-                    </p>
-
-                    <a href="{{ url_for('warkari.annadan') }}" class="btn btn-success rounded-pill px-4">
-                        <i class="bi bi-shop me-2"></i>
-                            Find Annadan Centres
-                    </a>
-
-                </div>
-            </div>
-
-            <div class="col-lg-5">
-                <div class="quick-card">
-
-                    <div class="quick-icon">
-                        <i class="bi bi-map"></i>
-                    </div>
-
-                    <h5>Explore Wari Map</h5>
-
-                    <p class="text-muted">
-                        View Annadan centres and important locations along the Wari route.
-                    </p>
-
-                    <a href="{{ url_for('warkari.wari_map') }}" class="btn btn-outline-success rounded-pill px-4">
-                        <i class="bi bi-map me-2"></i>
-                        Open Wari Map
-                    </a>
-
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-</div>
- 
-<script>
-async function loadNearbyCentres() {
-    const container = document.getElementById('centreContainer');
-
-    try {
-        const response = await fetch('/warkari/api/nearby-centres');
-
-        if (!response.ok) {
-            throw new Error('Failed to load centre data');
-        }
-
-        const centres = await response.json();
-
-        if (!centres.length) {
-            container.innerHTML = `
+                    if (!centres.length) {
+                        container.innerHTML = `
                 <div class="col-12">
                     <div class="empty-crowd">
                         <i class="bi bi-shop fs-1"></i>
@@ -484,27 +489,27 @@ async function loadNearbyCentres() {
                     </div>
                 </div>
             `;
-            return;
-        }
+                        return;
+                    }
 
-        container.innerHTML = centres.slice(0, 6).map(centre => {
+                    container.innerHTML = centres.slice(0, 6).map(centre => {
 
-            let statusClass = 'status-sufficient';
-            let statusText = 'Food Available';
+                        let statusClass = 'status-sufficient';
+                        let statusText = 'Food Available';
 
-            if (centre.status === 'moderate') {
-                statusClass = 'status-moderate';
-                statusText = 'Moderate Availability';
-            } else if (centre.status === 'high_demand') {
-                statusClass = 'status-high';
-                statusText = 'High Demand';
-            }
+                        if (centre.status === 'moderate') {
+                            statusClass = 'status-moderate';
+                            statusText = 'Moderate Availability';
+                        } else if (centre.status === 'high_demand') {
+                            statusClass = 'status-high';
+                            statusText = 'High Demand';
+                        }
 
-            const distance = centre.distance_km !== null
-                ? `${centre.distance_km} km away`
-                : 'Location available';
+                        const distance = centre.distance_km !== null
+                            ? `${centre.distance_km} km away`
+                            : 'Location available';
 
-            return `
+                        return `
                 <div class="col-xl-4 col-md-6">
                     <div class="crowd-card">
 
@@ -573,12 +578,12 @@ async function loadNearbyCentres() {
                     </div>
                 </div>
             `;
-        }).join('');
+                    }).join('');
 
-    } catch (error) {
-        console.error(error);
+                } catch (error) {
+                    console.error(error);
 
-        container.innerHTML = `
+                    container.innerHTML = `
             <div class="col-12">
                 <div class="empty-crowd">
                     <i class="bi bi-exclamation-circle fs-1 text-danger"></i>
@@ -586,20 +591,21 @@ async function loadNearbyCentres() {
                 </div>
             </div>
         `;
-    }
-}
+                }
+            }
 
-function escapeHtml(value) {
-    const div = document.createElement('div');
-    div.textContent = value ?? '';
-    return div.innerHTML;
-}
+            function escapeHtml(value) {
+                const div = document.createElement('div');
+                div.textContent = value ?? '';
+                return div.innerHTML;
+            }
 
-loadNearbyCentres();
+            loadNearbyCentres();
 
-setInterval(loadNearbyCentres, 30000);
-</script>
+            setInterval(loadNearbyCentres, 30000);
+        </script>
 
->>>>>>> b609162cc6fd69cd2d132c718184ba7096574f8e
-</body>
+        >>>>>>> b609162cc6fd69cd2d132c718184ba7096574f8e
+    </body>
+
 </html>

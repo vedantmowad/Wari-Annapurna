@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Rate Centre | Wari Annapurna</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Inter, system-ui, sans-serif;
+            background:
+                radial-gradient(
+                    circle at top left,
+                    #fff0d5,
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    #fffaf3,
+                    #ffffff
+                );
+            color: #33251b;
+        }
+
+        .navbar {
+            height: 70px;
+            padding: 0 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(
+                90deg,
+                #f57c00,
+                #ff9800
+            );
+            box-shadow: 0 4px 20px #00000015;
+        }
+
+        .brand {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .dashboard-link {
+            color: #ffffff;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .page {
+            min-height: calc(100vh - 70px);
+            padding: 40px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .rating-card {
+            width: 100%;
+            max-width: 720px;
+            padding: 38px;
+            background: #ffffff;
+            border: 1px solid #f1dfc7;
+            border-radius: 30px;
+            box-shadow: 0 25px 70px #6d42151a;
+            animation: cardEntry 0.6s ease;
+        }
+
+        @keyframes cardEntry {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .rating-icon {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 22px;
+            background: linear-gradient(
+                135deg,
+                #ff9800,
+                #f57c00
+            );
+            color: #ffffff;
+            font-size: 32px;
+            box-shadow: 0 12px 28px #f57c0035;
+        }
+
+        .page-title {
+            margin: 0;
+            text-align: center;
+            font-size: 30px;
+            font-weight: 800;
+        }
+
+        .page-subtitle {
+            max-width: 520px;
+            margin: 8px auto 30px;
+            color: #777777;
+            text-align: center;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .form-label {
+            margin-bottom: 9px;
+            font-weight: 700;
+        }
+
+        .centre-select {
+            height: 56px;
+            padding: 0 18px;
+            border: 1px solid #ead7bd;
+            border-radius: 16px;
+            background-color: #fffdf9;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .centre-select:focus {
+            border-color: #ff9800;
+            box-shadow: 0 0 0 4px #ff980018;
+        }
+
+        .centre-info {
+            display: none;
+            margin-top: 14px;
+            padding: 15px 17px;
+            border: 1px solid #f5dfc2;
+            border-radius: 16px;
+            background: #fff8ed;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .centre-info.show {
+            display: block;
+        }
+
+        .centre-info-name {
+            margin-bottom: 5px;
+            color: #e87500;
+            font-weight: 800;
+        }
+
+        .centre-info-address {
+            color: #777777;
+            font-size: 13px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .rating-section {
+            margin-top: 30px;
+            padding-top: 28px;
+            border-top: 1px solid #f0e4d4;
+        }
+
+        .rating-question {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 750;
+        }
+
+        .stars {
+            margin: 17px 0 8px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .star {
+            color: #dddddd;
+            font-size: 48px;
+            cursor: pointer;
+            transition:
+                transform 0.2s ease,
+                color 0.2s ease;
+        }
+
+        .star:hover {
+            transform: scale(1.18);
+        }
+
+        .star.selected {
+            color: #ffb300;
+            transform: scale(1.08);
+        }
+
+        .rating-text {
+            min-height: 25px;
+            color: #f57c00;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .review-section {
+            margin-top: 30px;
+        }
+
+        .review-wrapper {
+            position: relative;
+        }
+
+        .review-box {
+            width: 100%;
+            min-height: 125px;
+            padding: 15px 17px 35px;
+            border: 1px solid #ead7bd;
+            border-radius: 17px;
+            outline: none;
+            resize: vertical;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .review-box:focus {
+            border-color: #ff9800;
+            box-shadow: 0 0 0 4px #ff980018;
+        }
+
+        .character-count {
+            position: absolute;
+            right: 14px;
+            bottom: 10px;
+            color: #999999;
+            font-size: 11px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            margin-top: 25px;
+            padding: 15px;
+            border: none;
+            border-radius: 16px;
+            background: linear-gradient(
+                90deg,
+                #f57c00,
+                #ff9800
+            );
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 800;
+            box-shadow: 0 10px 25px #f57c0030;
+            transition: 0.25s;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px #f57c0040;
+        }
+
+        .submit-btn:disabled {
+            background: #d6d6d6;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        .privacy-note {
+            margin-top: 15px;
+            color: #999999;
+            text-align: center;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 576px) {
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .brand {
+                font-size: 19px;
+            }
+
+            .dashboard-link {
+                font-size: 13px;
+            }
+
+            .rating-card {
+                padding: 28px 20px;
+                border-radius: 24px;
+            }
+
+            .page-title {
+                font-size: 25px;
+            }
+
+            .star {
+                font-size: 39px;
+            }
+
+            .stars {
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a
+            href="{{ url_for('warkari.dashboard') }}"
+            class="brand"
+        >
+            Wari Annapurna
+        </a>
+
+        <a
+            href="{{ url_for('warkari.dashboard') }}"
+            class="dashboard-link"
+        >
+            <i class="bi bi-arrow-left"></i>
+            Dashboard
+        </a>
+    </nav>
+
+    <main class="page">
+        <div class="rating-card">
+
+            <div class="rating-icon">
+                <i class="bi bi-star-fill"></i>
+            </div>
+
+            <h1 class="page-title">
+                Rate an Annadan Centre
+            </h1>
+
+            <p class="page-subtitle">
+                Share your experience and help fellow Warkaris
+                choose better Annadan services.
+            </p>
+
+            <form
+                method="POST"
+                id="ratingForm"
+            >
+
+                <div>
+                    <label
+                        for="centre"
+                        class="form-label"
+                    >
+                        Select Annadan Centre
+                    </label>
+
+                    <select
+                        name="centre_id"
+                        id="centre"
+                        class="form-select centre-select"
+                        required
+                    >
+                        <option
+                            value=""
+                            selected
+                            disabled
+                        >
+                            Choose an Annadan Centre
+                        </option>
+
+                        {% for centre in centres %}
+                            <option
+                                value="{{ centre[0] }}"
+                                data-name="{{ centre[1] }}"
+                                data-address="{{ centre[2] }}, {{ centre[3] }}"
+                            >
+                                {{ centre[1] }}
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                    <div
+                        class="centre-info"
+                        id="centreInfo"
+                    >
+                        <div
+                            class="centre-info-name"
+                            id="centreName"
+                        ></div>
+
+                        <div
+                            class="centre-info-address"
+                            id="centreAddress"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="rating-section">
+
+                    <div class="rating-question">
+                        How was your experience?
+                    </div>
+
+                    <div
+                        class="stars"
+                        id="stars"
+                    >
+                        {% for rating_value in range(1, 6) %}
+                            <i
+                                class="bi bi-star-fill star"
+                                data-rating="{{ rating_value }}"
+                            ></i>
+                        {% endfor %}
+                    </div>
+
+                    <div
+                        class="rating-text"
+                        id="ratingText"
+                    >
+                        Select a rating
+                    </div>
+
+                    <input
+                        type="hidden"
+                        name="rating"
+                        id="ratingInput"
+                    >
+                </div>
+
+                <div class="review-section">
+
+                    <label
+                        for="review"
+                        class="form-label"
+                    >
+                        Tell us about your experience
+                        <span class="text-muted fw-normal">
+                            (Optional)
+                        </span>
+                    </label>
+
+                    <div class="review-wrapper">
+
+                        <textarea
+                            name="review"
+                            id="review"
+                            class="review-box"
+                            maxlength="500"
+                            placeholder="Share your experience about food quality, cleanliness, service, availability or anything that may help other Warkaris..."
+                        ></textarea>
+
+                        <span
+                            class="character-count"
+                            id="characterCount"
+                        >
+                            0 / 500
+                        </span>
+
+                    </div>
+                </div>
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                    id="submitButton"
+                    disabled
+                >
+                    <i class="bi bi-star-fill"></i>
+                    Submit Rating
+                </button>
+
+                <div class="privacy-note">
+                    Your feedback helps improve the Annadan
+                    experience for Warkaris.
+                </div>
+
+            </form>
+        </div>
+    </main>
+
+    <script>
+        const centreSelect =
+            document.getElementById("centre");
+
+        const centreInfo =
+            document.getElementById("centreInfo");
+
+        const centreName =
+            document.getElementById("centreName");
+
+        const centreAddress =
+            document.getElementById("centreAddress");
+
+        const stars =
+            document.querySelectorAll(".star");
+
+        const ratingInput =
+            document.getElementById("ratingInput");
+
+        const ratingText =
+            document.getElementById("ratingText");
+
+        const review =
+            document.getElementById("review");
+
+        const characterCount =
+            document.getElementById("characterCount");
+
+        const submitButton =
+            document.getElementById("submitButton");
+
+        const ratingForm =
+            document.getElementById("ratingForm");
+
+        const ratingLabels = {
+            1: "Poor",
+            2: "Needs Improvement",
+            3: "Good",
+            4: "Very Good",
+            5: "Excellent"
+        };
+
+        centreSelect.addEventListener("change", function () {
+            const option =
+                this.options[this.selectedIndex];
+
+            centreName.textContent =
+                option.dataset.name;
+
+            centreAddress.innerHTML =
+                `<i class="bi bi-geo-alt-fill"></i>
+                ${option.dataset.address}`;
+
+            centreInfo.classList.add("show");
+
+            updateSubmitButton();
+        });
+
+        function setRating(value) {
+            ratingInput.value = value;
+
+            ratingText.textContent =
+                ratingLabels[value];
+
+            stars.forEach(star => {
+                const starValue =
+                    Number(star.dataset.rating);
+
+                star.classList.toggle(
+                    "selected",
+                    starValue <= value
+                );
+            });
+
+            updateSubmitButton();
+        }
+
+        stars.forEach(star => {
+
+            star.addEventListener(
+                "mouseenter",
+                function () {
+                    const value =
+                        Number(this.dataset.rating);
+
+                    stars.forEach(item => {
+                        const starValue =
+                            Number(item.dataset.rating);
+
+                        item.classList.toggle(
+                            "selected",
+                            starValue <= value
+                        );
+                    });
+                }
+            );
+
+            star.addEventListener(
+                "mouseleave",
+                function () {
+                    const currentRating =
+                        Number(ratingInput.value);
+
+                    stars.forEach(item => {
+                        const starValue =
+                            Number(item.dataset.rating);
+
+                        item.classList.toggle(
+                            "selected",
+                            starValue <= currentRating
+                        );
+                    });
+                }
+            );
+
+            star.addEventListener(
+                "click",
+                function () {
+                    setRating(
+                        Number(this.dataset.rating)
+                    );
+                }
+            );
+        });
+
+        review.addEventListener(
+            "input",
+            function () {
+                characterCount.textContent =
+                    `${this.value.length} / 500`;
+            }
+        );
+
+        function updateSubmitButton() {
+            const centreSelected =
+                centreSelect.value !== "";
+
+            const ratingSelected =
+                ratingInput.value !== "";
+
+            submitButton.disabled =
+                !(centreSelected && ratingSelected);
+        }
+
+        ratingForm.addEventListener(
+            "submit",
+            function () {
+                submitButton.disabled = true;
+
+                submitButton.innerHTML = `
+                    <span
+                        class="spinner-border spinner-border-sm me-2"
+                    ></span>
+                    Submitting Rating...
+                `;
+            }
+        );
+    </script>
+
+</body>
+</html>
