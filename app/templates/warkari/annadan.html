@@ -49,3 +49,38 @@
         .page-wrapper {
             padding: 40px 0 60px;
         }
+
+                .hero {
+            background: linear-gradient(135deg, #fff1df, #fffaf5);
+            border: 1px solid #ffd7ad;
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            right: -60px;
+            top: -70px;
+            background: rgba(244, 140, 6, 0.10);
+            border-radius: 50%;
+        }
+
+        .hero h1 {
+            font-size: 32px;
+            font-weight: 800;
+            color: #c2410c;
+            margin-bottom: 8px;
+        }
+
+        .hero p {
+            color: #795548;
+            margin: 0;
+            font-size: 15px;
+        }
+
