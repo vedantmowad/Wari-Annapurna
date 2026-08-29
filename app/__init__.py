@@ -6,6 +6,8 @@ from app.routes.auth_routes import auth_bp
 from app.routes.donor_routes import donor_bp
 from app.routes.warkari_routes import warkari_bp
 from app.routes.admin_routes import admin_bp
+from app.routes.public_warkari_routes import public_warkari_bp
+
 
 
 def create_app():
@@ -18,4 +20,6 @@ def create_app():
     app.register_blueprint(donor_bp)
     app.register_blueprint(warkari_bp)
     app.register_blueprint(admin_bp)
+    app.register_blueprint(public_warkari_bp)
+    
     return app

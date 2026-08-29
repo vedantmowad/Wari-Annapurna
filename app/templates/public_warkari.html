@@ -1,0 +1,5150 @@
+<!DOCTYPE html>
+<html lang="mr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Wari Annapurna | Warkari Portal</title>
+
+
+    <!-- =====================================================
+         LEAFLET CSS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
+
+    <style>
+
+        /* =====================================================
+           RESET
+        ====================================================== */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        /* =====================================================
+           BODY
+        ====================================================== */
+
+        body {
+
+            font-family:
+                Arial,
+                "Noto Sans Devanagari",
+                sans-serif;
+
+            background: #fff8ef;
+
+            color: #3b220f;
+
+            min-height: 100vh;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ====================================================== */
+
+        header {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f57c00,
+                    #ff9800
+                );
+
+            color: white;
+
+            padding: 16px 25px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+
+            box-shadow:
+                0 3px 12px rgba(0, 0, 0, .15);
+        }
+
+
+        .logo {
+
+            font-size: 25px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+        }
+
+
+        .header-actions {
+
+            display: flex;
+
+            gap: 10px;
+
+            align-items: center;
+        }
+
+
+        select,
+        .voice-btn {
+
+            border: none;
+
+            border-radius: 12px;
+
+            padding: 9px 12px;
+
+            font-size: 14px;
+
+            cursor: pointer;
+        }
+
+
+        select {
+
+            background: white;
+
+            color: #4e342e;
+
+            font-weight: 600;
+        }
+
+
+        .voice-btn {
+
+            background: white;
+
+            color: #e65100;
+
+            font-weight: bold;
+
+            min-width: 42px;
+        }
+
+
+        .voice-btn:hover {
+
+            background: #fff3e0;
+        }
+
+
+        /* =====================================================
+           CONTAINER
+        ====================================================== */
+
+        .container {
+
+            max-width: 900px;
+
+            margin: auto;
+
+            padding:
+                20px 18px 100px;
+        }
+
+
+        /* =====================================================
+           PAGE
+        ====================================================== */
+
+        .page {
+
+            display: none;
+        }
+
+
+        .page.active-page {
+
+            display: block;
+        }
+
+
+        /* =====================================================
+           WELCOME
+        ====================================================== */
+
+        .welcome {
+
+            text-align: center;
+
+            margin:
+                8px 0 22px;
+        }
+
+
+        .welcome h1 {
+
+            font-size: 31px;
+
+            margin-bottom: 7px;
+        }
+
+
+        .welcome p {
+
+            font-size: 18px;
+
+            color: #795548;
+        }
+
+
+        /* =====================================================
+           LOCATION
+        ====================================================== */
+
+        .location {
+
+            background: white;
+
+            border-radius: 17px;
+
+            padding:
+                13px 17px;
+
+            margin-bottom: 18px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 10px;
+
+            box-shadow:
+                0 3px 12px rgba(0, 0, 0, .08);
+        }
+
+
+        .location-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            min-width: 0;
+        }
+
+
+        .location-text {
+
+            font-size: 16px;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+        }
+
+
+        .active {
+
+            color: #168a35;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+        }
+
+
+        /* =====================================================
+           MAIN FOOD BUTTON
+        ====================================================== */
+
+        .food-main {
+
+            width: 100%;
+
+            border: none;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff9800,
+                    #f57c00
+                );
+
+            color: white;
+
+            border-radius: 23px;
+
+            padding:
+                27px 20px;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 8px 20px rgba(245, 124, 0, .30);
+
+            margin-bottom: 17px;
+
+            transition: .2s;
+        }
+
+
+        .food-main:hover {
+
+            transform: translateY(-3px);
+        }
+
+
+        .food-main:active {
+
+            transform: scale(.99);
+        }
+
+
+        .food-main .icon {
+
+            font-size: 62px;
+
+            line-height: 1;
+        }
+
+
+        .food-main h2 {
+
+            font-size: 29px;
+
+            margin: 9px 0 5px;
+        }
+
+
+        .food-main p {
+
+            font-size: 17px;
+        }
+
+
+        /* =====================================================
+           FEATURE GRID
+        ====================================================== */
+
+        .feature-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 16px;
+        }
+
+
+        .feature {
+
+            background: white;
+
+            border: none;
+
+            border-radius: 21px;
+
+            min-height: 175px;
+
+            padding: 19px 15px;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 5px 15px rgba(0, 0, 0, .08);
+
+            transition: .2s;
+        }
+
+
+        .feature:hover {
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 8px 20px rgba(0, 0, 0, .12);
+        }
+
+
+        .feature .icon {
+
+            font-size: 48px;
+
+            margin-bottom: 9px;
+        }
+
+
+        .feature h3 {
+
+            font-size: 20px;
+
+            margin-bottom: 6px;
+        }
+
+
+        .feature p {
+
+            font-size: 14px;
+
+            color: #795548;
+
+            line-height: 1.5;
+        }
+
+
+        /* =====================================================
+           HELP BUTTON
+        ====================================================== */
+
+        .help {
+
+            margin-top: 17px;
+
+            width: 100%;
+
+            border: none;
+
+            border-radius: 18px;
+
+            background: #d84315;
+
+            color: white;
+
+            padding: 19px;
+
+            cursor: pointer;
+
+            font-size: 21px;
+
+            font-weight: bold;
+
+            transition: .2s;
+        }
+
+
+        .help:hover {
+
+            background: #bf360c;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* =====================================================
+           STATUS CARD
+        ====================================================== */
+
+        .status-card {
+
+            background: white;
+
+            margin-top: 18px;
+
+            padding: 17px;
+
+            border-radius: 17px;
+
+            box-shadow:
+                0 3px 12px rgba(0, 0, 0, .08);
+        }
+
+
+        .status-card h3 {
+
+            margin-bottom: 9px;
+
+            font-size: 17px;
+        }
+
+
+        .status {
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            line-height: 1.5;
+        }
+
+
+        .green {
+
+            color: #168a35;
+        }
+
+
+        .yellow {
+
+            color: #d98b00;
+        }
+
+
+        .red {
+
+            color: #d32f2f;
+        }
+
+
+        /* =====================================================
+           BACK BUTTON
+        ====================================================== */
+
+        .back {
+
+            border: none;
+
+            background: transparent;
+
+            font-size: 18px;
+
+            cursor: pointer;
+
+            padding: 8px 0;
+
+            color: #e65100;
+
+            font-weight: bold;
+        }
+
+
+        .back:hover {
+
+            color: #bf360c;
+        }
+
+
+        /* =====================================================
+           PAGE TITLE
+        ====================================================== */
+
+        .page-title {
+
+            font-size: 29px;
+
+            margin:
+                10px 0 18px;
+        }
+
+
+        /* =====================================================
+           CENTRE CARD
+        ====================================================== */
+
+        .centre {
+
+            background: white;
+
+            border-radius: 19px;
+
+            padding: 19px;
+
+            margin-bottom: 15px;
+
+            box-shadow:
+                0 4px 14px rgba(0, 0, 0, .08);
+        }
+
+
+        .centre-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-start;
+
+            gap: 10px;
+        }
+
+
+        .centre h3 {
+
+            font-size: 20px;
+
+            line-height: 1.35;
+        }
+
+
+        .distance {
+
+            color: #e65100;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+
+            font-size: 14px;
+        }
+
+
+        .centre-info {
+
+            margin:
+                12px 0;
+
+            line-height: 1.8;
+
+            font-size: 15px;
+        }
+
+
+        .centre-info-row {
+
+            margin-bottom: 2px;
+        }
+
+
+        .status-badge {
+
+            display: inline-block;
+
+            padding:
+                4px 9px;
+
+            border-radius: 20px;
+
+            background: #f5f5f5;
+
+            font-weight: bold;
+        }
+
+
+        /* =====================================================
+           NAVIGATE BUTTON
+        ====================================================== */
+
+        .navigate {
+
+            width: 100%;
+
+            border: none;
+
+            background: #ff9800;
+
+            color: white;
+
+            padding: 13px;
+
+            border-radius: 12px;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: .2s;
+        }
+
+
+        .navigate:hover {
+
+            background: #f57c00;
+        }
+
+
+        .details-btn {
+
+            width: 100%;
+
+            border: none;
+
+            background: #fff3e0;
+
+            color: #e65100;
+
+            padding: 11px;
+
+            border-radius: 12px;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            margin-top: 8px;
+        }
+
+
+        .details-btn:hover {
+
+            background: #ffe0b2;
+        }
+
+
+        /* =====================================================
+           MAP
+        ====================================================== */
+
+        .map-wrapper {
+
+            background: white;
+
+            border-radius: 20px;
+
+            padding: 8px;
+
+            box-shadow:
+                0 5px 15px rgba(0, 0, 0, .08);
+
+            margin-bottom: 18px;
+
+            position: relative;
+        }
+
+
+        #map {
+
+            height: 360px;
+
+            width: 100%;
+
+            border-radius: 16px;
+
+            overflow: hidden;
+        }
+
+
+        .map-message {
+
+            position: absolute;
+
+            left: 50%;
+
+            top: 50%;
+
+            transform:
+                translate(-50%, -50%);
+
+            background: white;
+
+            padding:
+                12px 18px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,.15);
+
+            z-index: 500;
+
+            font-size: 14px;
+
+            text-align: center;
+        }
+
+
+        /* =====================================================
+           MAP POPUP
+        ====================================================== */
+
+        .leaflet-popup-content {
+
+            margin: 12px;
+
+            min-width: 190px;
+        }
+
+
+        .popup-title {
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            margin-bottom: 6px;
+
+            color: #3b220f;
+        }
+
+
+        .popup-line {
+
+            font-size: 13px;
+
+            margin: 3px 0;
+
+            line-height: 1.4;
+        }
+
+
+        .popup-route {
+
+            display: block;
+
+            width: 100%;
+
+            margin-top: 8px;
+
+            padding: 8px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #ff9800;
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+
+        /* =====================================================
+           CROWD BOX
+        ====================================================== */
+
+        .crowd-box {
+
+            background: white;
+
+            border-radius: 19px;
+
+            padding: 23px;
+
+            text-align: center;
+
+            box-shadow:
+                0 5px 15px rgba(0, 0, 0, .08);
+
+            margin-bottom: 16px;
+        }
+
+
+        .crowd-icon {
+
+            font-size: 57px;
+        }
+
+
+        .crowd-status {
+
+            font-size: 25px;
+
+            margin:
+                9px 0;
+
+            font-weight: bold;
+        }
+
+
+        .crowd-number {
+
+            font-size: 15px;
+
+            color: #795548;
+
+            margin-top: 9px;
+
+            line-height: 1.8;
+        }
+
+
+        /* =====================================================
+           HELP OPTIONS
+        ====================================================== */
+
+        .help-option {
+
+            background: white;
+
+            border: none;
+
+            width: 100%;
+
+            padding: 20px;
+
+            margin-bottom: 14px;
+
+            border-radius: 17px;
+
+            text-align: left;
+
+            font-size: 19px;
+
+            box-shadow:
+                0 4px 12px rgba(0,0,0,.08);
+
+            cursor: pointer;
+
+            color: #3b220f;
+        }
+
+
+        .help-option:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 7px 16px rgba(0,0,0,.11);
+        }
+
+
+        .help-option small {
+
+            display: inline-block;
+
+            margin-top: 6px;
+
+            color: #795548;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           LOADING
+        ====================================================== */
+
+        .loading {
+
+            text-align: center;
+
+            padding: 30px;
+
+            color: #795548;
+
+            font-size: 16px;
+        }
+
+
+        .empty {
+
+            text-align: center;
+
+            padding:
+                35px 15px;
+
+            color: #795548;
+
+            background: white;
+
+            border-radius: 17px;
+        }
+
+
+        .error {
+
+            background: #ffebee;
+
+            color: #c62828;
+
+            padding: 15px;
+
+            border-radius: 15px;
+
+            text-align: center;
+
+            margin-bottom: 15px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =====================================================
+           BOTTOM NAVIGATION
+        ====================================================== */
+
+        .bottom-nav {
+
+            position: fixed;
+
+            bottom: 0;
+
+            left: 0;
+
+            width: 100%;
+
+            height: 68px;
+
+            background: white;
+
+            display: flex;
+
+            justify-content: space-around;
+
+            align-items: center;
+
+            box-shadow:
+                0 -3px 15px rgba(0,0,0,.12);
+
+            z-index: 1000;
+        }
+
+
+        .nav-btn {
+
+            border: none;
+
+            background: none;
+
+            font-size: 13px;
+
+            cursor: pointer;
+
+            color: #5d4037;
+
+            min-width: 70px;
+
+            padding: 4px;
+        }
+
+
+        .nav-btn span:first-child {
+
+            display: block;
+
+            font-size: 23px;
+
+            line-height: 26px;
+        }
+
+
+        .nav-btn:hover {
+
+            color: #e65100;
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media(max-width:600px) {
+
+            header {
+
+                padding:
+                    13px 14px;
+            }
+
+
+            .logo {
+
+                font-size: 19px;
+            }
+
+
+            .header-actions {
+
+                gap: 6px;
+            }
+
+
+            select {
+
+                max-width: 85px;
+
+                padding:
+                    8px 7px;
+
+                font-size: 12px;
+            }
+
+
+            .voice-btn {
+
+                min-width: 38px;
+
+                padding: 8px;
+            }
+
+
+            .welcome h1 {
+
+                font-size: 26px;
+            }
+
+
+            .welcome p {
+
+                font-size: 16px;
+            }
+
+
+            .location-text {
+
+                font-size: 14px;
+            }
+
+
+            .active {
+
+                font-size: 13px;
+            }
+
+
+            .food-main .icon {
+
+                font-size: 53px;
+            }
+
+
+            .food-main h2 {
+
+                font-size: 25px;
+            }
+
+
+            .food-main p {
+
+                font-size: 15px;
+            }
+
+
+            .feature-grid {
+
+                gap: 11px;
+            }
+
+
+            .feature {
+
+                min-height: 160px;
+
+                padding:
+                    15px 10px;
+            }
+
+
+            .feature .icon {
+
+                font-size: 42px;
+            }
+
+
+            .feature h3 {
+
+                font-size: 17px;
+            }
+
+
+            .feature p {
+
+                font-size: 12px;
+            }
+
+
+            .help {
+
+                font-size: 19px;
+            }
+
+
+            .page-title {
+
+                font-size: 25px;
+            }
+
+
+            #map {
+
+                height: 300px;
+            }
+
+
+            .centre {
+
+                padding: 16px;
+            }
+
+
+            .centre h3 {
+
+                font-size: 18px;
+            }
+
+
+            .distance {
+
+                font-size: 12px;
+            }
+
+
+            .bottom-nav {
+
+                height: 65px;
+            }
+
+
+            .nav-btn {
+
+                min-width: 60px;
+
+                font-size: 12px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+====================================================== -->
+
+<header>
+
+    <div class="logo">
+        🟠 Wari Annapurna
+    </div>
+
+
+    <div class="header-actions">
+
+        <button
+            class="voice-btn"
+            onclick="speakCurrent()"
+            title="Voice Assistance">
+
+            🔊
+
+        </button>
+
+
+        <select
+            id="language"
+            onchange="changeLanguage()">
+
+            <option value="mr">
+                मराठी
+            </option>
+
+            <option value="hi">
+                हिन्दी
+            </option>
+
+            <option value="en">
+                English
+            </option>
+
+        </select>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     HOME PAGE
+====================================================== -->
+
+<div
+    id="home"
+    class="page active-page">
+
+
+    <main class="container">
+
+
+        <section class="welcome">
+
+            <h1 id="welcomeTitle">
+                🙏 नमस्कार वारकरी!
+            </h1>
+
+
+            <p id="question">
+                तुम्हाला आत्ता काय हवे आहे?
+            </p>
+
+        </section>
+
+
+        <!-- LOCATION -->
+
+        <div class="location">
+
+            <div class="location-left">
+
+                <span>📍</span>
+
+                <span
+                    class="location-text"
+                    id="locationText">
+
+                    तुमचे स्थान शोधत आहे...
+
+                </span>
+
+            </div>
+
+
+            <span
+                class="active"
+                id="activeText">
+
+                ● सक्रिय
+
+            </span>
+
+        </div>
+
+
+        <!-- FIND FOOD -->
+
+        <button
+            class="food-main"
+            onclick="
+                showPage('food');
+                loadNearbyCentres();
+            ">
+
+            <div class="icon">
+                🍛
+            </div>
+
+
+            <h2 id="foodTitle">
+                अन्नदान शोधा
+            </h2>
+
+
+            <p id="foodSubtitle">
+                माझ्या जवळचे जेवण शोधा
+            </p>
+
+        </button>
+
+
+        <!-- FEATURES -->
+
+        <div class="feature-grid">
+
+
+            <button
+                class="feature"
+                onclick="
+                    showPage('nearby');
+                    loadNearbyCentres();
+                ">
+
+                <div class="icon">
+                    📍
+                </div>
+
+
+                <h3 id="nearbyTitle">
+                    जवळचे केंद्र
+                </h3>
+
+
+                <p id="nearbyDesc">
+                    आसपासची अन्नदान केंद्रे पहा
+                </p>
+
+            </button>
+
+
+            <button
+                class="feature"
+                onclick="
+                    showPage('crowd');
+                    loadNearbyCentres();
+                ">
+
+                <div class="icon">
+                    🚶
+                </div>
+
+
+                <h3 id="crowdTitle">
+                    गर्दीची माहिती
+                </h3>
+
+
+                <p id="crowdDesc">
+                    कोणत्या मार्गावर किती गर्दी आहे?
+                </p>
+
+            </button>
+
+        </div>
+
+
+        <!-- HELP -->
+
+        <button
+            class="help"
+            onclick="showPage('help')">
+
+            🆘
+
+            <span id="helpTitle">
+                मदत हवी आहे?
+            </span>
+
+        </button>
+
+
+        <!-- STATUS -->
+
+        <div class="status-card">
+
+            <h3>
+
+                📢
+
+                <span id="todayTitle">
+                    आजची वारी माहिती
+                </span>
+
+            </h3>
+
+
+            <div
+                class="status green"
+                id="liveStatus">
+
+                🟢 जवळचे अन्नदान केंद्र उपलब्ध
+
+            </div>
+
+        </div>
+
+
+    </main>
+
+</div>
+
+
+<!-- =====================================================
+     FOOD PAGE
+====================================================== -->
+
+<div
+    id="food"
+    class="page">
+
+
+    <main class="container">
+
+
+        <button
+            class="back"
+            onclick="showPage('home')"
+            id="foodBack">
+
+            ← मागे
+
+        </button>
+
+
+        <h1
+            class="page-title"
+            id="foodPageTitle">
+
+            🍛 जवळचे अन्नदान
+
+        </h1>
+
+
+        <div id="foodList">
+
+            <div class="loading">
+                ⏳ अन्नदान केंद्रे शोधत आहे...
+            </div>
+
+        </div>
+
+
+    </main>
+
+</div>
+
+
+<!-- =====================================================
+     NEARBY PAGE
+====================================================== -->
+
+<div
+    id="nearby"
+    class="page">
+
+
+    <main class="container">
+
+
+        <button
+            class="back"
+            onclick="showPage('home')"
+            id="nearbyBack">
+
+            ← मागे
+
+        </button>
+
+
+        <h1
+            class="page-title"
+            id="nearbyPageTitle">
+
+            📍 जवळचे केंद्र
+
+        </h1>
+
+
+        <!-- REAL LEAFLET MAP -->
+
+        <div class="map-wrapper">
+
+            <div id="map"></div>
+
+
+            <div
+                class="map-message"
+                id="mapMessage">
+
+                📍 तुमच्या स्थानानुसार केंद्रे शोधत आहे...
+
+            </div>
+
+        </div>
+
+
+        <div id="nearbyList">
+
+            <div class="loading">
+                ⏳ केंद्रे लोड होत आहेत...
+            </div>
+
+        </div>
+
+
+    </main>
+
+</div>
+
+
+<!-- =====================================================
+     CROWD PAGE
+====================================================== -->
+
+<div
+    id="crowd"
+    class="page">
+
+
+    <main class="container">
+
+
+        <button
+            class="back"
+            onclick="showPage('home')"
+            id="crowdBack">
+
+            ← मागे
+
+        </button>
+
+
+        <h1
+            class="page-title"
+            id="crowdPageTitle">
+
+            🚶 गर्दीची माहिती
+
+        </h1>
+
+
+        <div id="crowdList">
+
+            <div class="loading">
+                ⏳ गर्दीची माहिती लोड होत आहे...
+            </div>
+
+        </div>
+
+
+    </main>
+
+</div>
+
+
+<!-- =====================================================
+     HELP PAGE
+====================================================== -->
+
+<div
+    id="help"
+    class="page">
+
+
+    <main class="container">
+
+
+        <button
+            class="back"
+            onclick="showPage('home')"
+            id="helpBack">
+
+            ← मागे
+
+        </button>
+
+
+        <h1
+            class="page-title"
+            id="helpPageTitle">
+
+            🆘 मदत
+
+        </h1>
+
+
+        <!-- EMERGENCY -->
+
+        <button
+            class="help-option"
+            onclick="emergency()">
+
+            📞
+
+            <b id="emergencyTitle">
+                आपत्कालीन मदत
+            </b>
+
+
+            <br>
+
+
+            <small id="emergencyDesc">
+                तातडीची मदत हवी असल्यास
+            </small>
+
+        </button>
+
+
+        <!-- VOLUNTEER -->
+
+        <button
+            class="help-option"
+            onclick="volunteerHelp()">
+
+            👥
+
+            <b id="volunteerTitle">
+                स्वयंसेवक मदत
+            </b>
+
+
+            <br>
+
+
+            <small id="volunteerDesc">
+                जवळच्या स्वयंसेवकाशी संपर्क करा
+            </small>
+
+        </button>
+
+
+        <!-- SHARE LOCATION -->
+
+        <button
+            class="help-option"
+            onclick="shareLocation()">
+
+            📍
+
+            <b id="shareTitle">
+                माझे स्थान शेअर करा
+            </b>
+
+
+            <br>
+
+
+            <small id="shareDesc">
+                तुमचे स्थान मदत करणाऱ्या व्यक्तीला पाठवा
+            </small>
+
+        </button>
+
+
+    </main>
+
+</div>
+
+
+<!-- =====================================================
+     BOTTOM NAVIGATION
+====================================================== -->
+
+<nav class="bottom-nav">
+
+
+    <button
+        class="nav-btn"
+        onclick="showPage('home')">
+
+        <span>🏠</span>
+
+        <span id="navHome">
+            मुख्य
+        </span>
+
+    </button>
+
+
+    <button
+        class="nav-btn"
+        onclick="
+            showPage('food');
+            loadNearbyCentres();
+        ">
+
+        <span>🍛</span>
+
+        <span id="navFood">
+            अन्नदान
+        </span>
+
+    </button>
+
+
+    <button
+        class="nav-btn"
+        onclick="
+            showPage('crowd');
+            loadNearbyCentres();
+        ">
+
+        <span>🚶</span>
+
+        <span id="navCrowd">
+            गर्दी
+        </span>
+
+    </button>
+
+
+    <button
+        class="nav-btn"
+        onclick="showPage('help')">
+
+        <span>🆘</span>
+
+        <span id="navHelp">
+            मदत
+        </span>
+
+    </button>
+
+
+</nav>
+
+
+<!-- =====================================================
+     LEAFLET JS
+====================================================== -->
+
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+
+
+<script>
+
+/* =====================================================
+   TRANSLATIONS
+===================================================== */
+
+const translations = {
+
+    /* =================================================
+       MARATHI
+    ================================================= */
+
+    mr: {
+
+        welcome:
+            "🙏 नमस्कार वारकरी!",
+
+        question:
+            "तुम्हाला आत्ता काय हवे आहे?",
+
+        location:
+            "तुमचे स्थान",
+
+        locating:
+            "तुमचे स्थान शोधत आहे...",
+
+        active:
+            "● सक्रिय",
+
+        food:
+            "अन्नदान शोधा",
+
+        foodSub:
+            "माझ्या जवळचे जेवण शोधा",
+
+        nearby:
+            "जवळचे केंद्र",
+
+        nearbyDesc:
+            "आसपासची अन्नदान केंद्रे पहा",
+
+        crowd:
+            "गर्दीची माहिती",
+
+        crowdDesc:
+            "कोणत्या मार्गावर किती गर्दी आहे?",
+
+        help:
+            "मदत हवी आहे?",
+
+        today:
+            "आजची वारी माहिती",
+
+        live:
+            "🟢 जवळचे अन्नदान केंद्र उपलब्ध",
+
+        noFood:
+            "🔴 सध्या अन्नदान उपलब्ध नाही",
+
+        back:
+            "← मागे",
+
+        foodPage:
+            "🍛 जवळचे अन्नदान",
+
+        nearbyPage:
+            "📍 जवळचे केंद्र",
+
+        crowdPage:
+            "🚶 गर्दीची माहिती",
+
+        helpPage:
+            "🆘 मदत",
+
+        available:
+            "🟢 जेवण उपलब्ध",
+
+        limited:
+            "🟡 मर्यादित जेवण",
+
+        unavailable:
+            "🔴 जेवण उपलब्ध नाही",
+
+        meals:
+            "🍚 उपलब्ध जेवणे:",
+
+        time:
+            "🕐 वेळ:",
+
+        type:
+            "🍲 प्रकार:",
+
+        current:
+            "👥 सध्याची गर्दी:",
+
+        approaching:
+            "👣 येणारे वारकरी:",
+
+        demand:
+            "📊 अपेक्षित मागणी:",
+
+        shortage:
+            "⚠️ अन्नाची कमतरता:",
+
+        crowdLabel:
+            "🚶 गर्दी:",
+
+        low:
+            "कमी",
+
+        medium:
+            "मध्यम",
+
+        high:
+            "जास्त",
+
+        vegetarian:
+            "शाकाहारी",
+
+        navigate:
+            "🧭 मार्ग दाखवा",
+
+        details:
+            "अधिक माहिती",
+
+        distance:
+            "दूर",
+
+        currentLocation:
+            "तुमचे स्थान",
+
+        centreLocation:
+            "केंद्राचे स्थान",
+
+        noCentres:
+            "सध्या कोणतेही अन्नदान केंद्र उपलब्ध नाही.",
+
+        loading:
+            "⏳ केंद्रे शोधत आहे...",
+
+        loadingCrowd:
+            "⏳ गर्दीची माहिती लोड होत आहे...",
+
+        loadingCentres:
+            "⏳ केंद्रे लोड होत आहेत...",
+
+        mapLoading:
+            "📍 तुमच्या स्थानानुसार केंद्रे शोधत आहे...",
+
+        mapCentres:
+            "📍 केंद्रे नकाशावर दाखवली आहेत",
+
+        centresAvailable:
+            "केंद्रे उपलब्ध",
+
+        emergency:
+            "आपत्कालीन मदत",
+
+        emergencyDesc:
+            "तातडीची मदत हवी असल्यास",
+
+        volunteer:
+            "स्वयंसेवक मदत",
+
+        volunteerDesc:
+            "जवळच्या स्वयंसेवकाशी संपर्क करा",
+
+        share:
+            "माझे स्थान शेअर करा",
+
+        shareDesc:
+            "तुमचे स्थान मदत करणाऱ्या व्यक्तीला पाठवा",
+
+        navHome:
+            "मुख्य",
+
+        navFood:
+            "अन्नदान",
+
+        navCrowd:
+            "गर्दी",
+
+        navHelp:
+            "मदत",
+
+        emergencyConfirm:
+            "आपत्कालीन मदतीसाठी कॉल करायचा आहे?",
+
+        volunteerAlert:
+            "स्वयंसेवकाची मदत मागितली आहे.",
+
+        locationPermission:
+            "कृपया स्थानाची परवानगी द्या.",
+
+        locationFound:
+            "स्थान मिळाले",
+
+        route:
+            "तुमचे स्थान मिळाले. मार्ग दाखवत आहे.",
+
+        centreLocationUnavailable:
+            "केंद्राचे स्थान उपलब्ध नाही.",
+
+        apiError:
+            "माहिती मिळवताना समस्या आली.",
+
+        copied:
+            "तुमची स्थान लिंक कॉपी झाली आहे.",
+
+        locationShared:
+            "तुमचे स्थान शेअर केले जात आहे.",
+
+        noLocation:
+            "स्थान उपलब्ध नाही",
+
+        address:
+            "पत्ता",
+
+        city:
+            "शहर"
+
+    },
+
+
+    /* =================================================
+       HINDI
+    ================================================= */
+
+    hi: {
+
+        welcome:
+            "🙏 नमस्कार वारकरी!",
+
+        question:
+            "आपको अभी क्या चाहिए?",
+
+        location:
+            "आपका स्थान",
+
+        locating:
+            "आपका स्थान खोजा जा रहा है...",
+
+        active:
+            "● सक्रिय",
+
+        food:
+            "अन्नदान खोजें",
+
+        foodSub:
+            "मेरे पास भोजन खोजें",
+
+        nearby:
+            "नजदीकी केंद्र",
+
+        nearbyDesc:
+            "आसपास के अन्नदान केंद्र देखें",
+
+        crowd:
+            "भीड़ की जानकारी",
+
+        crowdDesc:
+            "किस रास्ते पर कितनी भीड़ है?",
+
+        help:
+            "मदद चाहिए?",
+
+        today:
+            "आज की वारी जानकारी",
+
+        live:
+            "🟢 पास का अन्नदान केंद्र उपलब्ध है",
+
+        noFood:
+            "🔴 अभी अन्नदान उपलब्ध नहीं है",
+
+        back:
+            "← पीछे",
+
+        foodPage:
+            "🍛 नजदीकी अन्नदान",
+
+        nearbyPage:
+            "📍 नजदीकी केंद्र",
+
+        crowdPage:
+            "🚶 भीड़ की जानकारी",
+
+        helpPage:
+            "🆘 मदद",
+
+        available:
+            "🟢 भोजन उपलब्ध",
+
+        limited:
+            "🟡 सीमित भोजन",
+
+        unavailable:
+            "🔴 भोजन उपलब्ध नहीं",
+
+        meals:
+            "🍚 उपलब्ध भोजन:",
+
+        time:
+            "🕐 समय:",
+
+        type:
+            "🍲 प्रकार:",
+
+        current:
+            "👥 वर्तमान भीड़:",
+
+        approaching:
+            "👣 आने वाले वारकरी:",
+
+        demand:
+            "📊 अपेक्षित मांग:",
+
+        shortage:
+            "⚠️ भोजन की कमी:",
+
+        crowdLabel:
+            "🚶 भीड़:",
+
+        low:
+            "कम",
+
+        medium:
+            "मध्यम",
+
+        high:
+            "ज्यादा",
+
+        vegetarian:
+            "शाकाहारी",
+
+        navigate:
+            "🧭 रास्ता दिखाएं",
+
+        details:
+            "अधिक जानकारी",
+
+        distance:
+            "दूर",
+
+        currentLocation:
+            "आपका स्थान",
+
+        centreLocation:
+            "केंद्र का स्थान",
+
+        noCentres:
+            "फिलहाल कोई अन्नदान केंद्र उपलब्ध नहीं है।",
+
+        loading:
+            "⏳ केंद्र खोजे जा रहे हैं...",
+
+        loadingCrowd:
+            "⏳ भीड़ की जानकारी लोड हो रही है...",
+
+        loadingCentres:
+            "⏳ केंद्र लोड किए जा रहे हैं...",
+
+        mapLoading:
+            "📍 आपके स्थान के अनुसार केंद्र खोजे जा रहे हैं...",
+
+        mapCentres:
+            "📍 केंद्रों को मानचित्र पर दिखाया गया है",
+
+        centresAvailable:
+            "केंद्र उपलब्ध",
+
+        emergency:
+            "आपातकालीन मदद",
+
+        emergencyDesc:
+            "अगर तुरंत मदद चाहिए",
+
+        volunteer:
+            "स्वयंसेवक सहायता",
+
+        volunteerDesc:
+            "नजदीकी स्वयंसेवक से संपर्क करें",
+
+        share:
+            "मेरा स्थान साझा करें",
+
+        shareDesc:
+            "अपना स्थान मदद करने वाले व्यक्ति को भेजें",
+
+        navHome:
+            "मुख्य",
+
+        navFood:
+            "अन्नदान",
+
+        navCrowd:
+            "भीड़",
+
+        navHelp:
+            "मदद",
+
+        emergencyConfirm:
+            "क्या आपातकालीन सहायता के लिए कॉल करना है?",
+
+        volunteerAlert:
+            "स्वयंसेवक की मदद का अनुरोध किया गया है।",
+
+        locationPermission:
+            "कृपया स्थान की अनुमति दें।",
+
+        locationFound:
+            "स्थान मिल गया",
+
+        route:
+            "आपका स्थान मिल गया है। रास्ता दिखाया जा रहा है।",
+
+        centreLocationUnavailable:
+            "केंद्र का स्थान उपलब्ध नहीं है।",
+
+        apiError:
+            "जानकारी प्राप्त करते समय समस्या हुई।",
+
+        copied:
+            "आपकी स्थान लिंक कॉपी हो गई है।",
+
+        locationShared:
+            "आपका स्थान साझा किया जा रहा है।",
+
+        noLocation:
+            "स्थान उपलब्ध नहीं है",
+
+        address:
+            "पता",
+
+        city:
+            "शहर"
+
+    },
+
+
+    /* =================================================
+       ENGLISH
+    ================================================= */
+
+    en: {
+
+        welcome:
+            "🙏 Welcome Warkari!",
+
+        question:
+            "What do you need right now?",
+
+        location:
+            "Your Location",
+
+        locating:
+            "Finding your location...",
+
+        active:
+            "● Active",
+
+        food:
+            "Find Food",
+
+        foodSub:
+            "Find food near me",
+
+        nearby:
+            "Nearby Centres",
+
+        nearbyDesc:
+            "Find Annadan centres around you",
+
+        crowd:
+            "Crowd Information",
+
+        crowdDesc:
+            "Check crowd levels on routes",
+
+        help:
+            "Need Help?",
+
+        today:
+            "Today's Wari Information",
+
+        live:
+            "🟢 Nearby Annadan centre is available",
+
+        noFood:
+            "🔴 No food is currently available",
+
+        back:
+            "← Back",
+
+        foodPage:
+            "🍛 Nearby Annadan",
+
+        nearbyPage:
+            "📍 Nearby Centres",
+
+        crowdPage:
+            "🚶 Crowd Information",
+
+        helpPage:
+            "🆘 Help",
+
+        available:
+            "🟢 Food Available",
+
+        limited:
+            "🟡 Limited Food",
+
+        unavailable:
+            "🔴 Food Unavailable",
+
+        meals:
+            "🍚 Available Meals:",
+
+        time:
+            "🕐 Time:",
+
+        type:
+            "🍲 Type:",
+
+        current:
+            "👥 Current Crowd:",
+
+        approaching:
+            "👣 Approaching Warkaris:",
+
+        demand:
+            "📊 Expected Demand:",
+
+        shortage:
+            "⚠️ Food Shortage:",
+
+        crowdLabel:
+            "🚶 Crowd:",
+
+        low:
+            "Low",
+
+        medium:
+            "Medium",
+
+        high:
+            "High",
+
+        vegetarian:
+            "Vegetarian",
+
+        navigate:
+            "🧭 Show Route",
+
+        details:
+            "More Details",
+
+        distance:
+            "away",
+
+        currentLocation:
+            "Your Location",
+
+        centreLocation:
+            "Centre Location",
+
+        noCentres:
+            "No Annadan centres are currently available.",
+
+        loading:
+            "⏳ Finding centres...",
+
+        loadingCrowd:
+            "⏳ Loading crowd information...",
+
+        loadingCentres:
+            "⏳ Loading centres...",
+
+        mapLoading:
+            "📍 Finding centres based on your location...",
+
+        mapCentres:
+            "📍 Centres are shown on the map",
+
+        centresAvailable:
+            "centres available",
+
+        emergency:
+            "Emergency Help",
+
+        emergencyDesc:
+            "If you need immediate assistance",
+
+        volunteer:
+            "Volunteer Assistance",
+
+        volunteerDesc:
+            "Contact a nearby volunteer",
+
+        share:
+            "Share My Location",
+
+        shareDesc:
+            "Send your location to someone helping you",
+
+        navHome:
+            "Home",
+
+        navFood:
+            "Food",
+
+        navCrowd:
+            "Crowd",
+
+        navHelp:
+            "Help",
+
+        emergencyConfirm:
+            "Do you want to call emergency assistance?",
+
+        volunteerAlert:
+            "Volunteer assistance has been requested.",
+
+        locationPermission:
+            "Please allow location permission.",
+
+        locationFound:
+            "Location found",
+
+        route:
+            "Your location has been found. Showing the route.",
+
+        centreLocationUnavailable:
+            "Centre location is not available.",
+
+        apiError:
+            "There was a problem getting the information.",
+
+        copied:
+            "Your location link has been copied.",
+
+        locationShared:
+            "Your location is being shared.",
+
+        noLocation:
+            "Location unavailable",
+
+        address:
+            "Address",
+
+        city:
+            "City"
+
+    }
+
+};
+
+
+/* =====================================================
+   GLOBAL DATA
+===================================================== */
+
+let centres = [];
+
+let userLatitude = null;
+
+let userLongitude = null;
+
+let map = null;
+
+let userMarker = null;
+
+let centreMarkers = [];
+
+let locationRequested = false;
+
+
+/* =====================================================
+   TRANSLATION HELPER
+===================================================== */
+
+function getLanguage() {
+
+    const selector =
+        document.getElementById("language");
+
+    return selector
+        ? selector.value
+        : "mr";
+}
+
+
+function t(key) {
+
+    const lang =
+        getLanguage();
+
+    return (
+        translations[lang][key]
+        || translations.en[key]
+        || key
+    );
+}
+
+
+function setText(id, value) {
+
+    const element =
+        document.getElementById(id);
+
+    if (element) {
+
+        element.textContent = value;
+
+    }
+}
+
+
+/* =====================================================
+   LANGUAGE
+===================================================== */
+
+function changeLanguage() {
+
+    const lang =
+        getLanguage();
+
+
+    localStorage.setItem(
+        "wariLanguage",
+        lang
+    );
+
+
+    document.documentElement.lang =
+        lang;
+
+
+    setText(
+        "welcomeTitle",
+        translations[lang].welcome
+    );
+
+
+    setText(
+        "question",
+        translations[lang].question
+    );
+
+
+    setText(
+        "locationText",
+        userLatitude !== null
+            ? "📍 " + translations[lang].locationFound
+            : "📍 " + translations[lang].locating
+    );
+
+
+    setText(
+        "activeText",
+        translations[lang].active
+    );
+
+
+    setText(
+        "foodTitle",
+        translations[lang].food
+    );
+
+
+    setText(
+        "foodSubtitle",
+        translations[lang].foodSub
+    );
+
+
+    setText(
+        "nearbyTitle",
+        translations[lang].nearby
+    );
+
+
+    setText(
+        "nearbyDesc",
+        translations[lang].nearbyDesc
+    );
+
+
+    setText(
+        "crowdTitle",
+        translations[lang].crowd
+    );
+
+
+    setText(
+        "crowdDesc",
+        translations[lang].crowdDesc
+    );
+
+
+    setText(
+        "helpTitle",
+        translations[lang].help
+    );
+
+
+    setText(
+        "todayTitle",
+        translations[lang].today
+    );
+
+
+    setText(
+        "foodBack",
+        translations[lang].back
+    );
+
+
+    setText(
+        "foodPageTitle",
+        translations[lang].foodPage
+    );
+
+
+    setText(
+        "nearbyBack",
+        translations[lang].back
+    );
+
+
+    setText(
+        "nearbyPageTitle",
+        translations[lang].nearbyPage
+    );
+
+
+    setText(
+        "crowdBack",
+        translations[lang].back
+    );
+
+
+    setText(
+        "crowdPageTitle",
+        translations[lang].crowdPage
+    );
+
+
+    setText(
+        "helpBack",
+        translations[lang].back
+    );
+
+
+    setText(
+        "helpPageTitle",
+        translations[lang].helpPage
+    );
+
+
+    setText(
+        "emergencyTitle",
+        translations[lang].emergency
+    );
+
+
+    setText(
+        "emergencyDesc",
+        translations[lang].emergencyDesc
+    );
+
+
+    setText(
+        "volunteerTitle",
+        translations[lang].volunteer
+    );
+
+
+    setText(
+        "volunteerDesc",
+        translations[lang].volunteerDesc
+    );
+
+
+    setText(
+        "shareTitle",
+        translations[lang].share
+    );
+
+
+    setText(
+        "shareDesc",
+        translations[lang].shareDesc
+    );
+
+
+    setText(
+        "navHome",
+        translations[lang].navHome
+    );
+
+
+    setText(
+        "navFood",
+        translations[lang].navFood
+    );
+
+
+    setText(
+        "navCrowd",
+        translations[lang].navCrowd
+    );
+
+
+    setText(
+        "navHelp",
+        translations[lang].navHelp
+    );
+
+
+    if (centres.length > 0) {
+
+        renderFood();
+
+        renderNearby();
+
+        renderCrowd();
+
+        updateHomeStatus();
+
+    }
+
+
+    if (map) {
+
+        setTimeout(
+            () => map.invalidateSize(),
+            200
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   LOAD SAVED LANGUAGE
+===================================================== */
+
+function loadLanguage() {
+
+    const savedLanguage =
+        localStorage.getItem(
+            "wariLanguage"
+        )
+        || "mr";
+
+
+    const selector =
+        document.getElementById(
+            "language"
+        );
+
+
+    selector.value =
+        translations[savedLanguage]
+            ? savedLanguage
+            : "mr";
+
+
+    changeLanguage();
+
+}
+
+
+/* =====================================================
+   PAGE NAVIGATION
+===================================================== */
+
+function showPage(pageId) {
+
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
+
+            page.classList.remove(
+                "active-page"
+            );
+
+        });
+
+
+    const page =
+        document.getElementById(
+            pageId
+        );
+
+
+    if (page) {
+
+        page.classList.add(
+            "active-page"
+        );
+
+    }
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+
+    if (
+        pageId === "nearby"
+    ) {
+
+        initializeMap();
+
+        setTimeout(
+            () => {
+
+                if (map) {
+
+                    map.invalidateSize();
+
+                    renderMapMarkers();
+
+                }
+
+            },
+            250
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   GEOLOCATION
+===================================================== */
+
+function getUserLocation() {
+
+    if (locationRequested) {
+
+        return;
+
+    }
+
+
+    locationRequested = true;
+
+
+    if (!navigator.geolocation) {
+
+        setText(
+            "locationText",
+            "📍 " + t("noLocation")
+        );
+
+
+        loadAllCentres();
+
+        return;
+
+    }
+
+
+    navigator.geolocation.getCurrentPosition(
+
+        function(position) {
+
+            userLatitude =
+                position.coords.latitude;
+
+            userLongitude =
+                position.coords.longitude;
+
+
+            setText(
+                "locationText",
+                "📍 " + t("locationFound")
+            );
+
+
+            updateUserMarker();
+
+
+            loadNearbyCentres();
+
+        },
+
+
+        function(error) {
+
+            console.log(
+                "Location error:",
+                error
+            );
+
+
+            setText(
+                "locationText",
+                "📍 " + t("noLocation")
+            );
+
+
+            loadAllCentres();
+
+        },
+
+
+        {
+
+            enableHighAccuracy: true,
+
+            timeout: 10000,
+
+            maximumAge: 60000
+
+        }
+
+    );
+
+}
+
+
+/* =====================================================
+   NEARBY API
+===================================================== */
+
+async function loadNearbyCentres() {
+
+    try {
+
+        let url =
+            "/warkari/public/api/nearby-centres";
+
+
+        if (
+            userLatitude !== null &&
+            userLongitude !== null
+        ) {
+
+            url +=
+                "?latitude=" +
+                encodeURIComponent(
+                    userLatitude
+                ) +
+                "&longitude=" +
+                encodeURIComponent(
+                    userLongitude
+                );
+
+        }
+
+
+        console.log(
+            "Public Nearby API:",
+            url
+        );
+
+
+        const response =
+            await fetch(
+                url,
+                {
+                    method: "GET",
+                    headers: {
+                        "Accept":
+                            "application/json"
+                    }
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "HTTP " +
+                response.status
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (!Array.isArray(data)) {
+
+            throw new Error(
+                "Invalid API response"
+            );
+
+        }
+
+
+        centres =
+            data;
+
+
+        renderFood();
+
+        renderNearby();
+
+        renderCrowd();
+
+        updateHomeStatus();
+
+        renderMapMarkers();
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "Nearby API error:",
+            error
+        );
+
+
+        /*
+         * If nearby API fails,
+         * try all centres.
+         */
+
+        await loadAllCentres();
+
+    }
+
+}
+
+
+/* =====================================================
+   ALL CENTRES API
+===================================================== */
+
+async function loadAllCentres() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/warkari/public/api/centres",
+                {
+                    method: "GET",
+                    headers: {
+                        "Accept":
+                            "application/json"
+                    }
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "HTTP " +
+                response.status
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !data ||
+            !data.success ||
+            !Array.isArray(
+                data.centres
+            )
+        ) {
+
+            throw new Error(
+                "Invalid centre data"
+            );
+
+        }
+
+
+        centres =
+            data.centres.map(
+                centre => ({
+
+                    ...centre,
+
+                    /*
+                     * Preserve backend
+                     * values if available.
+                     */
+
+                    available_meals:
+                        Number(
+                            centre.available_meals || 0
+                        ),
+
+                    crowd:
+                        Number(
+                            centre.crowd || 0
+                        ),
+
+                    approaching:
+                        Number(
+                            centre.approaching || 0
+                        ),
+
+                    expected_demand:
+                        Number(
+                            centre.expected_demand || 0
+                        ),
+
+                    shortage:
+                        Number(
+                            centre.shortage || 0
+                        ),
+
+                    distance_km:
+                        centre.distance_km !== undefined
+                            ? centre.distance_km
+                            : null,
+
+                    status:
+                        centre.status ||
+                        "sufficient"
+
+                })
+            );
+
+
+        renderFood();
+
+        renderNearby();
+
+        renderCrowd();
+
+        updateHomeStatus();
+
+        renderMapMarkers();
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "All Centres API error:",
+            error
+        );
+
+
+        centres = [];
+
+
+        renderFood();
+
+        renderNearby();
+
+        renderCrowd();
+
+        updateHomeStatus();
+
+        showMapMessage(
+            t("apiError")
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   GET CENTRE NAME
+===================================================== */
+
+function getCentreName(centre) {
+
+    return (
+        centre.name ||
+        centre.centre_name ||
+        centre.center_name ||
+        "Annadan Centre"
+    );
+
+}
+
+
+/* =====================================================
+   GET ADDRESS
+===================================================== */
+
+function getCentreAddress(centre) {
+
+    return (
+        centre.address ||
+        ""
+    );
+
+}
+
+
+/* =====================================================
+   FOOD STATUS
+===================================================== */
+
+function getFoodStatus(centre) {
+
+    const meals =
+        Number(
+            centre.available_meals || 0
+        );
+
+
+    const status =
+        String(
+            centre.status || ""
+        ).toLowerCase();
+
+
+    if (
+        meals > 0 &&
+        (
+            status === "sufficient" ||
+            status === "available" ||
+            status === "active" ||
+            status === "moderate"
+        )
+    ) {
+
+        return {
+
+            className: "green",
+
+            text: t("available")
+
+        };
+
+    }
+
+
+    if (meals > 0) {
+
+        return {
+
+            className: "yellow",
+
+            text: t("limited")
+
+        };
+
+    }
+
+
+    return {
+
+        className: "red",
+
+        text: t("unavailable")
+
+    };
+
+}
+
+
+/* =====================================================
+   CROWD STATUS
+===================================================== */
+
+function getCrowdStatus(centre) {
+
+    const demand =
+        Number(
+            centre.expected_demand || 0
+        );
+
+
+    const current =
+        Number(
+            centre.crowd || 0
+        );
+
+
+    const approaching =
+        Number(
+            centre.approaching || 0
+        );
+
+
+    const shortage =
+        Number(
+            centre.shortage || 0
+        );
+
+
+    const status =
+        String(
+            centre.status || ""
+        ).toLowerCase();
+
+
+    /*
+     * Explicit backend status
+     */
+
+    if (
+        status === "high_demand" ||
+        status === "high"
+    ) {
+
+        return {
+
+            icon: "🔴",
+
+            className: "red",
+
+            text: t("high"),
+
+            number:
+                demand ||
+                current +
+                approaching
+
+        };
+
+    }
+
+
+    if (
+        status === "moderate" ||
+        status === "medium"
+    ) {
+
+        return {
+
+            icon: "🟡",
+
+            className: "yellow",
+
+            text: t("medium"),
+
+            number:
+                demand ||
+                current +
+                approaching
+
+        };
+
+    }
+
+
+    /*
+     * If shortage exists,
+     * treat crowd as high.
+     */
+
+    if (shortage > 0) {
+
+        return {
+
+            icon: "🔴",
+
+            className: "red",
+
+            text: t("high"),
+
+            number:
+                demand ||
+                current +
+                approaching
+
+        };
+
+    }
+
+
+    /*
+     * Fallback
+     */
+
+    return {
+
+        icon: "🟢",
+
+        className: "green",
+
+        text: t("low"),
+
+        number:
+            demand ||
+            current +
+            approaching
+
+    };
+
+}
+
+
+/* =====================================================
+   DISTANCE FORMAT
+===================================================== */
+
+function formatDistance(distance) {
+
+    if (
+        distance === null ||
+        distance === undefined ||
+        distance === ""
+    ) {
+
+        return "";
+
+    }
+
+
+    distance =
+        Number(distance);
+
+
+    if (
+        !Number.isFinite(
+            distance
+        )
+    ) {
+
+        return "";
+
+    }
+
+
+    if (distance < 1) {
+
+        return (
+            Math.round(
+                distance * 1000
+            ) +
+            " m"
+        );
+
+    }
+
+
+    return (
+        distance.toFixed(2) +
+        " km"
+    );
+
+}
+
+
+/* =====================================================
+   FOOD PAGE
+===================================================== */
+
+function renderFood() {
+
+    const container =
+        document.getElementById(
+            "foodList"
+        );
+
+
+    if (!container) {
+
+        return;
+
+    }
+
+
+    if (!centres.length) {
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                ${escapeHTML(
+                    t("noCentres")
+                )}
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML = "";
+
+
+    centres.forEach(
+        centre => {
+
+            const foodStatus =
+                getFoodStatus(
+                    centre
+                );
+
+
+            const crowdStatus =
+                getCrowdStatus(
+                    centre
+                );
+
+
+            const distance =
+                formatDistance(
+                    centre.distance_km
+                );
+
+
+            const name =
+                escapeHTML(
+                    getCentreName(
+                        centre
+                    )
+                );
+
+
+            const address =
+                escapeHTML(
+                    getCentreAddress(
+                        centre
+                    )
+                );
+
+
+            const city =
+                centre.city
+                    ? ", " +
+                      escapeHTML(
+                          centre.city
+                      )
+                    : "";
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "centre";
+
+
+            card.innerHTML = `
+
+                <div class="centre-header">
+
+                    <h3>
+
+                        🍛
+                        ${name}
+
+                    </h3>
+
+
+                    ${
+                        distance
+                            ? `
+
+                                <span
+                                    class="distance">
+
+                                    ${distance}
+                                    ${escapeHTML(
+                                        t("distance")
+                                    )}
+
+                                </span>
+
+                            `
+                            : ""
+                    }
+
+                </div>
+
+
+                <div class="centre-info">
+
+                    <div class="centre-info-row">
+
+                        <span
+                            class="${foodStatus.className}">
+
+                            ${foodStatus.text}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="centre-info-row">
+
+                        ${escapeHTML(
+                            t("meals")
+                        )}
+
+                        <b>
+
+                            ${Number(
+                                centre.available_meals || 0
+                            )}
+
+                        </b>
+
+                    </div>
+
+
+                    <div class="centre-info-row">
+
+                        ${escapeHTML(
+                            t("crowdLabel")
+                        )}
+
+                        <span
+                            class="${crowdStatus.className}">
+
+                            <b>
+                                ${crowdStatus.text}
+                            </b>
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="centre-info-row">
+
+                        ${escapeHTML(
+                            t("current")
+                        )}
+
+                        ${Number(
+                            centre.crowd || 0
+                        )}
+
+                    </div>
+
+
+                    <div class="centre-info-row">
+
+                        ${escapeHTML(
+                            t("approaching")
+                        )}
+
+                        ${Number(
+                            centre.approaching || 0
+                        )}
+
+                    </div>
+
+
+                    <div class="centre-info-row">
+
+                        ${escapeHTML(
+                            t("demand")
+                        )}
+
+                        ${Number(
+                            centre.expected_demand || 0
+                        )}
+
+                    </div>
+
+
+                    ${
+                        Number(
+                            centre.shortage || 0
+                        ) > 0
+
+                        ? `
+
+                            <div
+                                class="centre-info-row red">
+
+                                ${escapeHTML(
+                                    t("shortage")
+                                )}
+
+                                ${Number(
+                                    centre.shortage
+                                )}
+
+                            </div>
+
+                        `
+
+                        : ""
+                    }
+
+
+                    <div
+                        class="centre-info-row">
+
+                        📍
+                        ${address}
+                        ${city}
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="navigate"
+                    onclick="
+                        navigateToCentre(
+                            ${safeNumber(
+                                centre.latitude
+                            )},
+                            ${safeNumber(
+                                centre.longitude
+                            )}
+                        )
+                    ">
+
+                    ${escapeHTML(
+                        t("navigate")
+                    )}
+
+                </button>
+
+
+                <button
+                    class="details-btn"
+                    onclick="
+                        openCentreDetails(
+                            ${safeNumber(
+                                centre.id
+                            )}
+                        )
+                    ">
+
+                    ℹ️
+                    ${escapeHTML(
+                        t("details")
+                    )}
+
+                </button>
+
+            `;
+
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   NEARBY PAGE
+===================================================== */
+
+function renderNearby() {
+
+    const container =
+        document.getElementById(
+            "nearbyList"
+        );
+
+
+    if (!container) {
+
+        return;
+
+    }
+
+
+    if (!centres.length) {
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                ${escapeHTML(
+                    t("noCentres")
+                )}
+
+            </div>
+
+        `;
+
+
+        showMapMessage(
+            t("noCentres")
+        );
+
+
+        return;
+
+    }
+
+
+    container.innerHTML = "";
+
+
+    centres
+        .slice(0, 5)
+        .forEach(
+            centre => {
+
+                const foodStatus =
+                    getFoodStatus(
+                        centre
+                    );
+
+
+                const crowdStatus =
+                    getCrowdStatus(
+                        centre
+                    );
+
+
+                const distance =
+                    formatDistance(
+                        centre.distance_km
+                    );
+
+
+                const name =
+                    escapeHTML(
+                        getCentreName(
+                            centre
+                        )
+                    );
+
+
+                const address =
+                    escapeHTML(
+                        getCentreAddress(
+                            centre
+                        )
+                    );
+
+
+                const city =
+                    centre.city
+                        ? escapeHTML(
+                            centre.city
+                        )
+                        : "";
+
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "centre";
+
+
+                card.innerHTML = `
+
+                    <div class="centre-header">
+
+                        <h3>
+
+                            🍛
+                            ${name}
+
+                        </h3>
+
+
+                        ${
+                            distance
+                                ? `
+
+                                    <span
+                                        class="distance">
+
+                                        ${distance}
+
+                                    </span>
+
+                                `
+                                : ""
+                        }
+
+                    </div>
+
+
+                    <div class="centre-info">
+
+                        📍
+                        ${address}
+
+                        ${
+                            city
+                                ? `
+                                    <br>
+                                    ${city}
+                                  `
+                                : ""
+                        }
+
+                        <br><br>
+
+
+                        <span
+                            class="${foodStatus.className}">
+
+                            ${foodStatus.text}
+
+                        </span>
+
+
+                        <br>
+
+
+                        ${escapeHTML(
+                            t("meals")
+                        )}
+
+                        <b>
+                            ${Number(
+                                centre.available_meals || 0
+                            )}
+                        </b>
+
+
+                        <br>
+
+
+                        ${escapeHTML(
+                            t("crowdLabel")
+                        )}
+
+                        <span
+                            class="${crowdStatus.className}">
+
+                            ${crowdStatus.text}
+
+                        </span>
+
+
+                        ${
+                            Number(
+                                centre.shortage || 0
+                            ) > 0
+
+                                ? `
+
+                                    <br>
+
+                                    <span class="red">
+
+                                        ${escapeHTML(
+                                            t("shortage")
+                                        )}
+
+                                        ${Number(
+                                            centre.shortage
+                                        )}
+
+                                    </span>
+
+                                `
+
+                                : ""
+                        }
+
+                    </div>
+
+
+                    <button
+                        class="navigate"
+                        onclick="
+                            navigateToCentre(
+                                ${safeNumber(
+                                    centre.latitude
+                                )},
+                                ${safeNumber(
+                                    centre.longitude
+                                )}
+                            )
+                        ">
+
+                        ${escapeHTML(
+                            t("navigate")
+                        )}
+
+                    </button>
+
+                `;
+
+
+                container.appendChild(
+                    card
+                );
+
+            }
+        );
+
+
+    showMapMessage(
+        "📍 " +
+        centres.length +
+        " " +
+        t("centresAvailable")
+    );
+
+
+    renderMapMarkers();
+
+}
+
+
+/* =====================================================
+   CROWD PAGE
+===================================================== */
+
+function renderCrowd() {
+
+    const container =
+        document.getElementById(
+            "crowdList"
+        );
+
+
+    if (!container) {
+
+        return;
+
+    }
+
+
+    if (!centres.length) {
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                ${escapeHTML(
+                    t("noCentres")
+                )}
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML = "";
+
+
+    centres.forEach(
+        centre => {
+
+            const crowd =
+                getCrowdStatus(
+                    centre
+                );
+
+
+            const name =
+                escapeHTML(
+                    getCentreName(
+                        centre
+                    )
+                );
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "crowd-box";
+
+
+            card.innerHTML = `
+
+                <div class="crowd-icon">
+
+                    ${crowd.icon}
+
+                </div>
+
+
+                <div
+                    class="
+                        crowd-status
+                        ${crowd.className}
+                    ">
+
+                    ${crowd.text}
+
+                </div>
+
+
+                <h3>
+
+                    🍛
+                    ${name}
+
+                </h3>
+
+
+                <div class="crowd-number">
+
+                    ${escapeHTML(
+                        t("current")
+                    )}
+
+                    ${Number(
+                        centre.crowd || 0
+                    )}
+
+                    <br>
+
+
+                    ${escapeHTML(
+                        t("approaching")
+                    )}
+
+                    ${Number(
+                        centre.approaching || 0
+                    )}
+
+                    <br>
+
+
+                    ${escapeHTML(
+                        t("demand")
+                    )}
+
+                    ${Number(
+                        centre.expected_demand || 0
+                    )}
+
+
+                    ${
+                        Number(
+                            centre.shortage || 0
+                        ) > 0
+
+                            ? `
+
+                                <br>
+
+                                <span class="red">
+
+                                    ${escapeHTML(
+                                        t("shortage")
+                                    )}
+
+                                    ${Number(
+                                        centre.shortage
+                                    )}
+
+                                </span>
+
+                            `
+
+                            : ""
+                    }
+
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   HOME STATUS
+===================================================== */
+
+function updateHomeStatus() {
+
+    const status =
+        document.getElementById(
+            "liveStatus"
+        );
+
+
+    if (!status) {
+
+        return;
+
+    }
+
+
+    const available =
+        centres.filter(
+            centre =>
+                Number(
+                    centre.available_meals || 0
+                ) > 0
+        );
+
+
+    if (available.length > 0) {
+
+        status.className =
+            "status green";
+
+
+        status.textContent =
+            t("live");
+
+    }
+
+    else {
+
+        status.className =
+            "status red";
+
+
+        status.textContent =
+            t("noFood");
+
+    }
+
+}
+
+
+/* =====================================================
+   LEAFLET MAP INITIALIZATION
+===================================================== */
+
+function initializeMap() {
+
+    if (map) {
+
+        return;
+
+    }
+
+
+    const mapElement =
+        document.getElementById(
+            "map"
+        );
+
+
+    if (!mapElement) {
+
+        return;
+
+    }
+
+
+    /*
+     * Default centre:
+     * Pandharpur area.
+     *
+     * This is only the initial map view.
+     * User location / centre locations
+     * will automatically update it.
+     */
+
+    map =
+        L.map(
+            "map",
+            {
+                zoomControl: true,
+                attributionControl: true
+            }
+        )
+        .setView(
+            [17.6799, 75.3303],
+            12
+        );
+
+
+    L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+            maxZoom: 19,
+            attribution:
+                "&copy; OpenStreetMap contributors"
+        }
+    ).addTo(map);
+
+
+    updateUserMarker();
+
+    renderMapMarkers();
+
+}
+
+
+/* =====================================================
+   UPDATE USER MARKER
+===================================================== */
+
+function updateUserMarker() {
+
+    if (
+        !map ||
+        userLatitude === null ||
+        userLongitude === null
+    ) {
+
+        return;
+
+    }
+
+
+    const userLatLng = [
+        Number(userLatitude),
+        Number(userLongitude)
+    ];
+
+
+    if (userMarker) {
+
+        userMarker.setLatLng(
+            userLatLng
+        );
+
+    }
+
+    else {
+
+        userMarker =
+            L.marker(
+                userLatLng
+            )
+            .addTo(map);
+
+
+        userMarker.bindPopup(
+            `<b>
+                📍 ${escapeHTML(
+                    t("currentLocation")
+                )}
+             </b>`
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   MAP MARKERS
+===================================================== */
+
+function renderMapMarkers() {
+
+    if (!map) {
+
+        return;
+
+    }
+
+
+    /*
+     * Remove previous markers.
+     */
+
+    centreMarkers.forEach(
+        marker => {
+
+            map.removeLayer(
+                marker
+            );
+
+        }
+    );
+
+
+    centreMarkers = [];
+
+
+    const validCentres =
+        centres.filter(
+            centre => {
+
+                const lat =
+                    Number(
+                        centre.latitude
+                    );
+
+                const lon =
+                    Number(
+                        centre.longitude
+                    );
+
+
+                return (
+                    Number.isFinite(lat) &&
+                    Number.isFinite(lon) &&
+                    lat >= -90 &&
+                    lat <= 90 &&
+                    lon >= -180 &&
+                    lon <= 180
+                );
+
+            }
+        );
+
+
+    if (!validCentres.length) {
+
+        if (
+            userLatitude !== null &&
+            userLongitude !== null
+        ) {
+
+            map.setView(
+                [
+                    userLatitude,
+                    userLongitude
+                ],
+                14
+            );
+
+        }
+
+
+        return;
+
+    }
+
+
+    const bounds = [];
+
+
+    validCentres.forEach(
+        centre => {
+
+            const lat =
+                Number(
+                    centre.latitude
+                );
+
+
+            const lon =
+                Number(
+                    centre.longitude
+                );
+
+
+            const foodStatus =
+                getFoodStatus(
+                    centre
+                );
+
+
+            const crowdStatus =
+                getCrowdStatus(
+                    centre
+                );
+
+
+            const name =
+                escapeHTML(
+                    getCentreName(
+                        centre
+                    )
+                );
+
+
+            const address =
+                escapeHTML(
+                    getCentreAddress(
+                        centre
+                    )
+                );
+
+
+            const meals =
+                Number(
+                    centre.available_meals || 0
+                );
+
+
+            const current =
+                Number(
+                    centre.crowd || 0
+                );
+
+
+            const approaching =
+                Number(
+                    centre.approaching || 0
+                );
+
+
+            const marker =
+                L.marker(
+                    [lat, lon]
+                )
+                .addTo(map);
+
+
+            marker.bindPopup(`
+
+                <div class="popup-title">
+
+                    🍛 ${name}
+
+                </div>
+
+
+                <div class="popup-line">
+
+                    ${foodStatus.text}
+
+                </div>
+
+
+                <div class="popup-line">
+
+                    ${escapeHTML(
+                        t("meals")
+                    )}
+                    <b>${meals}</b>
+
+                </div>
+
+
+                <div class="popup-line">
+
+                    ${escapeHTML(
+                        t("crowdLabel")
+                    )}
+
+                    <b>
+                        ${crowdStatus.text}
+                    </b>
+
+                </div>
+
+
+                <div class="popup-line">
+
+                    ${escapeHTML(
+                        t("current")
+                    )}
+
+                    ${current}
+
+                </div>
+
+
+                <div class="popup-line">
+
+                    ${escapeHTML(
+                        t("approaching")
+                    )}
+
+                    ${approaching}
+
+                </div>
+
+
+                <div class="popup-line">
+
+                    📍 ${address}
+
+                </div>
+
+
+                <button
+                    class="popup-route"
+                    onclick="
+                        navigateToCentre(
+                            ${lat},
+                            ${lon}
+                        )
+                    ">
+
+                    ${escapeHTML(
+                        t("navigate")
+                    )}
+
+                </button>
+
+            `);
+
+
+            centreMarkers.push(
+                marker
+            );
+
+
+            bounds.push(
+                [lat, lon]
+            );
+
+        }
+    );
+
+
+    /*
+     * Add user location to bounds.
+     */
+
+    if (
+        userLatitude !== null &&
+        userLongitude !== null
+    ) {
+
+        bounds.push(
+            [
+                Number(userLatitude),
+                Number(userLongitude)
+            ]
+        );
+
+    }
+
+
+    /*
+     * Automatically fit all
+     * visible locations.
+     */
+
+    if (bounds.length > 0) {
+
+        try {
+
+            map.fitBounds(
+                bounds,
+                {
+                    padding: [
+                        35,
+                        35
+                    ],
+
+                    maxZoom: 15
+                }
+            );
+
+        }
+
+        catch (error) {
+
+            console.log(
+                "Map bounds error:",
+                error
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   MAP MESSAGE
+===================================================== */
+
+function showMapMessage(message) {
+
+    const element =
+        document.getElementById(
+            "mapMessage"
+        );
+
+
+    if (!element) {
+
+        return;
+
+    }
+
+
+    element.textContent =
+        message;
+
+}
+
+
+/* =====================================================
+   GOOGLE MAPS NAVIGATION
+===================================================== */
+
+function navigateToCentre(
+    latitude,
+    longitude
+) {
+
+    if (
+        latitude === null ||
+        longitude === null ||
+        latitude === undefined ||
+        longitude === undefined ||
+        !Number.isFinite(
+            Number(latitude)
+        ) ||
+        !Number.isFinite(
+            Number(longitude)
+        )
+    ) {
+
+        alert(
+            t(
+                "centreLocationUnavailable"
+            )
+        );
+
+        return;
+
+    }
+
+
+    latitude =
+        Number(latitude);
+
+
+    longitude =
+        Number(longitude);
+
+
+    /*
+     * If user location exists,
+     * open directions.
+     */
+
+    if (
+        userLatitude !== null &&
+        userLongitude !== null
+    ) {
+
+        const url =
+            "https://www.google.com/maps/dir/?api=1" +
+            "&origin=" +
+            encodeURIComponent(
+                userLatitude +
+                "," +
+                userLongitude
+            ) +
+            "&destination=" +
+            encodeURIComponent(
+                latitude +
+                "," +
+                longitude
+            );
+
+
+        window.open(
+            url,
+            "_blank"
+        );
+
+    }
+
+    else {
+
+        const url =
+            "https://www.google.com/maps/search/?api=1" +
+            "&query=" +
+            encodeURIComponent(
+                latitude +
+                "," +
+                longitude
+            );
+
+
+        window.open(
+            url,
+            "_blank"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   CENTRE DETAILS
+===================================================== */
+
+function openCentreDetails(
+    centreId
+) {
+
+    if (
+        centreId === null ||
+        centreId === undefined ||
+        centreId === ""
+    ) {
+
+        return;
+
+    }
+
+
+    window.location.href =
+        "/warkari/centre/" +
+        encodeURIComponent(
+            centreId
+        );
+
+}
+
+
+/* =====================================================
+   VOICE ASSISTANCE
+===================================================== */
+
+function speakCurrent() {
+
+    if (
+        !("speechSynthesis" in window)
+    ) {
+
+        return;
+
+    }
+
+
+    const lang =
+        getLanguage();
+
+
+    const messages = {
+
+        mr:
+            "नमस्कार वारकरी. अन्नदान शोधा, जवळचे केंद्र पहा, गर्दीची माहिती मिळवा किंवा मदतीसाठी मदत बटण दाबा.",
+
+        hi:
+            "नमस्कार वारकरी. अन्नदान खोजें, नजदीकी केंद्र देखें, भीड़ की जानकारी प्राप्त करें या मदद के लिए मदद बटन दबाएं।",
+
+        en:
+            "Welcome Warkari. Find food, nearby centres, crowd information or get help."
+
+    };
+
+
+    const speech =
+        new SpeechSynthesisUtterance(
+            messages[lang]
+        );
+
+
+    speech.lang =
+        lang === "mr"
+            ? "mr-IN"
+            : lang === "hi"
+                ? "hi-IN"
+                : "en-IN";
+
+
+    speech.rate = 0.9;
+
+    speech.pitch = 1;
+
+
+    window.speechSynthesis.cancel();
+
+
+    window.speechSynthesis.speak(
+        speech
+    );
+
+}
+
+
+/* =====================================================
+   EMERGENCY
+===================================================== */
+
+function emergency() {
+
+    const confirmed =
+        confirm(
+            t(
+                "emergencyConfirm"
+            )
+        );
+
+
+    if (confirmed) {
+
+        window.location.href =
+            "tel:112";
+
+    }
+
+}
+
+
+/* =====================================================
+   VOLUNTEER
+===================================================== */
+
+function volunteerHelp() {
+
+    alert(
+        t(
+            "volunteerAlert"
+        )
+    );
+
+}
+
+
+/* =====================================================
+   SHARE LOCATION
+===================================================== */
+
+function shareLocation() {
+
+    if (!navigator.geolocation) {
+
+        alert(
+            t(
+                "locationPermission"
+            )
+        );
+
+        return;
+
+    }
+
+
+    navigator.geolocation.getCurrentPosition(
+
+        async function(position) {
+
+            const lat =
+                position.coords.latitude;
+
+            const lon =
+                position.coords.longitude;
+
+
+            const url =
+                `https://www.google.com/maps?q=${lat},${lon}`;
+
+
+            const lang =
+                getLanguage();
+
+
+            const shareData = {
+
+                title:
+                    "Wari Annapurna",
+
+                text:
+                    lang === "mr"
+                        ? "माझे वारी स्थान"
+                        : lang === "hi"
+                            ? "मेरा वारी स्थान"
+                            : "My Wari Location",
+
+                url:
+                    url
+
+            };
+
+
+            if (
+                navigator.share
+            ) {
+
+                try {
+
+                    await navigator.share(
+                        shareData
+                    );
+
+                }
+
+                catch (error) {
+
+                    console.log(
+                        "Share cancelled:",
+                        error
+                    );
+
+                }
+
+            }
+
+
+            else if (
+                navigator.clipboard
+            ) {
+
+                try {
+
+                    await navigator.clipboard
+                        .writeText(
+                            url
+                        );
+
+
+                    alert(
+                        t("copied")
+                    );
+
+                }
+
+                catch (error) {
+
+                    alert(
+                        url
+                    );
+
+                }
+
+            }
+
+
+            else {
+
+                alert(
+                    url
+                );
+
+            }
+
+        },
+
+
+        function(error) {
+
+            console.log(
+                "Share location error:",
+                error
+            );
+
+
+            alert(
+                t(
+                    "locationPermission"
+                )
+            );
+
+        },
+
+        {
+
+            enableHighAccuracy: true,
+
+            timeout: 10000,
+
+            maximumAge: 60000
+
+        }
+
+    );
+
+}
+
+
+/* =====================================================
+   SECURITY
+===================================================== */
+
+function escapeHTML(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+
+    }
+
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =====================================================
+   SAFE NUMBER
+===================================================== */
+
+function safeNumber(value) {
+
+    const number =
+        Number(value);
+
+
+    if (
+        Number.isFinite(number)
+    ) {
+
+        return number;
+
+    }
+
+
+    return "null";
+
+}
+
+
+/* =====================================================
+   START APPLICATION
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        loadLanguage();
+
+
+        /*
+         * Initialize map early so it
+         * is ready when Nearby is opened.
+         */
+
+        initializeMap();
+
+
+        /*
+         * Request browser location.
+         */
+
+        getUserLocation();
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

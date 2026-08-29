@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wari Annapurna | Users</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --orange: #ff9000;
+    --orange-light: #fff2df;
+    --navy: #1d2939;
+    --text: #172033;
+    --muted: #667085;
+    --bg: #f5f7fa;
+    --border: #e8ebf0;
+    --sidebar-width: 258px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+}
+
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: var(--navy);
+    padding: 28px 16px;
+    z-index: 1000;
+}
+
+.brand {
+    padding: 0 10px;
+    margin-bottom: 40px;
+    font-size: 21px;
+    font-weight: 700;
+    color: white;
+}
+
+.brand span {
+    color: var(--orange);
+}
+
+.nav-link {
+    color: #d0d5dd;
+    padding: 14px 15px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 5px;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.nav-link i {
+    font-size: 18px;
+    width: 20px;
+}
+
+.nav-link:hover {
+    color: white;
+    background: rgba(255,255,255,0.08);
+}
+
+.nav-link.active {
+    background: var(--orange);
+    color: white;
+}
+
+.sidebar-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.18);
+    margin: 20px 0;
+}
+
+.logout {
+    color: #d0d5dd;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 15px;
+    border-radius: 10px;
+}
+
+.logout:hover {
+    color: white;
+    background: rgba(255,255,255,0.08);
+}
+
+.main-content {
+    margin-left: var(--sidebar-width);
+    padding: 34px 26px;
+}
+
+.page-header {
+    background: white;
+    border-radius: 16px;
+    padding: 28px 26px;
+    margin-bottom: 26px;
+    box-shadow: 0 3px 12px rgba(16,24,40,0.05);
+}
+
+.page-header h1 {
+    font-size: 27px;
+    font-weight: 700;
+    margin: 0 0 6px;
+}
+
+.page-header p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 15px;
+}
+
+.card-custom {
+    background: white;
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 3px 12px rgba(16,24,40,0.05);
+}
+
+.filter-card {
+    padding: 20px;
+    margin-bottom: 22px;
+}
+
+.tabs {
+    display: flex;
+    gap: 6px;
+    background: #f5f6f8;
+    padding: 5px;
+    border-radius: 10px;
+    width: fit-content;
+}
+
+.tab {
+    padding: 9px 18px;
+    border-radius: 7px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.tab:hover {
+    color: var(--text);
+}
+
+.tab.active {
+    background: var(--orange);
+    color: white;
+}
+
+.search-wrapper {
+    position: relative;
+    margin-top: 18px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #98a2b3;
+}
+
+.search-input {
+    height: 46px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding-left: 44px;
+    font-size: 14px;
+}
+
+.search-input:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px rgba(255,144,0,0.12);
+}
+
+.user-count {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.user-count strong {
+    color: var(--text);
+}
+
+.table-card {
+    padding: 20px;
+}
+
+.table-custom {
+    width: 100%;
+    margin: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table-custom th {
+    background: #f8f9fb;
+    color: #667085;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    padding: 15px 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.table-custom td {
+    padding: 16px;
+    border-bottom: 1px solid #f0f1f3;
+    vertical-align: middle;
+    font-size: 14px;
+}
+
+.table-custom tbody tr:hover {
+    background: #fafafa;
+}
+
+.user-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: var(--orange-light);
+    color: var(--orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    margin-right: 12px;
+}
+
+.user-name {
+    font-weight: 600;
+    color: var(--text);
+}
+
+.user-id {
+    color: #98a2b3;
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+.role-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 11px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.role-donor {
+    background: #eaf8ff;
+    color: #1683b8;
+}
+
+.role-admin {
+    background: #f1edff;
+    color: #7357c7;
+}
+
+.role-warkari {
+    background: var(--orange-light);
+    color: #e87500;
+}
+
+.role-default {
+    background: #f2f4f7;
+    color: #667085;
+}
+
+.contact {
+    color: var(--muted);
+}
+
+.joined {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.action-btn {
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--border);
+    background: white;
+    color: #667085;
+    border-radius: 8px;
+    margin-left: 5px;
+}
+
+.action-btn:hover {
+    color: var(--orange);
+    border-color: var(--orange);
+    background: var(--orange-light);
+}
+
+.empty-state {
+    padding: 55px 20px;
+    text-align: center;
+    color: var(--muted);
+}
+
+.empty-state i {
+    font-size: 42px;
+    color: #c5cad3;
+}
+
+@media (max-width: 900px) {
+    .sidebar {
+        width: 78px;
+        padding: 25px 10px;
+    }
+
+    .brand {
+        text-align: center;
+        font-size: 0;
+        margin-bottom: 35px;
+    }
+
+    .brand span {
+        display: none;
+    }
+
+    .brand:before {
+        content: "WA";
+        font-size: 18px;
+        color: white;
+        font-weight: 700;
+    }
+
+    .nav-link {
+        justify-content: center;
+        padding: 14px 10px;
+    }
+
+    .nav-link span {
+        display: none;
+    }
+
+    .logout {
+        justify-content: center;
+    }
+
+    .logout span {
+        display: none;
+    }
+
+    .main-content {
+        margin-left: 78px;
+        padding: 22px 16px;
+    }
+}
+
+@media (max-width: 700px) {
+    .tabs {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .tab {
+        white-space: nowrap;
+    }
+
+    .page-header h1 {
+        font-size: 23px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav class="sidebar">
+
+    <div class="brand">
+        Wari <span>Annapurna</span>
+    </div>
+
+    <a href="{{ url_for('admin.dashboard') }}" class="nav-link">
+        <i class="bi bi-speedometer2"></i>
+        <span>Dashboard</span>
+    </a>
+
+    <a href="{{ url_for('admin.users') }}" class="nav-link active">
+        <i class="bi bi-people"></i>
+        <span>Users</span>
+    </a>
+
+    <a href="{{ url_for('admin.centres') }}" class="nav-link">
+        <i class="bi bi-geo-alt"></i>
+        <span>Annadan Centres</span>
+    </a>
+
+    <a href="{{ url_for('admin.meal_services') }}" class="nav-link">
+        <i class="bi bi-box-seam"></i>
+        <span>Meal Services</span>
+    </a>
+
+    <a href="{{ url_for('admin.reports') }}" class="nav-link">
+        <i class="bi bi-bar-chart-line"></i>
+        <span>Reports</span>
+    </a>
+
+    <div class="sidebar-divider"></div>
+
+    <a href="{{ url_for('donor.logout') }}" class="logout">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Logout</span>
+    </a>
+
+</nav>
+
+<main class="main-content">
+
+    <div class="page-header">
+        <h1>User Directory</h1>
+        <p>Manage registered users of the Wari Annapurna platform</p>
+    </div>
+
+    <div class="card-custom filter-card">
+
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+
+            <div class="tabs">
+
+                <a href="{{ url_for('admin.users') }}"
+                   class="tab {% if not role_filter %}active{% endif %}">
+                    All
+                </a>
+
+                <a href="{{ url_for('admin.users', role='donor', search=search) }}"
+                   class="tab {% if role_filter == 'donor' %}active{% endif %}">
+                    Donors
+                </a>
+
+                <a href="{{ url_for('admin.users', role='warkari', search=search) }}"
+                   class="tab {% if role_filter == 'warkari' %}active{% endif %}">
+                    Warkaris
+                </a>
+
+                <a href="{{ url_for('admin.users', role='admin', search=search) }}"
+                   class="tab {% if role_filter == 'admin' %}active{% endif %}">
+                    Admins
+                </a>
+
+            </div>
+
+            <div class="user-count">
+                Showing <strong>{{ users|length }}</strong> users
+            </div>
+
+        </div>
+
+        <form method="GET">
+
+            {% if role_filter %}
+            <input type="hidden" name="role" value="{{ role_filter }}">
+            {% endif %}
+
+            <div class="search-wrapper">
+
+                <i class="bi bi-search search-icon"></i>
+
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ search or '' }}"
+                    class="form-control search-input"
+                    placeholder="Search by name or email..."
+                >
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="card-custom table-card">
+
+        <div class="table-responsive">
+
+            <table class="table-custom">
+
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Role</th>
+                        <th>Contact</th>
+                        <th>Joined Date</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                {% for u in users %}
+
+                    <tr>
+
+                        <td>
+                            <div class="d-flex align-items-center">
+
+                                <div class="user-avatar">
+                                    {{ u[1][0]|upper if u[1] else '?' }}
+                                </div>
+
+                                <div>
+                                    <div class="user-name">
+                                        {{ u[1] }}
+                                    </div>
+
+                                    <div class="user-id">
+                                        ID: #{{ u[0] }}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </td>
+
+                        <td>
+
+                            {% if u[3] == 'donor' %}
+
+                            <span class="role-badge role-donor">
+                                <i class="bi bi-heart-fill"></i>
+                                Donor
+                            </span>
+
+                            {% elif u[3] == 'admin' %}
+
+                            <span class="role-badge role-admin">
+                                <i class="bi bi-shield-lock-fill"></i>
+                                Admin
+                            </span>
+
+                            {% elif u[3] == 'warkari' %}
+
+                            <span class="role-badge role-warkari">
+                                <i class="bi bi-person-walking"></i>
+                                Warkari
+                            </span>
+
+                            {% else %}
+
+                            <span class="role-badge role-default">
+                                <i class="bi bi-person-fill"></i>
+                                {{ u[3]|capitalize }}
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td class="contact">
+                            <i class="bi bi-envelope me-2"></i>
+                            {{ u[2] }}
+                        </td>
+
+                        <td class="joined">
+                            {{ u[4] }}
+                        </td>
+
+                        <td class="text-end">
+
+                            <button type="button"
+                                    class="action-btn"
+                                    title="Edit User">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+
+                            <button type="button"
+                                    class="action-btn"
+                                    title="Delete User">
+                                <i class="bi bi-trash"></i>
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                {% else %}
+
+                    <tr>
+                        <td colspan="5">
+
+                            <div class="empty-state">
+
+                                <i class="bi bi-people"></i>
+
+                                <h5 class="mt-3 mb-2">
+                                    No users found
+                                </h5>
+
+                                <p class="mb-3">
+                                    Try adjusting your search or filter.
+                                </p>
+
+                                <a href="{{ url_for('admin.users') }}"
+                                   class="btn btn-sm"
+                                   style="background:#ff9000;color:white;border-radius:8px;">
+                                    Clear Filters
+                                </a>
+
+                            </div>
+
+                        </td>
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</main>
+
+</body>
+</html>
