@@ -219,3 +219,87 @@
                     25% 96%,
                     0 91%);
         }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            width: 700px;
+            height: 700px;
+            border-radius: 50%;
+            right: -250px;
+            top: 70px;
+            border: 1px solid rgba(255, 255, 255, .12);
+            box-shadow:
+                0 0 0 80px rgba(255, 255, 255, .025),
+                0 0 0 160px rgba(255, 255, 255, .02);
+        }
+
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            opacity: .07;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, .4) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, .4) 1px, transparent 1px);
+            background-size: 70px 70px;
+            mask-image: linear-gradient(to bottom, black, transparent);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 20;
+            padding: 150px 0 180px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border: 1px solid rgba(255, 255, 255, .35);
+            background: rgba(255, 255, 255, .11);
+            backdrop-filter: blur(15px);
+            border-radius: 50px;
+            font-weight: 700;
+            animation: badgeGlow 3s infinite;
+        }
+
+        @keyframes badgeGlow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 rgba(255, 209, 102, 0);
+            }
+
+            50% {
+                box-shadow: 0 0 30px rgba(255, 209, 102, .15);
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 6vw, 5.5rem);
+            line-height: 1.05;
+            font-weight: 800;
+            letter-spacing: -3px;
+            margin-top: 25px;
+        }
+
+        .hero h1 span {
+            color: #ffd166;
+            position: relative;
+        }
+
+        .hero h1 span::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -7px;
+            height: 4px;
+            background: #ffd166;
+            border-radius: 10px;
+            transform: scaleX(0);
+            transform-origin: left;
+            animation: underline 1.5s 1s forwards;
+        }
