@@ -504,3 +504,164 @@
                 </div>
             </div>
 
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card">
+                    <div class="stat-icon icon-available">
+                        <i class="bi bi-broadcast-pin"></i>
+                    </div>
+
+                    <h3>
+                        {{ "{:,}".format(available_meals) }}
+                    </h3>
+
+                    <p class="dashboard-label mb-0">
+                        Meals Currently Available
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card">
+                    <div class="stat-icon icon-people">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+
+                    <h3>
+                        {{ "{:,}".format(people_fed) }}
+                    </h3>
+
+                    <p class="dashboard-label mb-0">
+                        Estimated People Served
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="section-card">
+
+            <div class="section-header">
+
+                <h5>
+                    <i class="bi bi-fire me-2 text-danger"></i>
+                    Food Demand Right Now
+                </h5>
+
+                <span class="text-muted small">
+                    <i class="bi bi-clock me-1"></i>
+                    Live demand
+                </span>
+
+            </div>
+
+            {% if recommendations %}
+
+                {% for centre in recommendations %}
+
+                    <div class="demand-card {{ centre.status }} mb-3">
+
+                        <div class="row align-items-center g-3">
+
+                            <div class="col-lg-4">
+
+                                <div class="d-flex justify-content-between align-items-start">
+
+                                    <div>
+                                        <div class="centre-name">
+                                            <i class="bi bi-geo-alt-fill me-1"></i>
+                                            {{ centre.centre_name }}
+                                        </div>
+
+                                        <div class="centre-address mt-1">
+                                            {{ centre.address }}
+                                            {% if centre.city %}
+                                                , {{ centre.city }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    {% if centre.status == 'critical' %}
+
+                                        <span class="status-critical">
+                                            CRITICAL
+                                        </span>
+
+                                    {% elif centre.status == 'high' %}
+
+                                        <span class="status-high">
+                                            HIGH DEMAND
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="status-moderate">
+                                            MODERATE
+                                        </span>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-lg-5">
+
+                                <div class="row g-2">
+
+                                    <div class="col-4">
+                                        <div class="metric-box">
+                                            <strong>
+                                                {{ "{:,}".format(centre.shortage) }}
+                                            </strong>
+                                            <span>
+                                                Meals Needed
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <div class="metric-box">
+                                            <strong>
+                                                {{ "{:,}".format(centre.expected_demand) }}
+                                            </strong>
+                                            <span>
+                                                Expected Demand
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <div class="metric-box">
+                                            <strong>
+                                                {{ "{:,}".format(centre.approaching) }}
+                                            </strong>
+                                            <span>
+                                                Approaching
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-lg-3 text-lg-end">
+
+                                <div class="mb-2 small text-muted">
+                                    {{ "{:,}".format(centre.available_meals) }}
+                                    meals currently available
+                                </div>
+
+                                <a
+                                    href="{{ url_for('donor.add_donation') }}?centre_id={{ centre.centre_id }}"
+                                    class="btn btn-orange rounded-pill px-4"
+                                >
+                                    <i class="bi bi-box2-heart me-2"></i>
+                                    Donate Food
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
