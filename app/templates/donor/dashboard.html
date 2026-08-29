@@ -398,3 +398,109 @@
             }
         }
     </style>
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <div class="sidebar-brand">
+        <h4>
+            <i class="bi bi-sun-fill me-2"></i>
+            Wari Annapurna
+        </h4>
+        <small>Donor Portal</small>
+    </div>
+
+    <div class="sidebar-nav">
+
+        <a href="{{ url_for('donor.dashboard') }}" class="active">
+            <i class="bi bi-speedometer2"></i>
+            Dashboard
+        </a>
+
+        <a href="{{ url_for('donor.add_donation') }}">
+            <i class="bi bi-plus-circle-fill"></i>
+            Donate Food
+        </a>
+
+        <a href="{{ url_for('donor.impact') }}">
+            <i class="bi bi-bar-chart-line"></i>
+            Impact & Reports
+        </a>
+
+        <div class="sidebar-divider"></div>
+
+        <a href="#">
+            <i class="bi bi-person-circle"></i>
+            Profile
+        </a>
+
+        <a href="{{ url_for('donor.logout') }}">
+            <i class="bi bi-box-arrow-right"></i>
+            Logout
+        </a>
+
+    </div>
+</div>
+
+<div class="main">
+
+    <div class="topbar">
+        <h5>
+            <i class="bi bi-heart-fill me-2"></i>
+            Donor Dashboard
+        </h5>
+
+        <div class="user-area">
+            <i class="bi bi-person-circle"></i>
+            <span>{{ session.user_name }}</span>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <div class="welcome-card">
+            <h4>
+                Welcome, {{ session.user_name }} 🙏
+            </h4>
+
+            <p>
+                Donate food where it is needed most. Our system uses
+                current crowd movement and food availability to identify
+                Annadan centres requiring support.
+            </p>
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card">
+                    <div class="stat-icon icon-services">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+
+                    <h3>{{ total_services }}</h3>
+
+                    <p class="dashboard-label mb-0">
+                        Donations Registered
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card">
+                    <div class="stat-icon icon-meals">
+                        <i class="bi bi-egg-fried"></i>
+                    </div>
+
+                    <h3>
+                        {{ "{:,}".format(total_meals) }}
+                    </h3>
+
+                    <p class="dashboard-label mb-0">
+                        Meals Donated
+                    </p>
+                </div>
+            </div>
+
