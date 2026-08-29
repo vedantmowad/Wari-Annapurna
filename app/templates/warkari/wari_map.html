@@ -98,3 +98,90 @@
             font-size: 14px;
             min-width: 210px;
         }
+
+          .popup-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #A84300;
+            margin-bottom: 6px;
+        }
+
+        .popup-address {
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .available {
+            display: inline-block;
+            background: #E8F7ED;
+            color: #238B45;
+            padding: 5px 9px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        @media(max-width: 768px) {
+            .page-container {
+                padding: 15px;
+            }
+
+            #wariMap {
+                height: 550px;
+            }
+
+            .map-header {
+                align-items: flex-start;
+                gap: 10px;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="topbar">
+
+    <h4>
+        <i class="bi bi-map me-2"></i>
+        Wari Map
+    </h4>
+
+    <a
+        href="{{ url_for('warkari.dashboard') }}"
+        class="back-btn"
+    >
+        <i class="bi bi-arrow-left me-1"></i>
+        Dashboard
+    </a>
+
+</div>
+
+<div class="page-container">
+
+    <div class="map-card">
+
+        <div class="map-header">
+
+            <h5>
+                <i class="bi bi-geo-alt-fill me-2"></i>
+                Annadan Centres
+            </h5>
+
+            <span class="centre-count">
+                {{ centres|length }}
+                Centre{% if centres|length != 1 %}s{% endif %}
+            </span>
+
+        </div>
+
+        <div id="wariMap"></div>
+
+    </div>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
