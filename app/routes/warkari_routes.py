@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, session, redirect, url_for, jsonify, request, flash
+from flask import Blueprint, render_template, session, redirect, url_for, jsonify, request
 from app.models.db import mysql
 import math
 
@@ -475,95 +475,55 @@ def nearby_centres():
     return jsonify(centres)
 
 
-@warkari_bp.route('/rate-centre', methods=['GET', 'POST'])
-def rate_centre():
+@warkari_bp.route('/api/centres')
+def api_centres():
+
     if 'user_id' not in session or session.get('role') != 'warkari':
-        return redirect(url_for('auth.login'))
+        return jsonify({
+            'success': False,
+            'error': 'Unauthorized'
+        }), 401
 
-    cursor = mysql.connection.cursor()
+    cur = mysql.connection.cursor()
 
-    cursor.execute("""
-        SELECT id, centre_name, address, city
+    cur.execute("""
+        SELECT
+            id,
+            centre_name,
+            address,
+            city,
+            latitude,
+            longitude,
+            status
         FROM annadan_centres
         WHERE status = 'active'
-        ORDER BY centre_name
+        ORDER BY id
     """)
-    centres = cursor.fetchall()
 
-    if request.method == 'POST':
-        centre_id = request.form.get('centre_id', type=int)
-        rating = request.form.get('rating', type=int)
-        review = request.form.get('review', '').strip()
-        warkari_id = str(session['user_id'])
+    rows = cur.fetchall()
+    cur.close()
 
-        if not centre_id:
-            cursor.close()
-            flash('Please select an Annadan Centre.', 'warning')
-            return redirect(url_for('warkari.rate_centre'))
+    centres = []
 
-        if not rating or rating < 1 or rating > 5:
-            cursor.close()
-            flash('Please select a rating between 1 and 5 stars.', 'warning')
-            return redirect(url_for('warkari.rate_centre'))
+    for row in rows:
+        centres.append({
+            'id': row[0],
+            'name': row[1],
+            'address': row[2],
+            'city': row[3],
+            'latitude': float(row[4]) if row[4] is not None else None,
+            'longitude': float(row[5]) if row[5] is not None else None,
+            'status': row[6]
+        })
 
-        cursor.execute("""
-            SELECT id
-            FROM annadan_centres
-            WHERE id = %s AND status = 'active'
-        """, (centre_id,))
-        centre = cursor.fetchone()
+    return jsonify({
+        'success': True,
+        'count': len(centres),
+        'centres': centres
+    })
 
-        if not centre:
-            cursor.close()
-            flash('Invalid Annadan Centre selected.', 'danger')
-            return redirect(url_for('warkari.rate_centre'))
 
-        cursor.execute("""
-            SELECT id
-            FROM centre_ratings
-            WHERE centre_id = %s AND warkari_id = %s
-        """, (centre_id, warkari_id))
-        existing_rating = cursor.fetchone()
-
-        if existing_rating:
-            cursor.execute("""
-                UPDATE centre_ratings
-                SET rating = %s,
-                    review = %s,
-                    created_at = CURRENT_TIMESTAMP
-                WHERE centre_id = %s
-                AND warkari_id = %s
-            """, (
-                rating,
-                review,
-                centre_id,
-                warkari_id
-            ))
-
-            message = 'Your rating has been updated successfully.'
-        else:
-            cursor.execute("""
-                INSERT INTO centre_ratings
-                (centre_id, warkari_id, rating, review)
-                VALUES (%s, %s, %s, %s)
-            """, (
-                centre_id,
-                warkari_id,
-                rating,
-                review
-            ))
-
-            message = 'Thank you for rating the Annadan Centre.'
-
-        mysql.connection.commit()
-        cursor.close()
-
-        flash(message, 'success')
-        return redirect(url_for('warkari.rate_centre'))
-
-    cursor.close()
-
-    return render_template(
-        'warkari/rating.html',
-        centres=centres
-    )
+@warkari_bp.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('auth.landing'))
