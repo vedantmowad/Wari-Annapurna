@@ -185,3 +185,100 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
+
+const centres = {{ centres | tojson }};
+
+const defaultLocation = [17.6750, 75.3242];
+
+const map = L.map('wariMap');
+
+L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors'
+    }
+).addTo(map);
+
+const bounds = [];
+
+centres.forEach(function(centre) {
+
+    if (
+        centre.latitude === null ||
+        centre.longitude === null ||
+        centre.latitude === undefined ||
+        centre.longitude === undefined
+    ) {
+        return;
+    }
+
+    const lat = Number(centre.latitude);
+    const lng = Number(centre.longitude);
+
+    if (
+        !Number.isFinite(lat) ||
+        !Number.isFinite(lng)
+    ) {
+        return;
+    }
+
+    const marker = L.marker([lat, lng])
+        .addTo(map);
+
+    marker.bindPopup(`
+        <div>
+
+            <div class="popup-title">
+                <i class="bi bi-shop me-1"></i>
+                ${centre.name}
+            </div>
+
+            <div class="popup-address">
+                <i class="bi bi-geo-alt"></i>
+                ${centre.address || 'Address not available'}
+                <br>
+                ${centre.city || ''}
+            </div>
+
+            <span class="available">
+                <i class="bi bi-check-circle me-1"></i>
+                Annadan Available
+            </span>
+
+        </div>
+    `);
+
+    bounds.push([lat, lng]);
+
+});
+
+if (bounds.length > 0) {
+
+    map.fitBounds(bounds, {
+        padding: [50, 50]
+    });
+
+} else {
+
+    map.setView(defaultLocation, 13);
+
+    L.popup()
+        .setLatLng(defaultLocation)
+        .setContent(`
+            <strong>No Centre Locations Available</strong>
+            <br>
+            Active centres do not have valid
+            latitude/longitude data.
+        `)
+        .openOn(map);
+
+}
+
+console.log("Centres received:", centres.length);
+console.log("Centres with valid locations:", bounds.length);
+
+</script>
+
+</body>
+</html>
