@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from app.models.db import mysql
 
 auth_bp = Blueprint('auth', __name__)
@@ -18,7 +18,7 @@ def register():
         password = request.form['password']
         role = request.form['role']
 
-        password = generate_password_hash(password)
+        hashed_password = generate_password_hash(password)
         cur = mysql.connection.cursor()
 
         try:
