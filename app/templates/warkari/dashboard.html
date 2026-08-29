@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warkari Dashboard | Wari Annapurna</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #FFF8EE;
+        }
+
+        .sidebar {
+            width: 260px;
+            min-height: 100vh;
+            background: #A84300;
+            color: #fff;
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+
+        .sidebar h4 {
+            padding: 20px;
+            margin: 0;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 14px 22px;
+            color: #fff;
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: rgba(255,255,255,0.16);
+        }
+
+        .main {
+            margin-left: 260px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            background: #fff;
+            padding: 15px 30px;
+            box-shadow: 0 4px 15px rgba(107,61,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #F1DFC5;
+        }
+
+        .topbar h5 {
+            font-weight: 600;
+        }
+
+        .stat-card,
+        .quick-card,
+        .crowd-card {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 10px 28px rgba(107,61,0,0.08);
+            border: 1px solid #F3E2CB;
+        }
+
+        .stat-card {
+            padding: 25px;
+            transition: transform 0.3s;
+            height: 100%;
+        }
+
+        .stat-card:hover,
+        .crowd-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            padding: 14px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .stat-card h3 {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
