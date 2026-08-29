@@ -665,3 +665,262 @@
                         </div>
 
                     </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="empty-demand">
+
+                    <i
+                        class="bi bi-check-circle-fill"
+                        style="font-size: 3rem; color: #2F7D32;"
+                    ></i>
+
+                    <h6 class="mt-3 fw-bold">
+                        No Immediate Food Shortage
+                    </h6>
+
+                    <p class="mb-3">
+                        Current Annadan centres have sufficient food
+                        based on available demand data.
+                    </p>
+
+                    <a
+                        href="{{ url_for('donor.add_donation') }}"
+                        class="btn btn-orange rounded-pill px-4"
+                    >
+                        <i class="bi bi-plus-circle me-2"></i>
+                        Register Food Donation
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+        {% if top_recommendation %}
+
+        <div class="section-card">
+
+            <div class="section-header">
+
+                <h5>
+                    <i class="bi bi-stars me-2"></i>
+                    Recommended Donation
+                </h5>
+
+            </div>
+
+            <div class="impact-card">
+
+                <div class="row align-items-center g-4">
+
+                    <div class="col-lg-7">
+
+                        <h6>
+                            Your food can help here right now
+                        </h6>
+
+                        <h4 class="fw-bold mb-2" style="color:#A84300;">
+                            {{ top_recommendation.centre_name }}
+                        </h4>
+
+                        <p class="text-muted mb-3">
+                            The centre currently has a shortage of
+                            <strong>
+                                {{ "{:,}".format(top_recommendation.shortage) }}
+                                meals
+                            </strong>
+                            and
+                            <strong>
+                                {{ "{:,}".format(top_recommendation.approaching) }}
+                                Varkaris
+                            </strong>
+                            are approaching.
+                        </p>
+
+                        <a
+                            href="{{ url_for('donor.add_donation') }}?centre_id={{ top_recommendation.centre_id }}"
+                            class="btn btn-orange rounded-pill px-4"
+                        >
+                            <i class="bi bi-heart-fill me-2"></i>
+                            Support This Centre
+                        </a>
+
+                    </div>
+
+                    <div class="col-lg-5">
+
+                        <div class="row g-2">
+
+                            <div class="col-4">
+                                <div class="metric-box">
+                                    <strong>
+                                        {{ "{:,}".format(top_recommendation.shortage) }}
+                                    </strong>
+                                    <span>
+                                        Shortage
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-4">
+                                <div class="metric-box">
+                                    <strong>
+                                        {{ "{:,}".format(top_recommendation.available_meals) }}
+                                    </strong>
+                                    <span>
+                                        Available
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-4">
+                                <div class="metric-box">
+                                    <strong>
+                                        {{ top_recommendation.shortage_percentage }}%
+                                    </strong>
+                                    <span>
+                                        Shortage Rate
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+        <div class="section-card" id="recent-services">
+
+            <div class="section-header">
+
+                <h5>
+                    <i class="bi bi-clock-history me-2"></i>
+                    Your Recent Donations
+                </h5>
+
+                <a
+                    href="{{ url_for('donor.impact') }}"
+                    class="btn btn-orange btn-sm rounded-pill px-3"
+                >
+                    View Impact
+                </a>
+
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead>
+                        <tr>
+                            <th>Centre</th>
+                            <th>Meal</th>
+                            <th>Food Type</th>
+                            <th>Meals</th>
+                            <th>Time</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                    {% for row in recent_services %}
+
+                        <tr>
+
+                            <td>
+                                <i class="bi bi-shop me-1 text-muted"></i>
+                                {{ row[1] }}
+                            </td>
+
+                            <td>{{ row[2] }}</td>
+
+                            <td>{{ row[3] }}</td>
+
+                            <td>
+                                <strong>
+                                    {{ "{:,}".format(row[4]) }}
+                                </strong>
+                            </td>
+
+                            <td>
+                                {{ row[5] }} - {{ row[6] }}
+                            </td>
+
+                            <td>{{ row[7] }}</td>
+
+                            <td>
+
+                                {% if row[8] == 'available' %}
+
+                                    <span class="status-available">
+                                        <i class="bi bi-check-circle me-1"></i>
+                                        Available
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="status-other">
+                                        {{ row[8] }}
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                    {% else %}
+
+                        <tr>
+
+                            <td colspan="7" class="text-center text-muted py-5">
+
+                                <i
+                                    class="bi bi-inbox"
+                                    style="font-size:2rem;"
+                                ></i>
+
+                                <div class="mt-2">
+                                    You haven't registered any food donations yet.
+                                </div>
+
+                                <a
+                                    href="{{ url_for('donor.add_donation') }}"
+                                    class="btn btn-orange rounded-pill px-4 mt-3"
+                                >
+                                    <i class="bi bi-plus-circle me-2"></i>
+                                    Donate Food
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
