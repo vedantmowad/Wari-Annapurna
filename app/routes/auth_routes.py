@@ -40,3 +40,40 @@ def register():
             cur.close()
 
     return render_template('auth/register.html')
+
+
+@auth_bp.route('/register-centre', methods=['GET', 'POST'])
+def register_centre():
+    if request.method == 'POST':
+        centre_name = request.form['centre_name']
+        address = request.form['address']
+        city = request.form['city']
+        latitude = request.form['latitude']
+        longitude = request.form['longitude']
+        contact_phone = request.form['contact_phone']
+
+        cur = mysql.connection.cursor()
+
+        try:
+            cur.execute("""
+                INSERT INTO annadan_centres
+                (centre_name, address, city, latitude, longitude,
+                 contact_phone)
+                VALUES (%s, %s, %s, %s, %s, %s)
+            """, (
+                centre_name, address, city, latitude,
+                longitude, contact_phone
+            ))
+
+            mysql.connection.commit()
+            flash("Annadan centre registered successfully! Please login.", "success")
+            return redirect(url_for('auth.login'))
+
+        except Exception as e:
+            mysql.connection.rollback()
+            flash(str(e), "danger")
+
+        finally:
+            cur.close()
+
+    return render_template('auth/register_centre.html')
