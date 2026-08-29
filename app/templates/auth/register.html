@@ -416,3 +416,243 @@
     </small>
 
 </div>
+
+
+<!-- =========================
+     REGISTER CARD
+========================= -->
+
+<div class="register-card">
+
+
+    <!-- REGISTER ICON -->
+
+    <div class="register-icon">
+
+        <i class="bi bi-person-plus-fill"></i>
+
+    </div>
+
+
+    <!-- HEADING -->
+
+    <h3 class="fw-bold text-center mb-2">
+
+        Join Wari Annapurna 🙏
+
+    </h3>
+
+
+    <p class="subtitle text-center mb-4">
+
+        Create your account and become a part of Seva
+
+    </p>
+
+
+    <!-- =========================
+         REGISTER FORM
+
+         IMPORTANT:
+         Backend field names preserved:
+
+         full_name
+         email
+         password
+         role
+
+    ========================= -->
+
+    <form method="POST">
+
+
+        <!-- FULL NAME -->
+
+        <div class="mb-3">
+
+            <label class="form-label">
+
+                Full Name
+
+            </label>
+
+            <div class="input-group">
+
+                <span class="input-group-text">
+
+                    <i class="bi bi-person"></i>
+
+                </span>
+
+                <input
+                    type="text"
+                    name="full_name"
+                    class="form-control"
+                    placeholder="Enter your full name"
+                    autocomplete="name"
+                    required
+                >
+
+            </div>
+
+        </div>
+     <!-- EMAIL -->
+
+        <div class="mb-3">
+
+            <label class="form-label">
+
+                Email Address
+
+            </label>
+
+            <div class="input-group">
+
+                <span class="input-group-text">
+
+                    <i class="bi bi-envelope"></i>
+
+                </span>
+
+                <input
+                    type="email"
+                    name="email"
+                    class="form-control"
+                    placeholder="Enter your email"
+                    autocomplete="email"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- PASSWORD -->
+
+        <div class="mb-3">
+
+            <label class="form-label">
+
+                Password
+
+            </label>
+
+            <div class="input-group">
+
+                <span class="input-group-text">
+
+                    <i class="bi bi-lock"></i>
+
+                </span>
+
+                <input
+                    type="password"
+                    name="password"
+                    class="form-control"
+                    placeholder="Create a password"
+                    autocomplete="new-password"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- ROLE -->
+<div class="mb-3">
+<label class="form-label">
+    How would you like to contribute?
+</label>
+
+<select
+    name="role"
+    class="form-select"
+    required
+>
+
+    <option value="">
+        Select Your Role
+    </option>
+
+    <!-- Existing Backend Role -->
+    <option value="donor">
+        🍛 Food Donor / Annadata
+    </option>
+
+    <!-- New Role -->
+    <option value="volunteer">
+        🙏 Volunteer / Sevak
+    </option>
+
+    <!-- New Role -->
+    <option value="warkari">
+        🚶 Warkari / Pilgrim
+    </option>
+
+</select>
+
+<div class="role-info">
+
+    <i class="bi bi-info-circle-fill me-2"></i>
+
+    Choose the role that best describes
+    how you want to participate in Wari Annapurna.
+
+</div>
+
+</div>
+
+
+        <!-- REGISTER BUTTON -->
+
+        <button
+            type="submit"
+            class="btn btn-register w-100 mt-3">
+
+            <i class="bi bi-heart-fill me-2"></i>
+
+            Create My Account
+
+        </button>
+
+
+    </form>
+
+
+    <!-- LOGIN -->
+
+    <p class="text-center text-muted mt-4 mb-0">
+
+        Already part of Wari Annapurna?
+
+        <a
+            href="/login"
+            class="login-link">
+
+            Login
+
+        </a>
+
+    </p>
+
+
+</div>
+
+
+<!-- SEVA MESSAGE -->
+
+<div class="seva-message">
+
+    <i class="bi bi-heart-fill me-1"></i>
+
+    Join the mission. Serve with Seva. Make a difference.
+
+</div>
+```
+
+</div>
+
+</body>
+</html>
