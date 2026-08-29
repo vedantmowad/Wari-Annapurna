@@ -332,3 +332,8 @@ def centre_details(centre_id):
         'warkari/annadan_detail.html',
         centre=centre_data
     )
+
+@warkari_bp.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('auth.landing'))
