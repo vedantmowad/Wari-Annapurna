@@ -196,3 +196,139 @@ def wari_map():
         'warkari/wari_map.html',
         centres=centres
     )
+
+@warkari_bp.route('/centre/<int:centre_id>')
+def centre_details(centre_id):
+
+    if 'user_id' not in session or session.get('role') != 'warkari':
+        return redirect(url_for('auth.login'))
+
+    cur = mysql.connection.cursor()
+
+    cur.execute("""
+        SELECT
+            ac.id,
+            ac.centre_name,
+            ac.address,
+            ac.city,
+            ac.latitude,
+            ac.longitude,
+            ac.status
+        FROM annadan_centres ac
+        WHERE ac.id = %s
+        AND ac.status = 'active'
+    """, (centre_id,))
+
+    centre = cur.fetchone()
+
+    if not centre:
+        cur.close()
+        return redirect(url_for('warkari.annadan'))
+
+    cur.execute("""
+        SELECT
+            ms.id,
+            ms.meal_type,
+            ms.available_meals,
+            ms.serving_start,
+            ms.serving_end,
+            ms.service_date,
+            ms.status,
+            ms.food_type
+        FROM meal_services ms
+        WHERE ms.centre_id = %s
+        AND ms.service_date = CURDATE()
+        ORDER BY
+            CASE
+                WHEN ms.status = 'available'
+                AND CURTIME() BETWEEN ms.serving_start AND ms.serving_end
+                THEN 0
+
+                WHEN ms.status = 'available'
+                AND ms.serving_start > CURTIME()
+                THEN 1
+
+                WHEN ms.status = 'available'
+                THEN 2
+
+                ELSE 3
+            END,
+            ms.serving_start ASC
+    """, (centre_id,))
+
+    meal_services = cur.fetchall()
+
+    meal_type = ''
+    available_meals = 0
+    serving_start = None
+    serving_end = None
+    meal_status = 'unavailable'
+    food_type = ''
+
+    if meal_services:
+
+        selected_meal = meal_services[0]
+
+        meal_type = selected_meal[1] or ''
+        available_meals = int(selected_meal[2] or 0)
+        serving_start = selected_meal[3]
+        serving_end = selected_meal[4]
+        meal_status = selected_meal[6] or 'unavailable'
+        food_type = selected_meal[7] or ''
+
+    cur.execute("""
+        SELECT COUNT(DISTINCT varkari_id)
+        FROM crowd_locations
+        WHERE centre_id = %s
+        AND recorded_at >= NOW() - INTERVAL 10 MINUTE
+    """, (centre_id,))
+
+    current_crowd = int(cur.fetchone()[0] or 0)
+
+    cur.execute("""
+        SELECT COUNT(DISTINCT varkari_id)
+        FROM crowd_locations
+        WHERE centre_id = %s
+        AND movement = 'approaching'
+        AND recorded_at >= NOW() - INTERVAL 10 MINUTE
+    """, (centre_id,))
+
+    approaching = int(cur.fetchone()[0] or 0)
+
+    cur.close()
+
+    expected_demand = current_crowd + approaching
+
+    shortage = max(
+        0,
+        expected_demand - available_meals
+    )
+
+    centre_data = {
+        'id': centre[0],
+        'name': centre[1] or '',
+        'address': centre[2] or '',
+        'city': centre[3] or '',
+        'latitude': float(centre[4]) if centre[4] is not None else 0.0,
+        'longitude': float(centre[5]) if centre[5] is not None else 0.0,
+        'status': centre[6] or 'inactive',
+
+        'meal_type': meal_type,
+        'available_meals': available_meals,
+        'serving_start': serving_start,
+        'serving_end': serving_end,
+        'meal_status': meal_status,
+        'food_type': food_type,
+
+        'current_crowd': current_crowd,
+        'approaching': approaching,
+        'expected_demand': expected_demand,
+        'shortage': shortage,
+
+        'meal_services': meal_services
+    }
+
+    return render_template(
+        'warkari/annadan_detail.html',
+        centre=centre_data
+    )
