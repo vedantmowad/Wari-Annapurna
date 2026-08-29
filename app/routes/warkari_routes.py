@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, session, redirect, url_for, jsonify, request
 from app.models.db import mysql
+import math
 
 warkari_bp = Blueprint('warkari', __name__, url_prefix='/warkari')
 
@@ -88,71 +89,6 @@ def dashboard():
         nearby_centres=nearby_centres
     )
 
-@warkari_bp.route('/annadan')
-def annadan():
-
-    if 'user_id' not in session or session.get('role') != 'warkari':
-        return redirect(url_for('auth.login'))
-
-    city = request.args.get('city', '').strip()
-    meal_type = request.args.get('meal_type', '').strip()
-    sort_by = request.args.get('sort_by', 'availability').strip()
-
-    cur = mysql.connection.cursor()
-
-    query = """
-        SELECT
-            ac.id,
-            ac.centre_name,
-            ac.address,
-            ac.city,
-            ac.latitude,
-            ac.longitude,
-            ms.food_type,
-            ms.available_meals,
-            ms.serving_start,
-            ms.serving_end
-        FROM meal_services ms
-        JOIN annadan_centres ac
-            ON ac.id = ms.centre_id
-        WHERE ac.status = 'active'
-        AND ms.status = 'available'
-        AND ms.service_date = CURDATE()
-    """
-
-    params = []
-
-    if city:
-        query += " AND ac.city LIKE %s"
-        params.append(f"%{city}%")
-
-    if meal_type:
-        query += " AND ms.food_type = %s"
-        params.append(meal_type)
-
-    if sort_by == 'availability':
-        query += " ORDER BY ms.available_meals DESC"
-    else:
-        query += " ORDER BY ac.id ASC"
-
-    cur.execute(query, tuple(params))
-    rows = cur.fetchall()
-    cur.close()
-
-    services = []
-
-    for row in rows:
-        services.append({
-            'data': row
-        })
-
-    return render_template(
-        'warkari/annadan.html',
-        services=services,
-        city=city,
-        meal_type=meal_type,
-        sort_by=sort_by
-    )
 
 @warkari_bp.route('/map')
 def wari_map():
@@ -332,6 +268,260 @@ def centre_details(centre_id):
         'warkari/annadan_detail.html',
         centre=centre_data
     )
+
+@warkari_bp.route('/annadan')
+def annadan():
+
+    if 'user_id' not in session or session.get('role') != 'warkari':
+        return redirect(url_for('auth.login'))
+
+    city = request.args.get('city', '').strip()
+    meal_type = request.args.get('meal_type', '').strip()
+    sort_by = request.args.get('sort_by', 'availability').strip()
+
+    cur = mysql.connection.cursor()
+
+    query = """
+        SELECT
+            ac.id,
+            ac.centre_name,
+            ac.address,
+            ac.city,
+            ac.latitude,
+            ac.longitude,
+            ms.food_type,
+            ms.available_meals,
+            ms.serving_start,
+            ms.serving_end
+        FROM meal_services ms
+        JOIN annadan_centres ac
+            ON ac.id = ms.centre_id
+        WHERE ac.status = 'active'
+        AND ms.status = 'available'
+        AND ms.service_date = CURDATE()
+    """
+
+    params = []
+
+    if city:
+        query += " AND ac.city LIKE %s"
+        params.append(f"%{city}%")
+
+    if meal_type:
+        query += " AND ms.food_type = %s"
+        params.append(meal_type)
+
+    if sort_by == 'availability':
+        query += " ORDER BY ms.available_meals DESC"
+    else:
+        query += " ORDER BY ac.id ASC"
+
+    cur.execute(query, tuple(params))
+    rows = cur.fetchall()
+    cur.close()
+
+    services = []
+
+    for row in rows:
+        services.append({
+            'data': row
+        })
+
+    return render_template(
+        'warkari/annadan.html',
+        services=services,
+        city=city,
+        meal_type=meal_type,
+        sort_by=sort_by
+    )
+
+@warkari_bp.route('/api/nearby-centres')
+def nearby_centres():
+
+    if 'user_id' not in session or session.get('role') != 'warkari':
+        return jsonify({
+            'success': False,
+            'error': 'Unauthorized'
+        }), 401
+
+    user_lat = request.args.get('latitude', type=float)
+    user_lon = request.args.get('longitude', type=float)
+
+    cur = mysql.connection.cursor()
+
+    cur.execute("""
+        SELECT
+            ac.id,
+            ac.centre_name,
+            ac.address,
+            ac.city,
+            ac.latitude,
+            ac.longitude,
+
+            COALESCE(
+                SUM(
+                    CASE
+                        WHEN ms.status = 'available'
+                        AND ms.service_date = CURDATE()
+                        THEN ms.available_meals
+                        ELSE 0
+                    END
+                ),
+                0
+            ) AS available_meals
+
+        FROM annadan_centres ac
+
+        LEFT JOIN meal_services ms
+            ON ms.centre_id = ac.id
+
+        WHERE ac.status = 'active'
+
+        GROUP BY
+            ac.id,
+            ac.centre_name,
+            ac.address,
+            ac.city,
+            ac.latitude,
+            ac.longitude
+
+        ORDER BY ac.id
+    """)
+
+    rows = cur.fetchall()
+
+    centres = []
+
+    for row in rows:
+
+        centre_id = row[0]
+        latitude = float(row[4]) if row[4] is not None else None
+        longitude = float(row[5]) if row[5] is not None else None
+        available_meals = int(row[6] or 0)
+
+        cur.execute("""
+            SELECT COUNT(DISTINCT varkari_id)
+            FROM crowd_locations
+            WHERE centre_id = %s
+            AND recorded_at >= NOW() - INTERVAL 10 MINUTE
+        """, (centre_id,))
+
+        crowd = cur.fetchone()[0] or 0
+
+        cur.execute("""
+            SELECT COUNT(DISTINCT varkari_id)
+            FROM crowd_locations
+            WHERE centre_id = %s
+            AND movement = 'approaching'
+            AND recorded_at >= NOW() - INTERVAL 10 MINUTE
+        """, (centre_id,))
+
+        approaching = cur.fetchone()[0] or 0
+
+        expected_demand = crowd + approaching
+        shortage = max(0, expected_demand - available_meals)
+
+        if expected_demand == 0:
+            status = 'sufficient'
+        elif available_meals >= expected_demand:
+            status = 'sufficient'
+        elif available_meals >= expected_demand * 0.5:
+            status = 'moderate'
+        else:
+            status = 'high_demand'
+
+        distance = None
+
+        if (
+            user_lat is not None
+            and user_lon is not None
+            and latitude is not None
+            and longitude is not None
+        ):
+            distance = calculate_distance(
+                user_lat,
+                user_lon,
+                latitude,
+                longitude
+            )
+
+        centres.append({
+            'id': centre_id,
+            'name': row[1],
+            'address': row[2],
+            'city': row[3],
+            'latitude': latitude,
+            'longitude': longitude,
+            'available_meals': available_meals,
+            'crowd': int(crowd),
+            'approaching': int(approaching),
+            'expected_demand': int(expected_demand),
+            'shortage': int(shortage),
+            'distance_km': distance,
+            'status': status
+        })
+
+    cur.close()
+
+    if user_lat is not None and user_lon is not None:
+        centres.sort(
+            key=lambda x: (
+                x['distance_km']
+                if x['distance_km'] is not None
+                else 999999
+            )
+        )
+
+    return jsonify(centres)
+
+
+@warkari_bp.route('/api/centres')
+def api_centres():
+
+    if 'user_id' not in session or session.get('role') != 'warkari':
+        return jsonify({
+            'success': False,
+            'error': 'Unauthorized'
+        }), 401
+
+    cur = mysql.connection.cursor()
+
+    cur.execute("""
+        SELECT
+            id,
+            centre_name,
+            address,
+            city,
+            latitude,
+            longitude,
+            status
+        FROM annadan_centres
+        WHERE status = 'active'
+        ORDER BY id
+    """)
+
+    rows = cur.fetchall()
+    cur.close()
+
+    centres = []
+
+    for row in rows:
+        centres.append({
+            'id': row[0],
+            'name': row[1],
+            'address': row[2],
+            'city': row[3],
+            'latitude': float(row[4]) if row[4] is not None else None,
+            'longitude': float(row[5]) if row[5] is not None else None,
+            'status': row[6]
+        })
+
+    return jsonify({
+        'success': True,
+        'count': len(centres),
+        'centres': centres
+    })
+
 
 @warkari_bp.route('/logout')
 def logout():
