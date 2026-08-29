@@ -107,3 +107,133 @@
             font-size: 12px;
         }
     </style>
+    </head>
+
+<body>
+
+<div class="container-fluid p-4">
+
+    <div class="header">
+        <h2>🍲 Impact Dashboard</h2>
+        <p>See the impact of your Annadan services.</p>
+    </div>
+
+    <div class="filter-box">
+        <form method="GET" action="{{ url_for('donor.impact') }}">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label">Start Date</label>
+                    <input type="date" name="start_date" class="form-control" value="{{ start_date or '' }}">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">End Date</label>
+                    <input type="date" name="end_date" class="form-control" value="{{ end_date or '' }}">
+                </div>
+
+                <div class="col-md-2">
+                    <button type="submit" class="btn orange-btn w-100">Apply</button>
+                </div>
+
+                <div class="col-md-2">
+                    <a href="{{ url_for('donor.impact') }}" class="btn btn-outline-secondary w-100">Clear</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card-box">
+                <div class="stat-title">Meal Services</div>
+                <div class="stat-value">{{ total_services }}</div>
+                <small class="text-muted">Services organized</small>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card-box">
+                <div class="stat-title">Total Meals</div>
+                <div class="stat-value">{{ "{:,}".format(total_meals) }}</div>
+                <small class="text-muted">Meals provided</small>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card-box">
+                <div class="stat-title">Available Meals</div>
+                <div class="stat-value">{{ "{:,}".format(available_meals) }}</div>
+                <small class="text-muted">Currently available</small>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card-box">
+                <div class="stat-title">People Fed</div>
+                <div class="stat-value">{{ "{:,}".format(people_fed) }}</div>
+                <small class="text-muted">Estimated beneficiaries</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-5">
+            <div class="chart-box">
+                <h5>Service Status</h5>
+                <div class="chart-area">
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <div class="chart-box">
+                <h5>Meals by Type</h5>
+                <div class="chart-area">
+                    <canvas id="mealTypeChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="chart-box">
+        <h5>Daily Meals</h5>
+        <div class="chart-area">
+            <canvas id="dailyChart"></canvas>
+        </div>
+    </div>
+
+    <div class="chart-box">
+        <h5>Weekly Meals</h5>
+        <div class="chart-area">
+            <canvas id="weeklyChart"></canvas>
+        </div>
+    </div>
+
+    <div class="chart-box">
+        <h5>Monthly Meals</h5>
+        <div class="chart-area">
+            <canvas id="monthlyChart"></canvas>
+        </div>
+    </div>
+
+    <div class="table-box">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5>Meal Service Details</h5>
+            <span class="text-muted">{{ table_data|length }} services</span>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Centre</th>
+                        <th>Meal</th>
+                        <th>Food Type</th>
+                        <th>Meals</th>
+                        <th>Serving Time</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
