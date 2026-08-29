@@ -237,3 +237,112 @@
                         <th>Status</th>
                     </tr>
                 </thead>
+
+                <tbody>
+                    {% for row in table_data %}
+                    <tr>
+                        <td>#{{ row[0] }}</td>
+                        <td>{{ row[1] }}</td>
+                        <td>{{ row[2] }}</td>
+                        <td>{{ row[3] }}</td>
+                        <td>{{ "{:,}".format(row[4]) }}</td>
+                        <td>{{ row[5] }} - {{ row[6] }}</td>
+                        <td>{{ row[7] }}</td>
+                        <td>
+                            {% if row[8] == 'available' %}
+                                <span class="status-available">Available</span>
+                            {% else %}
+                                <span class="status-other">{{ row[8] }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="8" class="text-center text-muted py-4">
+                            No meal services found.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script type="application/json" id="chart-data">
+{
+    "status": {{ status_data | tojson }},
+    "mealType": {{ meal_type_data | tojson }},
+    "daily": {{ daily_data | tojson }},
+    "weekly": {{ weekly_data | tojson }},
+    "monthly": {{ monthly_data | tojson }}
+}
+</script>
+
+<script>
+    const chartData = JSON.parse(
+        document.getElementById("chart-data").textContent
+    );
+
+    new Chart(document.getElementById("statusChart"), {
+        type: "doughnut",
+        data: {
+            labels: chartData.status.map(row => row[0]),
+            datasets: [{
+                data: chartData.status.map(row => row[1])
+            }]
+        }
+    });
+
+    new Chart(document.getElementById("mealTypeChart"), {
+        type: "bar",
+        data: {
+            labels: chartData.mealType.map(row => row[0]),
+            datasets: [{
+                label: "Meals",
+                data: chartData.mealType.map(row => row[1])
+            }]
+        }
+    });
+
+    new Chart(document.getElementById("dailyChart"), {
+        type: "line",
+        data: {
+            labels: chartData.daily.map(row => row[0]),
+            datasets: [{
+                label: "Meals",
+                data: chartData.daily.map(row => row[1]),
+                tension: 0.3,
+                fill: true
+            }]
+        }
+    });
+
+    new Chart(document.getElementById("weeklyChart"), {
+        type: "bar",
+        data: {
+            labels: chartData.weekly.map(row => row[0]),
+            datasets: [{
+                label: "Meals",
+                data: chartData.weekly.map(row => row[1])
+            }]
+        }
+    });
+
+    new Chart(document.getElementById("monthlyChart"), {
+        type: "line",
+        data: {
+            labels: chartData.monthly.map(row => row[0]),
+            datasets: [{
+                label: "Meals",
+                data: chartData.monthly.map(row => row[1]),
+                tension: 0.3,
+                fill: true
+            }]
+        }
+    });
+</script>
+
+</body>
+</html>
