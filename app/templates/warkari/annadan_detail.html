@@ -234,3 +234,129 @@
                         <div class="centre-title">
                             {{ centre.name }}
                         </div>
+
+
+                         <div class="text-muted small mt-1">
+                            <i class="bi bi-geo-alt me-1"></i>
+                            {{ centre.city }}
+                        </div>
+                    </div>
+
+                    {% if centre.meal_status == 'available' %}
+                        <span class="status-badge">
+                            <i class="bi bi-check-circle me-1"></i>
+                            Available
+                        </span>
+                    {% else %}
+                        <span class="badge bg-secondary rounded-pill px-3 py-2">
+                            {{ centre.meal_status | default('Unavailable', true) | capitalize }}
+                        </span>
+                    {% endif %}
+
+                </div>
+
+                <div class="mb-4">
+
+                    <span class="meal-badge">
+                        <i class="bi bi-egg-fried me-1"></i>
+                        {{ centre.meal_type | default('Meal Service', true) }}
+                    </span>
+
+                </div>
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <div class="info-box">
+
+                            <div class="label">
+                                Meals Available
+                            </div>
+
+                            <div class="availability-number">
+                                {{ centre.available_meals }}
+                            </div>
+
+                            <div class="small text-muted">
+                                meals currently available
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="info-box">
+
+                            <div class="label">
+                                Serving Time
+                            </div>
+
+                            <div class="value">
+                                <i class="bi bi-clock me-1"></i>
+
+                                {% if centre.serving_start and centre.serving_end %}
+                                    {{ centre.serving_start }} - {{ centre.serving_end }}
+                                {% else %}
+                                    Not specified
+                                {% endif %}
+                            </div>
+
+                            <div class="small text-muted mt-2">
+                                Today's service
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="section-title">
+                    <i class="bi bi-geo-alt me-2"></i>
+                    Annadan Centre
+                </div>
+
+                <div class="location-box mb-4">
+
+                    <div class="fw-semibold mb-1">
+                        {{ centre.name }}
+                    </div>
+
+                    <div class="text-muted">
+                        {{ centre.address }}
+                    </div>
+
+                    <div class="text-muted mt-1">
+                        {{ centre.city }}
+                    </div>
+
+                </div>
+
+                <div class="section-title">
+                    <i class="bi bi-info-circle me-2"></i>
+                    Service Information
+                </div>
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <div class="info-box">
+
+                            <div class="label">
+                                Meal Type
+                            </div>
+
+                            <div class="value">
+                                {{ centre.meal_type | default('Not specified', true) }}
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="info-box">
+
+                            <div class="label">
+                                Availability
+                            </div>
