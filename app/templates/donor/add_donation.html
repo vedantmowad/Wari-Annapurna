@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Annadan | Wari Annapurna</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        :root {
+            --saffron: #e67e22;
+            --deep-saffron: #c65d0e;
+            --orange-light: #fff3e6;
+            --cream: #fffaf3;
+            --dark: #2d241f;
+            --muted: #6c625b;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: var(--cream);
+            color: var(--dark);
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .page-header {
+            background: linear-gradient(
+                135deg,
+                var(--deep-saffron),
+                var(--saffron)
+            );
+            color: white;
+            padding: 35px 0;
+        }
+
+        .page-header h3 {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .page-header p {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .main-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            border: none;
+            overflow: hidden;
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .step-title {
+            font-weight: 700;
+            color: var(--deep-saffron);
+            margin-bottom: 25px;
+        }
+
+        .step-description {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-top: -15px;
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        .form-control,
+        .form-select {
+            border-radius: 12px;
+            padding: 12px;
+            border: 1px solid #dee2e6;
+            box-shadow: none !important;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--saffron);
+            box-shadow: 0 0 0 0.15rem rgba(230, 126, 34, 0.12) !important;
+        }
+
+        .section-icon {
+            width: 55px;
+            height: 55px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--orange-light);
+            color: var(--saffron);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .progress-wrapper {
+            padding: 25px 30px 0;
+        }
+
+        .progress {
+            height: 7px;
+            border-radius: 20px;
+            background: #f1e8df;
+        }
+
+        .progress-bar {
+            background: linear-gradient(
+                90deg,
+                var(--deep-saffron),
+                var(--saffron)
+            );
+            border-radius: 20px;
+            transition: width 0.4s ease;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .step-label {
+            font-size: 0.75rem;
+            color: #999;
+            font-weight: 600;
+        }
+
+        .step-label.active {
+            color: var(--deep-saffron);
+        }
+
+        .btn-next,
+        .btn-submit {
+            background: linear-gradient(
+                135deg,
+                var(--deep-saffron),
+                var(--saffron)
+            );
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 11px 30px;
+            font-weight: 700;
+            transition: 0.3s ease;
+        }
+
+        .btn-next:hover,
+        .btn-submit:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(198, 93, 14, 0.3);
+        }
+
+        .btn-back {
+            border-radius: 50px;
+            padding: 11px 25px;
+        }
+
+        .info-box {
+            background: #fff8ef;
+            border: 1px solid #f2dfca;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .info-box i {
+            color: var(--saffron);
+        }
+
+        .footer-note {
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.85rem;
+            margin-top: 25px;
+        }
+
+        .success-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 250, 243, 0.96);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            backdrop-filter: blur(6px);
+        }
+
+        .success-overlay.show {
+            display: flex;
+            animation: overlayFadeIn 0.3s ease;
+        }
+
+        .success-card {
+            text-align: center;
+            background: white;
+            padding: 45px 50px;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            max-width: 450px;
+            width: 90%;
+            animation: successCardPop 0.5s ease;
+        }
+
+        .success-icon {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 20px;
+            background: #28a745;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            animation: successIconPop 0.6s ease;
+            box-shadow: 0 10px 30px rgba(40, 167, 69, 0.3);
+        }
+
+        .success-card h2 {
+            color: #28a745;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .success-card p {
+            color: var(--muted);
+            margin-bottom: 0;
+            line-height: 1.7;
+        }
+
+        .success-heart {
+            color: var(--saffron);
+            display: inline-block;
+            animation: heartbeat 1s infinite;
+        }
+
+        .success-icon i {
+            animation: checkAnimation 0.5s ease 0.3s both;
+        }
+
+        @keyframes overlayFadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes successCardPop {
+            0% {
+                opacity: 0;
+                transform: scale(0.7) translateY(30px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @keyframes successIconPop {
+            0% {
+                transform: scale(0);
+            }
+
+            60% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes checkAnimation {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) rotate(-45deg);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0);
+            }
+        }
+
+        @keyframes heartbeat {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main-card {
+                border-radius: 18px;
+            }
+
+            .progress-wrapper {
+                padding: 20px 20px 0;
+            }
+
+            .success-card {
+                padding: 35px 25px;
+            }
+
+            .success-icon {
+                width: 75px;
+                height: 75px;
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
