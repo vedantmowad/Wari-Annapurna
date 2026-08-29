@@ -84,3 +84,35 @@
             font-weight: 800;
             font-size: 1.7rem;
         }
+
+        .loader-line {
+            width: 160px;
+            height: 4px;
+            background: rgba(255, 255, 255, .25);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .loader-line span {
+            display: block;
+            height: 100%;
+            width: 40%;
+            background: #ffd166;
+            animation: loaderLine 1.2s infinite;
+        }
+
+        @keyframes loaderFloat {
+            from {
+                transform: translateY(0) rotate(-3deg);
+            }
+
+            to {
+                transform: translateY(-12px) rotate(3deg);
+            }
+        }
+
+        @keyframes loaderLine {
+            from {
+                transform: translateX(-100%);
+            }
