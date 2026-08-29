@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Wari Map | Wari Annapurna</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #FFF8EE;
+            font-family: Arial, sans-serif;
+            color: #3f2a20;
+        }
+
+        .topbar {
+            background: linear-gradient(135deg, #A84300, #D97706);
+            color: white;
+            padding: 16px 25px;
+            box-shadow: 0 4px 15px rgba(107, 61, 0, 0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topbar h4 {
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .page-container {
+            padding: 25px;
+        }
+
+        .map-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid #F3E2CB;
+            box-shadow: 0 10px 28px rgba(107, 61, 0, 0.08);
+        }
+
+        .map-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .map-header h5 {
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .centre-count {
+            background: #FFF1E3;
+            color: #A84300;
+            padding: 7px 13px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        #wariMap {
+            width: 100%;
+            height: 650px;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .leaflet-popup-content {
+            font-size: 14px;
+            min-width: 210px;
+        }
+
+          .popup-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #A84300;
+            margin-bottom: 6px;
+        }
+
+        .popup-address {
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .available {
+            display: inline-block;
+            background: #E8F7ED;
+            color: #238B45;
+            padding: 5px 9px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        @media(max-width: 768px) {
+            .page-container {
+                padding: 15px;
+            }
+
+            #wariMap {
+                height: 550px;
+            }
+
+            .map-header {
+                align-items: flex-start;
+                gap: 10px;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="topbar">
+
+    <h4>
+        <i class="bi bi-map me-2"></i>
+        Wari Map
+    </h4>
+
+    <a
+        href="{{ url_for('warkari.dashboard') }}"
+        class="back-btn"
+    >
+        <i class="bi bi-arrow-left me-1"></i>
+        Dashboard
+    </a>
+
+</div>
+
+<div class="page-container">
+
+    <div class="map-card">
+
+        <div class="map-header">
+
+            <h5>
+                <i class="bi bi-geo-alt-fill me-2"></i>
+                Annadan Centres
+            </h5>
+
+            <span class="centre-count">
+                {{ centres|length }}
+                Centre{% if centres|length != 1 %}s{% endif %}
+            </span>
+
+        </div>
+
+        <div id="wariMap"></div>
+
+    </div>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+const centres = {{ centres | tojson }};
+
+const defaultLocation = [17.6750, 75.3242];
+
+const map = L.map('wariMap');
+
+L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors'
+    }
+).addTo(map);
+
+const bounds = [];
+
+centres.forEach(function(centre) {
+
+    if (
+        centre.latitude === null ||
+        centre.longitude === null ||
+        centre.latitude === undefined ||
+        centre.longitude === undefined
+    ) {
+        return;
+    }
+
+    const lat = Number(centre.latitude);
+    const lng = Number(centre.longitude);
+
+    if (
+        !Number.isFinite(lat) ||
+        !Number.isFinite(lng)
+    ) {
+        return;
+    }
+
+    const marker = L.marker([lat, lng])
+        .addTo(map);
+
+    marker.bindPopup(`
+        <div>
+
+            <div class="popup-title">
+                <i class="bi bi-shop me-1"></i>
+                ${centre.name}
+            </div>
+
+            <div class="popup-address">
+                <i class="bi bi-geo-alt"></i>
+                ${centre.address || 'Address not available'}
+                <br>
+                ${centre.city || ''}
+            </div>
+
+            <span class="available">
+                <i class="bi bi-check-circle me-1"></i>
+                Annadan Available
+            </span>
+
+        </div>
+    `);
+
+    bounds.push([lat, lng]);
+
+});
+
+if (bounds.length > 0) {
+
+    map.fitBounds(bounds, {
+        padding: [50, 50]
+    });
+
+} else {
+
+    map.setView(defaultLocation, 13);
+
+    L.popup()
+        .setLatLng(defaultLocation)
+        .setContent(`
+            <strong>No Centre Locations Available</strong>
+            <br>
+            Active centres do not have valid
+            latitude/longitude data.
+        `)
+        .openOn(map);
+
+}
+
+console.log("Centres received:", centres.length);
+console.log("Centres with valid locations:", bounds.length);
+
+</script>
+
+</body>
+</html>

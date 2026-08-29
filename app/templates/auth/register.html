@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 ```
-<title>Login | Wari Annapurna</title>
+<title>Register | Wari Annapurna</title>
 
 <!-- Bootstrap -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -54,10 +54,11 @@
         overflow-x: hidden;
     }
 
-    /* Decorative background elements */
+    /* Decorative background circles */
 
     body::before {
         content: "";
+
         position: absolute;
 
         width: 300px;
@@ -73,6 +74,7 @@
 
     body::after {
         content: "";
+
         position: absolute;
 
         width: 350px;
@@ -88,7 +90,7 @@
 
     .auth-wrapper {
         width: 100%;
-        max-width: 430px;
+        max-width: 480px;
 
         position: relative;
         z-index: 2;
@@ -100,34 +102,35 @@
 
     .brand {
         text-align: center;
+
         margin-bottom: 22px;
+
         color: white;
+
         cursor: pointer;
+    }
+
+    .brand h4 {
+        font-family: 'Poppins', sans-serif;
+
+        font-weight: 700;
+
+        margin-bottom: 5px;
     }
 
     .brand-icon {
         color: #ffd166;
     }
 
-    .brand h4 {
-        font-family: 'Poppins', sans-serif;
-        font-weight: 700;
-        margin-bottom: 5px;
-    }
-
     .brand small {
         color: rgba(255, 255, 255, 0.85);
     }
 
-    .back-arrow {
-        margin-right: 5px;
-    }
-
     /* =========================
-       LOGIN CARD
+       REGISTER CARD
     ========================= */
 
-    .login-card {
+    .register-card {
         background: rgba(255, 255, 255, 0.98);
 
         border-radius: 24px;
@@ -156,13 +159,18 @@
 
     }
 
-    .login-icon {
+    /* =========================
+       REGISTER ICON
+    ========================= */
+
+    .register-icon {
         width: 70px;
         height: 70px;
 
         margin: 0 auto 20px;
 
         display: flex;
+
         align-items: center;
         justify-content: center;
 
@@ -175,13 +183,15 @@
         font-size: 2rem;
     }
 
-    .login-card h3 {
+    .register-card h3 {
         font-family: 'Poppins', sans-serif;
+
         color: var(--dark);
     }
 
     .subtitle {
         color: #777;
+
         font-size: 0.95rem;
     }
 
@@ -191,13 +201,17 @@
 
     .form-label {
         font-weight: 600;
+
         color: #40362f;
+
         margin-bottom: 8px;
     }
 
     .input-group-text {
         background: #fff;
+
         border: 1px solid #dee2e6;
+
         border-right: none;
 
         color: var(--saffron);
@@ -205,29 +219,72 @@
         border-radius: 12px 0 0 12px;
     }
 
-    .form-control {
-        border-radius: 0 12px 12px 0;
+    .form-control,
+    .form-select {
+
+        border-radius: 12px;
 
         padding: 12px 14px;
-
-        border-left: none;
 
         box-shadow: none !important;
     }
 
-    .form-control:focus {
+    .input-group .form-control {
+
+        border-left: none;
+
+        border-radius: 0 12px 12px 0;
+
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+
         border-color: var(--saffron);
+
+        box-shadow:
+            0 0 0 0.15rem rgba(230, 126, 34, 0.12) !important;
+
     }
 
     .input-group:focus-within .input-group-text {
+
         border-color: var(--saffron);
+
     }
 
     /* =========================
-       LOGIN BUTTON
+       ROLE SELECT
     ========================= */
 
-    .btn-login {
+    .role-info {
+
+        background: var(--orange-light);
+
+        border-radius: 12px;
+
+        padding: 12px 15px;
+
+        margin-top: 8px;
+
+        color: #79502f;
+
+        font-size: 0.82rem;
+
+    }
+
+    .role-info i {
+
+        color: var(--saffron);
+
+    }
+
+    /* =========================
+       REGISTER BUTTON
+    ========================= */
+
+    .btn-register {
+
         background: linear-gradient(
             135deg,
             var(--deep-saffron),
@@ -245,37 +302,48 @@
         padding: 13px;
 
         transition: all 0.3s ease;
+
     }
 
-    .btn-login:hover {
+    .btn-register:hover {
+
         color: white;
 
         transform: translateY(-2px);
 
         box-shadow:
             0 10px 25px rgba(198, 93, 14, 0.35);
+
     }
 
     /* =========================
-       REGISTER LINK
+       LOGIN LINK
     ========================= */
 
-    .register-link {
+    .login-link {
+
         color: var(--deep-saffron);
+
         font-weight: 700;
+
         text-decoration: none;
+
     }
 
-    .register-link:hover {
+    .login-link:hover {
+
         color: var(--saffron);
+
         text-decoration: underline;
+
     }
 
     /* =========================
-       FOOTER MESSAGE
+       SEVA MESSAGE
     ========================= */
 
     .seva-message {
+
         text-align: center;
 
         color: rgba(255, 255, 255, 0.85);
@@ -283,10 +351,13 @@
         font-size: 0.85rem;
 
         margin-top: 20px;
+
     }
 
     .seva-message i {
+
         color: #ffd166;
+
     }
 
     /* =========================
@@ -295,18 +366,25 @@
 
     @media (max-width: 480px) {
 
-        .login-card {
+        .register-card {
+
             padding: 30px 22px;
+
         }
 
         .brand h4 {
+
             font-size: 1.2rem;
+
         }
 
     }
 
 </style>
-```
+...
+
+    ```
+
 </head>
 
 <body>
@@ -322,28 +400,36 @@
      onclick="window.location.href='/'">
 
     <h4>
+
         <i class="bi bi-flower1 brand-icon me-2"></i>
+
         Wari Annapurna
+
     </h4>
 
     <small>
-        <i class="bi bi-arrow-left back-arrow"></i>
+
+        <i class="bi bi-arrow-left me-1"></i>
+
         Back to Home
+
     </small>
 
 </div>
 
+
 <!-- =========================
-     LOGIN CARD
+     REGISTER CARD
 ========================= -->
 
-<div class="login-card">
+<div class="register-card">
 
-    <!-- LOGIN ICON -->
 
-    <div class="login-icon">
+    <!-- REGISTER ICON -->
 
-        <i class="bi bi-person-heart"></i>
+    <div class="register-icon">
+
+        <i class="bi bi-person-plus-fill"></i>
 
     </div>
 
@@ -352,45 +438,80 @@
 
     <h3 class="fw-bold text-center mb-2">
 
-        Welcome Back 🙏
+        Join Wari Annapurna 🙏
 
     </h3>
 
 
     <p class="subtitle text-center mb-4">
 
-        Login to continue your Seva journey
+        Create your account and become a part of Seva
 
     </p>
 
 
     <!-- =========================
-         LOGIN FORM
+         REGISTER FORM
 
          IMPORTANT:
-         method="POST" is preserved
-         name="email" is preserved
-         name="password" is preserved
+         Backend field names preserved:
 
-         This keeps compatibility with
-         the existing Flask backend.
+         full_name
+         email
+         password
+         role
+
     ========================= -->
 
     <form method="POST">
 
 
-        <!-- EMAIL -->
+        <!-- FULL NAME -->
 
         <div class="mb-3">
 
             <label class="form-label">
-                Email Address
+
+                Full Name
+
             </label>
 
             <div class="input-group">
 
                 <span class="input-group-text">
+
+                    <i class="bi bi-person"></i>
+
+                </span>
+
+                <input
+                    type="text"
+                    name="full_name"
+                    class="form-control"
+                    placeholder="Enter your full name"
+                    autocomplete="name"
+                    required
+                >
+
+            </div>
+
+        </div>
+     <!-- EMAIL -->
+
+        <div class="mb-3">
+
+            <label class="form-label">
+
+                Email Address
+
+            </label>
+
+            <div class="input-group">
+
+                <span class="input-group-text">
+
                     <i class="bi bi-envelope"></i>
+
                 </span>
 
                 <input
@@ -412,21 +533,25 @@
         <div class="mb-3">
 
             <label class="form-label">
+
                 Password
+
             </label>
 
             <div class="input-group">
 
                 <span class="input-group-text">
+
                     <i class="bi bi-lock"></i>
+
                 </span>
 
                 <input
                     type="password"
                     name="password"
                     class="form-control"
-                    placeholder="Enter your password"
-                    autocomplete="current-password"
+                    placeholder="Create a password"
+                    autocomplete="new-password"
                     required
                 >
 
@@ -435,46 +560,94 @@
         </div>
 
 
-        <!-- LOGIN BUTTON -->
+        <!-- ROLE -->
+<div class="mb-3">
+<label class="form-label">
+    How would you like to contribute?
+</label>
+
+<select
+    name="role"
+    class="form-select"
+    required
+>
+
+    <option value="">
+        Select Your Role
+    </option>
+
+    <!-- Existing Backend Role -->
+    <option value="donor">
+        🍛 Food Donor / Annadata
+    </option>
+
+    <!-- New Role -->
+    <option value="volunteer">
+        🙏 Volunteer / Sevak
+    </option>
+
+    <!-- New Role -->
+    <option value="warkari">
+        🚶 Warkari / Pilgrim
+    </option>
+
+</select>
+
+<div class="role-info">
+
+    <i class="bi bi-info-circle-fill me-2"></i>
+
+    Choose the role that best describes
+    how you want to participate in Wari Annapurna.
+
+</div>
+
+</div>
+
+
+        <!-- REGISTER BUTTON -->
 
         <button
             type="submit"
-            class="btn btn-login w-100 mt-3">
+            class="btn btn-register w-100 mt-3">
 
-            <i class="bi bi-box-arrow-in-right me-2"></i>
+            <i class="bi bi-heart-fill me-2"></i>
 
-            Login to Wari Annapurna
+            Create My Account
 
         </button>
+
 
     </form>
 
 
-    <!-- REGISTER -->
+    <!-- LOGIN -->
 
     <p class="text-center text-muted mt-4 mb-0">
 
-        New to Wari Annapurna?
+        Already part of Wari Annapurna?
 
-        <a href="/register"
-           class="register-link">
+        <a
+            href="/login"
+            class="login-link">
 
-            Create an account
+            Login
 
         </a>
 
     </p>
 
+
 </div>
-<<<<<<< HEAD
-=======
+
+
 <!-- SEVA MESSAGE -->
 
 <div class="seva-message">
 
     <i class="bi bi-heart-fill me-1"></i>
 
-    Together, let's make every meal a Seva.
+    Join the mission. Serve with Seva. Make a difference.
 
 </div>
 ```

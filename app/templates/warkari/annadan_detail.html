@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Annadan Details | Wari Annapurna</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #fff7ed;
+            color: #333;
+        }
+
+        .page-wrapper {
+            padding: 35px 0;
+        }
+
+        .card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .header-title {
+            color: #e65100;
+        }
+
+        .back-btn {
+            border-color: #e65100;
+            color: #e65100;
+        }
+
+        .back-btn:hover {
+            background: #e65100;
+            color: white;
+        }
+
+        .centre-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .status-badge {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        .meal-badge {
+            background: #fff3e0;
+            color: #e65100;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .info-box {
+            background: #fffaf5;
+            border-radius: 14px;
+            padding: 15px;
+            height: 100%;
+            border: 1px solid #ffe0c2;
+        }
+
+        .label {
+            font-size: 0.76rem;
+            color: #888;
+            margin-bottom: 4px;
+        }
+
+        .value {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .section-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #e65100;
+            margin-bottom: 12px;
+        }
+
+         .location-box {
+            background: #fff8f0;
+            border-radius: 14px;
+            padding: 15px;
+        }
+
+        #map {
+            width: 100%;
+            height: 420px;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .map-card {
+            position: sticky;
+            top: 20px;
+        }
+
+        .orange-btn {
+            background: #e65100;
+            border: none;
+            color: white;
+            border-radius: 12px;
+            padding: 11px 18px;
+            font-weight: 600;
+        }
+
+        .orange-btn:hover {
+            background: #bf360c;
+            color: white;
+        }
+
+        .outline-orange-btn {
+            border: 1px solid #e65100;
+            color: #e65100;
+            background: white;
+            border-radius: 12px;
+            padding: 10px 18px;
+            font-weight: 600;
+        }
+
+        .outline-orange-btn:hover {
+            background: #e65100;
+            color: white;
+        }
+
+        .availability-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #e65100;
+        }
+
+        .divider {
+            height: 1px;
+            background: #eee;
+            margin: 22px 0;
+        }
+
+        .demand-box {
+            background: #fff3e0;
+            border: 1px solid #ffcc80;
+            border-radius: 14px;
+            padding: 15px;
+        }
+
+        .demand-number {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #e65100;
+        }
+
+        .shortage-box {
+            background: #ffebee;
+            border: 1px solid #ffcdd2;
+            border-radius: 14px;
+            padding: 15px;
+        }
+
+        .shortage-number {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #c62828;
+        }
+
+        @media (max-width: 768px) {
+            .page-wrapper {
+                padding: 20px 10px;
+            }
+
+            #map {
+                height: 330px;
+            }
+
+            .map-card {
+                position: static;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container page-wrapper">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="fw-bold header-title mb-1">
+                <i class="bi bi-shop me-2"></i>
+                Annadan Details
+            </h4>
+
+            <small class="text-muted">
+                Food service information for Warkaris
+            </small>
+        </div>
+
+        <a
+            href="{{ url_for('warkari.annadan') }}"
+            class="btn back-btn rounded-pill px-4"
+        >
+            <i class="bi bi-arrow-left me-1"></i>
+            Back
+        </a>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-lg-7">
+
+            <div class="card p-4">
+
+                <div class="d-flex justify-content-between align-items-start mb-4">
+
+                    <div>
+                        <div class="centre-title">
+                            {{ centre.name }}
+                        </div>
+
+
+                         <div class="text-muted small mt-1">
+                            <i class="bi bi-geo-alt me-1"></i>
+                            {{ centre.city }}
+                        </div>
+                    </div>
+
+                    {% if centre.meal_status == 'available' %}
+                        <span class="status-badge">
+                            <i class="bi bi-check-circle me-1"></i>
+                            Available
+                        </span>
+                    {% else %}
+                        <span class="badge bg-secondary rounded-pill px-3 py-2">
+                            {{ centre.meal_status | default('Unavailable', true) | capitalize }}
+                        </span>
+                    {% endif %}
+
+                </div>
+
+                <div class="mb-4">
+
+                    <span class="meal-badge">
+                        <i class="bi bi-egg-fried me-1"></i>
+                        {{ centre.meal_type | default('Meal Service', true) }}
+                    </span>
+
+                </div>
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <div class="info-box">
+
+                            <div class="label">
+                                Meals Available
+                            </div>
+
+                            <div class="availability-number">
+                                {{ centre.available_meals }}
+                            </div>
+
+                            <div class="small text-muted">
+                                meals currently available
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="info-box">
+
+                            <div class="label">
+                                Serving Time
+                            </div>
+
+                            <div class="value">
+                                <i class="bi bi-clock me-1"></i>
+
+                                {% if centre.serving_start and centre.serving_end %}
+                                    {{ centre.serving_start }} - {{ centre.serving_end }}
+                                {% else %}
+                                    Not specified
+                                {% endif %}
+                            </div>
+
+                            <div class="small text-muted mt-2">
+                                Today's service
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="section-title">
+                    <i class="bi bi-geo-alt me-2"></i>
+                    Annadan Centre
+                </div>
+
+                <div class="location-box mb-4">
+
+                    <div class="fw-semibold mb-1">
+                        {{ centre.name }}
+                    </div>
+
+                    <div class="text-muted">
+                        {{ centre.address }}
+                    </div>
+
+                    <div class="text-muted mt-1">
+                        {{ centre.city }}
+                    </div>
+
+                </div>
+
+                <div class="section-title">
+                    <i class="bi bi-info-circle me-2"></i>
+                    Service Information
+                </div>
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <div class="info-box">
+
+                            <div class="label">
+                                Meal Type
+                            </div>
+
+                            <div class="value">
+                                {{ centre.meal_type | default('Not specified', true) }}
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="info-box">
+
+                            <div class="label">
+                                Availability
+                            </div>
+                            {% if centre.meal_status == 'available' %}
+                                <div class="value text-success">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    Available
+                                </div>
+                            {% else %}
+                                <div class="value text-secondary">
+                                    <i class="bi bi-dash-circle me-1"></i>
+                                    {{ centre.meal_status | default('Unavailable', true) | capitalize }}
+                                </div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="info-box">
+
+                            <div class="label">
+                                Serving Starts
+                            </div>
+
+                            <div class="value">
+                                <i class="bi bi-clock me-1"></i>
+
+                                {% if centre.serving_start %}
+                                    {{ centre.serving_start }}
+                                {% else %}
+                                    Not specified
+                                {% endif %}
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="info-box">
+
+                            <div class="label">
+                                Serving Ends
+                            </div>
+
+                            <div class="value">
+                                <i class="bi bi-clock me-1"></i>
+
+                                {% if centre.serving_end %}
+                                    {{ centre.serving_end }}
+                                {% else %}
+                                    Not specified
+                                {% endif %}
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="section-title">
+                    <i class="bi bi-people me-2"></i>
+                    Crowd & Demand
+                </div>
+
+                <div class="row g-3 mb-4">
+
+                    <div class="col-md-4">
+                        <div class="info-box text-center">
+
+                            <div class="label">
+                                Current Crowd
+                            </div>
+
+                            <div class="demand-number">
+                                {{ centre.current_crowd }}
+                            </div>
+
+                            <div class="small text-muted">
+                                nearby Warkaris
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="info-box text-center">
+
+                            <div class="label">
+                                Approaching
+                            </div>
+
+                            <div class="demand-number">
+                                {{ centre.approaching }}
+                            </div>
+
+                            <div class="small text-muted">
+                                moving towards centre
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="info-box text-center">
+
+                            <div class="label">
+                                Expected Demand
+                            </div>
+
+                            <div class="demand-number">
+                                {{ centre.expected_demand }}
+                            </div>
+
+                            <div class="small text-muted">
+                                estimated meals
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                {% if centre.shortage > 0 %}
+
+                    <div class="shortage-box mb-4">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+                                <div class="fw-bold text-danger">
+                                    <i class="bi bi-exclamation-triangle me-1"></i>
+                                    Food Shortage Predicted
+                                </div>
+
+                                <div class="small text-muted mt-1">
+                                    Current and approaching crowd may exceed available meals.
+                                </div>
+                            </div>
+
+                            <div class="shortage-number">
+                                {{ centre.shortage }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% else %}
+
+                    <div class="demand-box mb-4">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+                                <div class="fw-bold text-success">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    Sufficient Food Available
+                                </div>
+
+                                <div class="small text-muted mt-1">
+                                    Available meals currently cover the expected demand.
+                                </div>
+                            </div>
+
+                            <i class="bi bi-shield-check fs-2 text-success"></i>
+
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+                <div class="d-flex gap-2 flex-wrap">
+
+                    <a
+                        href="https://www.google.com/maps/dir/?api=1&destination={{ centre.latitude }},{{ centre.longitude }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn orange-btn"
+                    >
+                        <i class="bi bi-navigation me-1"></i>
+                        Get Directions
+                    </a>
+
+                    <a
+                        href="{{ url_for('warkari.annadan') }}"
+                        class="btn outline-orange-btn"
+                    >
+                        <i class="bi bi-search me-1"></i>
+                        Find Another Centre
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-5">
+
+            <div class="card p-3 map-card">
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+
+                    <div>
+                        <h6 class="fw-bold mb-1">
+                            <i class="bi bi-map me-2"></i>
+                            Centre Location
+                        </h6>
+
+                        <small class="text-muted">
+                            Annadan service location
+                        </small>
+                    </div>
+
+                    <span class="meal-badge">
+                        <i class="bi bi-geo-alt me-1"></i>
+                        Map
+                    </span>
+
+                </div>
+
+                <div id="map"></div>
+
+                <div class="mt-3 location-box">
+
+                    <div class="fw-semibold">
+                        {{ centre.name }}
+                    </div>
+
+                    <div class="small text-muted mt-1">
+                        <i class="bi bi-geo-alt me-1"></i>
+                        {{ centre.address }}, {{ centre.city }}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+    const centreLatitude = {{ centre.latitude | default(0, true) | float }};
+    const centreLongitude = {{ centre.longitude | default(0, true) | float }};
+
+    const centreName = {{ centre.name | default('', true) | tojson }};
+    const centreAddress = {{ centre.address | default('', true) | tojson }};
+    const centreCity = {{ centre.city | default('', true) | tojson }};
+    const mealType = {{ centre.meal_type | default('', true) | tojson }};
+
+    const map = L.map('map').setView(
+        [centreLatitude, centreLongitude],
+        15
+    );
+
+    L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap contributors'
+        }
+    ).addTo(map);
+
+    const marker = L.marker([
+        centreLatitude,
+        centreLongitude
+    ]).addTo(map);
+
+    marker.bindPopup(`
+        <div style="min-width:210px;">
+            <strong>${centreName}</strong>
+            <br>
+            <span>${centreAddress}</span>
+            <br>
+            <span>${centreCity}</span>
+            <hr style="margin:8px 0;">
+            <strong>${mealType}</strong>
+        </div>
+    `).openPopup();
+
+    setTimeout(() => {
+        map.invalidateSize();
+    }, 300);
+</script>
+
+</body>
+</html>

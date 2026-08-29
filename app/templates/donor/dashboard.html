@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donor Dashboard | Wari Annapurna</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #FFF8EE;
+            color: #333;
+        }
+
+        .sidebar {
+            width: 260px;
+            min-height: 100vh;
+            background: #A84300;
+            color: white;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 4px 0 15px rgba(107, 61, 0, 0.12);
+        }
+
+        .sidebar-brand {
+            padding: 22px 20px;
+            border-bottom: 1px solid rgba(255,255,255,.20);
+        }
+
+        .sidebar-brand h4 {
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .sidebar-brand small {
+            display: block;
+            margin-top: 4px;
+            color: rgba(255,255,255,.75);
+            font-size: 12px;
+        }
+
+        .sidebar-nav {
+            padding-top: 15px;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            margin: 5px 15px;
+            padding: 14px 16px;
+            color: white;
+            text-decoration: none;
+            font-size: .94rem;
+            border-radius: 10px;
+            transition: .25s;
+        }
+
+        .sidebar a i {
+            font-size: 1.1rem;
+            width: 28px;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: rgba(255,255,255,.16);
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background: rgba(255,255,255,.18);
+            margin: 15px 20px;
+        }
+
+        .main {
+            margin-left: 260px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            background: white;
+            padding: 15px 30px;
+            box-shadow: 0 4px 15px rgba(107,61,0,.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #F1DFC5;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+        }
+
+        .topbar h5 {
+            margin: 0;
+            font-weight: 600;
+            color: #5B2C06;
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .user-area i {
+            color: #A84300;
+            font-size: 1.3rem;
+        }
+
+        .content {
+            padding: 25px;
+        }
+
+        .welcome-card {
+            background: linear-gradient(135deg,#A84300,#D97706);
+            color: white;
+            border-radius: 18px;
+            padding: 30px;
+            box-shadow: 0 12px 30px rgba(107,61,0,.15);
+            margin-bottom: 25px;
+        }
+
+        .welcome-card h4 {
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .welcome-card p {
+            margin-bottom: 0;
+            color: rgba(255,255,255,.88);
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 18px;
+            padding: 24px;
+            box-shadow: 0 10px 28px rgba(107,61,0,.08);
+            border: 1px solid #F3E2CB;
+            height: 100%;
+            transition: .3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 1.4rem;
+            margin-bottom: 13px;
+        }
+
+        .icon-services {
+            background: rgba(168,67,0,.12);
+            color: #A84300;
+        }
+
+        .icon-meals {
+            background: rgba(230,168,0,.16);
+            color: #D69A00;
+        }
+
+        .icon-available {
+            background: rgba(47,125,50,.13);
+            color: #2F7D32;
+        }
+
+        .icon-people {
+            background: rgba(180,83,9,.12);
+            color: #B45309;
+        }
+
+        .stat-card h3 {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .dashboard-label {
+            color: #777;
+            font-size: .88rem;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 10px 28px rgba(107,61,0,.08);
+            border: 1px solid #F3E2CB;
+            margin-top: 25px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h5 {
+            margin: 0;
+            font-weight: 700;
+            color: #5B2C06;
+        }
+
+        .demand-card {
+            border: 1px solid #F0E0CE;
+            border-radius: 15px;
+            padding: 20px;
+            background: #FFFDF9;
+            transition: .25s;
+        }
+
+        .demand-card:hover {
+            border-color: #E8C9A5;
+            transform: translateY(-2px);
+        }
+
+        .demand-card.critical {
+            border-left: 5px solid #DC3545;
+        }
+
+        .demand-card.high {
+            border-left: 5px solid #F59E0B;
+        }
+
+        .demand-card.moderate {
+            border-left: 5px solid #D6A000;
+        }
+
+        .centre-name {
+            font-weight: 700;
+            color: #5B2C06;
+            font-size: 17px;
+        }
+
+        .centre-address {
+            color: #777;
+            font-size: 13px;
+        }
+
+        .demand-number {
+            font-size: 25px;
+            font-weight: 700;
+            color: #A84300;
+        }
+
+        .demand-label {
+            font-size: 12px;
+            color: #777;
+        }
+
+        .metric-box {
+            background: #FFF8EE;
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+            height: 100%;
+        }
+
+        .metric-box strong {
+            display: block;
+            font-size: 18px;
+            color: #5B2C06;
+        }
+
+        .metric-box span {
+            font-size: 11px;
+            color: #777;
+        }
+
+        .status-critical {
+            background: #FEE2E2;
+            color: #B91C1C;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-high {
+            background: #FEF3C7;
+            color: #B45309;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-moderate {
+            background: #FFF3CD;
+            color: #856404;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .btn-orange {
+            background: #A84300;
+            border-color: #A84300;
+            color: white;
+        }
+
+        .btn-orange:hover {
+            background: #8E3800;
+            border-color: #8E3800;
+            color: white;
+        }
+
+        .impact-card {
+            background: linear-gradient(135deg,#FFF3E3,#FFFDF9);
+            border: 1px solid #F0D8B9;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .impact-card h6 {
+            color: #6B4A2F;
+            font-weight: 600;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            color: #6B4A2F;
+            font-size: 13px;
+            font-weight: 600;
+            background: #FFF8EE;
+            border-bottom: 1px solid #EFDCC5;
+        }
+
+        .table tbody td {
+            font-size: 13px;
+            vertical-align: middle;
+        }
+
+        .status-available {
+            background: #D1FAE5;
+            color: #047857;
+            padding: 5px 11px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-other {
+            background: #FFF3CD;
+            color: #856404;
+            padding: 5px 11px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .empty-demand {
+            text-align: center;
+            padding: 40px 20px;
+            color: #777;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 220px;
+            }
+
+            .main {
+                margin-left: 220px;
+            }
+
+            .topbar {
+                padding: 15px;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .welcome-card {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <div class="sidebar-brand">
+        <h4>
+            <i class="bi bi-sun-fill me-2"></i>
+            Wari Annapurna
+        </h4>
+        <small>Donor Portal</small>
+    </div>
+
+    <div class="sidebar-nav">
+
+        <a href="{{ url_for('donor.dashboard') }}" class="active">
+            <i class="bi bi-speedometer2"></i>
+            Dashboard
+        </a>
+
+        <a href="{{ url_for('donor.add_donation') }}">
+            <i class="bi bi-plus-circle-fill"></i>
+            Donate Food
+        </a>
+
+        <a href="{{ url_for('donor.impact') }}">
+            <i class="bi bi-bar-chart-line"></i>
+            Impact & Reports
+        </a>
+
+        <div class="sidebar-divider"></div>
+
+        <a href="#">
+            <i class="bi bi-person-circle"></i>
+            Profile
+        </a>
+
+        <a href="{{ url_for('donor.logout') }}">
+            <i class="bi bi-box-arrow-right"></i>
+            Logout
+        </a>
+
+    </div>
+</div>
+
+<div class="main">
+
+    <div class="topbar">
+        <h5>
+            <i class="bi bi-heart-fill me-2"></i>
+            Donor Dashboard
+        </h5>
+
+        <div class="user-area">
+            <i class="bi bi-person-circle"></i>
+            <span>{{ session.user_name }}</span>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <div class="welcome-card">
+            <h4>
+                Welcome, {{ session.user_name }} 🙏
+            </h4>
+
+            <p>
+                Donate food where it is needed most. Our system uses
+                current crowd movement and food availability to identify
+                Annadan centres requiring support.
+            </p>
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card">
+                    <div class="stat-icon icon-services">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+
+                    <h3>{{ total_services }}</h3>
+
+                    <p class="dashboard-label mb-0">
+                        Donations Registered
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card">
+                    <div class="stat-icon icon-meals">
+                        <i class="bi bi-egg-fried"></i>
+                    </div>
+
+                    <h3>
+                        {{ "{:,}".format(total_meals) }}
+                    </h3>
+
+                    <p class="dashboard-label mb-0">
+                        Meals Donated
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card">
+                    <div class="stat-icon icon-available">
+                        <i class="bi bi-broadcast-pin"></i>
+                    </div>
+
+                    <h3>
+                        {{ "{:,}".format(available_meals) }}
+                    </h3>
+
+                    <p class="dashboard-label mb-0">
+                        Meals Currently Available
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card">
+                    <div class="stat-icon icon-people">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+
+                    <h3>
+                        {{ "{:,}".format(people_fed) }}
+                    </h3>
+
+                    <p class="dashboard-label mb-0">
+                        Estimated People Served
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="section-card">
+
+            <div class="section-header">
+
+                <h5>
+                    <i class="bi bi-fire me-2 text-danger"></i>
+                    Food Demand Right Now
+                </h5>
+
+                <span class="text-muted small">
+                    <i class="bi bi-clock me-1"></i>
+                    Live demand
+                </span>
+
+            </div>
+
+            {% if recommendations %}
+
+                {% for centre in recommendations %}
+
+                    <div class="demand-card {{ centre.status }} mb-3">
+
+                        <div class="row align-items-center g-3">
+
+                            <div class="col-lg-4">
+
+                                <div class="d-flex justify-content-between align-items-start">
+
+                                    <div>
+                                        <div class="centre-name">
+                                            <i class="bi bi-geo-alt-fill me-1"></i>
+                                            {{ centre.centre_name }}
+                                        </div>
+
+                                        <div class="centre-address mt-1">
+                                            {{ centre.address }}
+                                            {% if centre.city %}
+                                                , {{ centre.city }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    {% if centre.status == 'critical' %}
+
+                                        <span class="status-critical">
+                                            CRITICAL
+                                        </span>
+
+                                    {% elif centre.status == 'high' %}
+
+                                        <span class="status-high">
+                                            HIGH DEMAND
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="status-moderate">
+                                            MODERATE
+                                        </span>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-lg-5">
+
+                                <div class="row g-2">
+
+                                    <div class="col-4">
+                                        <div class="metric-box">
+                                            <strong>
+                                                {{ "{:,}".format(centre.shortage) }}
+                                            </strong>
+                                            <span>
+                                                Meals Needed
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <div class="metric-box">
+                                            <strong>
+                                                {{ "{:,}".format(centre.expected_demand) }}
+                                            </strong>
+                                            <span>
+                                                Expected Demand
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <div class="metric-box">
+                                            <strong>
+                                                {{ "{:,}".format(centre.approaching) }}
+                                            </strong>
+                                            <span>
+                                                Approaching
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-lg-3 text-lg-end">
+
+                                <div class="mb-2 small text-muted">
+                                    {{ "{:,}".format(centre.available_meals) }}
+                                    meals currently available
+                                </div>
+
+                                <a
+                                    href="{{ url_for('donor.add_donation') }}?centre_id={{ centre.centre_id }}"
+                                    class="btn btn-orange rounded-pill px-4"
+                                >
+                                    <i class="bi bi-box2-heart me-2"></i>
+                                    Donate Food
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="empty-demand">
+
+                    <i
+                        class="bi bi-check-circle-fill"
+                        style="font-size: 3rem; color: #2F7D32;"
+                    ></i>
+
+                    <h6 class="mt-3 fw-bold">
+                        No Immediate Food Shortage
+                    </h6>
+
+                    <p class="mb-3">
+                        Current Annadan centres have sufficient food
+                        based on available demand data.
+                    </p>
+
+                    <a
+                        href="{{ url_for('donor.add_donation') }}"
+                        class="btn btn-orange rounded-pill px-4"
+                    >
+                        <i class="bi bi-plus-circle me-2"></i>
+                        Register Food Donation
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+        {% if top_recommendation %}
+
+        <div class="section-card">
+
+            <div class="section-header">
+
+                <h5>
+                    <i class="bi bi-stars me-2"></i>
+                    Recommended Donation
+                </h5>
+
+            </div>
+
+            <div class="impact-card">
+
+                <div class="row align-items-center g-4">
+
+                    <div class="col-lg-7">
+
+                        <h6>
+                            Your food can help here right now
+                        </h6>
+
+                        <h4 class="fw-bold mb-2" style="color:#A84300;">
+                            {{ top_recommendation.centre_name }}
+                        </h4>
+
+                        <p class="text-muted mb-3">
+                            The centre currently has a shortage of
+                            <strong>
+                                {{ "{:,}".format(top_recommendation.shortage) }}
+                                meals
+                            </strong>
+                            and
+                            <strong>
+                                {{ "{:,}".format(top_recommendation.approaching) }}
+                                Varkaris
+                            </strong>
+                            are approaching.
+                        </p>
+
+                        <a
+                            href="{{ url_for('donor.add_donation') }}?centre_id={{ top_recommendation.centre_id }}"
+                            class="btn btn-orange rounded-pill px-4"
+                        >
+                            <i class="bi bi-heart-fill me-2"></i>
+                            Support This Centre
+                        </a>
+
+                    </div>
+
+                    <div class="col-lg-5">
+
+                        <div class="row g-2">
+
+                            <div class="col-4">
+                                <div class="metric-box">
+                                    <strong>
+                                        {{ "{:,}".format(top_recommendation.shortage) }}
+                                    </strong>
+                                    <span>
+                                        Shortage
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-4">
+                                <div class="metric-box">
+                                    <strong>
+                                        {{ "{:,}".format(top_recommendation.available_meals) }}
+                                    </strong>
+                                    <span>
+                                        Available
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-4">
+                                <div class="metric-box">
+                                    <strong>
+                                        {{ top_recommendation.shortage_percentage }}%
+                                    </strong>
+                                    <span>
+                                        Shortage Rate
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+        <div class="section-card" id="recent-services">
+
+            <div class="section-header">
+
+                <h5>
+                    <i class="bi bi-clock-history me-2"></i>
+                    Your Recent Donations
+                </h5>
+
+                <a
+                    href="{{ url_for('donor.impact') }}"
+                    class="btn btn-orange btn-sm rounded-pill px-3"
+                >
+                    View Impact
+                </a>
+
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead>
+                        <tr>
+                            <th>Centre</th>
+                            <th>Meal</th>
+                            <th>Food Type</th>
+                            <th>Meals</th>
+                            <th>Time</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                    {% for row in recent_services %}
+
+                        <tr>
+
+                            <td>
+                                <i class="bi bi-shop me-1 text-muted"></i>
+                                {{ row[1] }}
+                            </td>
+
+                            <td>{{ row[2] }}</td>
+
+                            <td>{{ row[3] }}</td>
+
+                            <td>
+                                <strong>
+                                    {{ "{:,}".format(row[4]) }}
+                                </strong>
+                            </td>
+
+                            <td>
+                                {{ row[5] }} - {{ row[6] }}
+                            </td>
+
+                            <td>{{ row[7] }}</td>
+
+                            <td>
+
+                                {% if row[8] == 'available' %}
+
+                                    <span class="status-available">
+                                        <i class="bi bi-check-circle me-1"></i>
+                                        Available
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="status-other">
+                                        {{ row[8] }}
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                    {% else %}
+
+                        <tr>
+
+                            <td colspan="7" class="text-center text-muted py-5">
+
+                                <i
+                                    class="bi bi-inbox"
+                                    style="font-size:2rem;"
+                                ></i>
+
+                                <div class="mt-2">
+                                    You haven't registered any food donations yet.
+                                </div>
+
+                                <a
+                                    href="{{ url_for('donor.add_donation') }}"
+                                    class="btn btn-orange rounded-pill px-4 mt-3"
+                                >
+                                    <i class="bi bi-plus-circle me-2"></i>
+                                    Donate Food
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
