@@ -386,3 +386,200 @@
                 opacity: 0;
             }
         }
+
+        .wari-visual {
+            position: absolute;
+            right: 4%;
+            bottom: 50px;
+            width: min(510px, 42vw);
+            z-index: 8;
+            transition: transform .2s ease-out;
+        }
+
+        .palkhi-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 209, 102, .18);
+            filter: blur(70px);
+            border-radius: 50%;
+            top: 20%;
+            left: 20%;
+        }
+
+        .palkhi {
+            position: relative;
+            animation: palkhiFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes palkhiFloat {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        .palkhi-roof {
+            width: 210px;
+            height: 70px;
+            background: linear-gradient(135deg, #ffd166, #f49a1c);
+            margin: auto;
+            clip-path: polygon(50% 0, 100% 100%, 0 100%);
+            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, .2));
+        }
+
+        .palkhi-top {
+            width: 35px;
+            height: 55px;
+            background: #ffd166;
+            margin: auto;
+            border-radius: 5px 5px 0 0;
+            position: relative;
+        }
+
+        .palkhi-top::after {
+            content: "🚩";
+            position: absolute;
+            font-size: 50px;
+            left: 5px;
+            top: -55px;
+            animation: flagWave 2s infinite;
+        }
+
+        @keyframes flagWave {
+
+            0%,
+            100% {
+                transform: rotate(-5deg);
+            }
+
+            50% {
+                transform: rotate(7deg);
+            }
+        }
+
+        .palkhi-body {
+            width: 250px;
+            height: 130px;
+            margin: auto;
+            background: linear-gradient(135deg, #fff3ce, #f6bf58);
+            border: 6px solid #d87912;
+            border-radius: 8px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, .22);
+            position: relative;
+        }
+
+        .palkhi-body::before {
+            content: "॥ श्री विठ्ठल ॥";
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Poppins';
+            font-weight: 800;
+            color: #8d3e08;
+            font-size: 1.1rem;
+        }
+
+        .palkhi-wheel {
+            position: absolute;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #733008;
+            border: 7px solid #f7a52d;
+            bottom: -30px;
+        }
+
+        .wheel-left {
+            left: 25%;
+        }
+
+        .wheel-right {
+            right: 25%;
+        }
+
+        .route-line {
+            width: 500px;
+            height: 100px;
+            border-bottom: 3px dashed rgba(255, 209, 102, .55);
+            border-radius: 50%;
+            margin: 10px auto 0;
+            position: relative;
+        }
+
+        .route-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ffd166;
+            box-shadow: 0 0 20px #ffd166;
+            animation: routeMove 3s infinite linear;
+        }
+
+        @keyframes routeMove {
+            from {
+                left: 0;
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            to {
+                left: 100%;
+                opacity: 0;
+            }
+        }
+
+        .warkari-row {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 25px;
+            font-size: 2.2rem;
+            filter: drop-shadow(0 8px 10px rgba(0, 0, 0, .2));
+        }
+
+        .warkari-row span {
+            display: inline-block;
+            animation: walk 1.3s infinite alternate;
+        }
+
+        .warkari-row span:nth-child(2) {
+            animation-delay: .15s;
+        }
+
+        .warkari-row span:nth-child(3) {
+            animation-delay: .3s;
+        }
+
+        .warkari-row span:nth-child(4) {
+            animation-delay: .45s;
+        }
+
+        .warkari-row span:nth-child(5) {
+            animation-delay: .6s;
+        }
+
+        @keyframes walk {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(-8px);
+            }
+        }
