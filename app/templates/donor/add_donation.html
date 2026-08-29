@@ -677,3 +677,246 @@
                     </div>
 
                 </div>
+
+                <div class="step">
+
+                    <div class="section-icon">
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+
+                    <h5 class="step-title">
+                        Annadan Status
+                    </h5>
+
+                    <p class="step-description">
+                        Set the current availability status of this
+                        Annadan service.
+                    </p>
+
+                    <div class="mb-4">
+
+                        <label class="form-label">
+                            Current Status
+                        </label>
+
+                        <select
+                            name="status"
+                            class="form-select"
+                            required
+                        >
+
+                            <option value="available">
+                                Available
+                            </option>
+
+                            <option value="full">
+                                Full
+                            </option>
+
+                            <option value="closed">
+                                Closed
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="info-box">
+
+                        <h6 class="fw-bold">
+
+                            <i class="bi bi-info-circle me-2"></i>
+                            Status Guide
+
+                        </h6>
+
+                        <p class="small text-muted mb-2">
+
+                            <strong>Available:</strong>
+                            Meals are currently available.
+
+                        </p>
+
+                        <p class="small text-muted mb-2">
+
+                            <strong>Full:</strong>
+                            The centre has reached its current capacity.
+
+                        </p>
+
+                        <p class="small text-muted mb-0">
+
+                            <strong>Closed:</strong>
+                            The Annadan service is currently closed.
+
+                        </p>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+
+                        <button
+                            type="button"
+                            class="btn btn-outline-secondary btn-back"
+                            onclick="prevStep()"
+                        >
+                            <i class="bi bi-arrow-left me-2"></i>
+                            Back
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="btn btn-submit"
+                            id="publishButton"
+                        >
+                            <i class="bi bi-heart-fill me-2"></i>
+                            Publish Annadan
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+        <div class="footer-note">
+
+            <i
+                class="bi bi-heart-fill me-1"
+                style="color:#e67e22;"
+            ></i>
+
+            Your Seva can help ensure that no Warkari goes hungry
+            during the Wari.
+
+        </div>
+
+    </div>
+
+    <script>
+
+        let currentStep = 0;
+
+        const steps = document.querySelectorAll('.step');
+        const stepLabels = document.querySelectorAll('.step-label');
+        const progressBar = document.getElementById('progressBar');
+
+        function showStep(index) {
+
+            steps.forEach((step, i) => {
+                step.classList.toggle('active', i === index);
+            });
+
+            stepLabels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            progressBar.style.width =
+                ((index + 1) / steps.length * 100) + "%";
+        }
+
+        function validateCurrentStep() {
+
+            const currentFormStep = steps[currentStep];
+
+            const inputs =
+                currentFormStep.querySelectorAll(
+                    'input, select'
+                );
+
+            for (const input of inputs) {
+
+                if (!input.checkValidity()) {
+
+                    input.reportValidity();
+
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        function nextStep() {
+
+            if (!validateCurrentStep()) {
+                return;
+            }
+
+            if (currentStep < steps.length - 1) {
+
+                currentStep++;
+
+                showStep(currentStep);
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+
+            }
+        }
+
+        function prevStep() {
+
+            if (currentStep > 0) {
+
+                currentStep--;
+
+                showStep(currentStep);
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+
+            }
+        }
+
+        function showDonationSuccess(event) {
+
+            event.preventDefault();
+
+            if (!validateCurrentStep()) {
+                return;
+            }
+
+            const form = event.target;
+
+            const successOverlay =
+                document.getElementById('successOverlay');
+
+            const publishButton =
+                document.getElementById('publishButton');
+
+            successOverlay.classList.add('show');
+
+            publishButton.disabled = true;
+
+            publishButton.innerHTML =
+                '<i class="bi bi-check-circle-fill me-2"></i>' +
+                'Published Successfully';
+
+            setTimeout(() => {
+                form.submit();
+            }, 1800);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const dateInput =
+                document.getElementById('serviceDate');
+
+            const today =
+                new Date().toISOString().split('T')[0];
+
+            dateInput.min = today;
+
+        });
+
+    </script>
+
+</body>
+</html>
