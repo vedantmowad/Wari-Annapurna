@@ -53,58 +53,348 @@
         .sidebar-nav {
             padding-top: 15px;
         }
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donor Dashboard | Wari Annapurna</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background: #FFF8EE;
-            color: #333;
-        }
-
-        .sidebar {
-            width: 260px;
-            min-height: 100vh;
-            background: #A84300;
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            margin: 5px 15px;
+            padding: 14px 16px;
             color: white;
-            position: fixed;
-            left: 0;
+            text-decoration: none;
+            font-size: .94rem;
+            border-radius: 10px;
+            transition: .25s;
+        }
+
+        .sidebar a i {
+            font-size: 1.1rem;
+            width: 28px;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: rgba(255,255,255,.16);
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background: rgba(255,255,255,.18);
+            margin: 15px 20px;
+        }
+
+        .main {
+            margin-left: 260px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            background: white;
+            padding: 15px 30px;
+            box-shadow: 0 4px 15px rgba(107,61,0,.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #F1DFC5;
+            position: sticky;
             top: 0;
-            z-index: 1000;
-            box-shadow: 4px 0 15px rgba(107, 61, 0, 0.12);
+            z-index: 900;
         }
 
-        .sidebar-brand {
-            padding: 22px 20px;
-            border-bottom: 1px solid rgba(255,255,255,.20);
+        .topbar h5 {
+            margin: 0;
+            font-weight: 600;
+            color: #5B2C06;
         }
 
-        .sidebar-brand h4 {
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .user-area i {
+            color: #A84300;
+            font-size: 1.3rem;
+        }
+
+        .content {
+            padding: 25px;
+        }
+
+        .welcome-card {
+            background: linear-gradient(135deg,#A84300,#D97706);
+            color: white;
+            border-radius: 18px;
+            padding: 30px;
+            box-shadow: 0 12px 30px rgba(107,61,0,.15);
+            margin-bottom: 25px;
+        }
+
+        .welcome-card h4 {
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .welcome-card p {
+            margin-bottom: 0;
+            color: rgba(255,255,255,.88);
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 18px;
+            padding: 24px;
+            box-shadow: 0 10px 28px rgba(107,61,0,.08);
+            border: 1px solid #F3E2CB;
+            height: 100%;
+            transition: .3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 1.4rem;
+            margin-bottom: 13px;
+        }
+
+        .icon-services {
+            background: rgba(168,67,0,.12);
+            color: #A84300;
+        }
+
+        .icon-meals {
+            background: rgba(230,168,0,.16);
+            color: #D69A00;
+        }
+
+        .icon-available {
+            background: rgba(47,125,50,.13);
+            color: #2F7D32;
+        }
+
+        .icon-people {
+            background: rgba(180,83,9,.12);
+            color: #B45309;
+        }
+
+        .stat-card h3 {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .dashboard-label {
+            color: #777;
+            font-size: .88rem;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 10px 28px rgba(107,61,0,.08);
+            border: 1px solid #F3E2CB;
+            margin-top: 25px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h5 {
             margin: 0;
             font-weight: 700;
+            color: #5B2C06;
         }
 
-        .sidebar-brand small {
+        .demand-card {
+            border: 1px solid #F0E0CE;
+            border-radius: 15px;
+            padding: 20px;
+            background: #FFFDF9;
+            transition: .25s;
+        }
+
+        .demand-card:hover {
+            border-color: #E8C9A5;
+            transform: translateY(-2px);
+        }
+
+        .demand-card.critical {
+            border-left: 5px solid #DC3545;
+        }
+
+        .demand-card.high {
+            border-left: 5px solid #F59E0B;
+        }
+
+        .demand-card.moderate {
+            border-left: 5px solid #D6A000;
+        }
+
+        .centre-name {
+            font-weight: 700;
+            color: #5B2C06;
+            font-size: 17px;
+        }
+
+        .centre-address {
+            color: #777;
+            font-size: 13px;
+        }
+
+        .demand-number {
+            font-size: 25px;
+            font-weight: 700;
+            color: #A84300;
+        }
+
+        .demand-label {
+            font-size: 12px;
+            color: #777;
+        }
+
+        .metric-box {
+            background: #FFF8EE;
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+            height: 100%;
+        }
+
+        .metric-box strong {
             display: block;
-            margin-top: 4px;
-            color: rgba(255,255,255,.75);
+            font-size: 18px;
+            color: #5B2C06;
+        }
+
+        .metric-box span {
+            font-size: 11px;
+            color: #777;
+        }
+
+        .status-critical {
+            background: #FEE2E2;
+            color: #B91C1C;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-high {
+            background: #FEF3C7;
+            color: #B45309;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-moderate {
+            background: #FFF3CD;
+            color: #856404;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .btn-orange {
+            background: #A84300;
+            border-color: #A84300;
+            color: white;
+        }
+
+        .btn-orange:hover {
+            background: #8E3800;
+            border-color: #8E3800;
+            color: white;
+        }
+
+        .impact-card {
+            background: linear-gradient(135deg,#FFF3E3,#FFFDF9);
+            border: 1px solid #F0D8B9;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .impact-card h6 {
+            color: #6B4A2F;
+            font-weight: 600;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            color: #6B4A2F;
+            font-size: 13px;
+            font-weight: 600;
+            background: #FFF8EE;
+            border-bottom: 1px solid #EFDCC5;
+        }
+
+        .table tbody td {
+            font-size: 13px;
+            vertical-align: middle;
+        }
+
+        .status-available {
+            background: #D1FAE5;
+            color: #047857;
+            padding: 5px 11px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-other {
+            background: #FFF3CD;
+            color: #856404;
+            padding: 5px 11px;
+            border-radius: 20px;
             font-size: 12px;
         }
 
-        .sidebar-nav {
-            padding-top: 15px;
+        .empty-demand {
+            text-align: center;
+            padding: 40px 20px;
+            color: #777;
         }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 220px;
+            }
+
+            .main {
+                margin-left: 220px;
+            }
+
+            .topbar {
+                padding: 15px;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .welcome-card {
+                padding: 22px;
+            }
+        }
+    </style>
