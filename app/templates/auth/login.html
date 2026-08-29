@@ -333,3 +333,75 @@
 
 </div>
 
+<!-- =========================
+     LOGIN CARD
+========================= -->
+
+<div class="login-card">
+
+    <!-- LOGIN ICON -->
+
+    <div class="login-icon">
+
+        <i class="bi bi-person-heart"></i>
+
+    </div>
+
+
+    <!-- HEADING -->
+
+    <h3 class="fw-bold text-center mb-2">
+
+        Welcome Back 🙏
+
+    </h3>
+
+
+    <p class="subtitle text-center mb-4">
+
+        Login to continue your Seva journey
+
+    </p>
+
+
+    <!-- =========================
+         LOGIN FORM
+
+         IMPORTANT:
+         method="POST" is preserved
+         name="email" is preserved
+         name="password" is preserved
+
+         This keeps compatibility with
+         the existing Flask backend.
+    ========================= -->
+
+    <form method="POST">
+
+
+        <!-- EMAIL -->
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Email Address
+            </label>
+
+            <div class="input-group">
+
+                <span class="input-group-text">
+                    <i class="bi bi-envelope"></i>
+                </span>
+
+                <input
+                    type="email"
+                    name="email"
+                    class="form-control"
+                    placeholder="Enter your email"
+                    autocomplete="email"
+                    required
+                >
+
+            </div>
+
+        </div>
