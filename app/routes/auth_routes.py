@@ -77,3 +77,46 @@ def register_centre():
             cur.close()
 
     return render_template('auth/register_centre.html')
+
+
+@auth_bp.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        cur = mysql.connection.cursor()
+
+        try:
+            cur.execute("""
+                SELECT id, full_name, password, role
+                FROM users
+                WHERE email = %s
+            """, (email,))
+
+            user = cur.fetchone()
+
+            if user and check_password_hash(user[2], password):
+                session['user_id'] = user[0]
+                session['user_name'] = user[1]
+                session['role'] = user[3]
+
+                if user[3] == "donor":
+                    return redirect("/donor/dashboard")
+                elif user[3] == "volunteer":
+                    return redirect("/volunteer/dashboard")
+                elif user[3] == "warkari":
+                    return redirect("/warkari/dashboard")
+                elif user[3] == "admin":
+                    return redirect("/admin/dashboard")
+
+                flash("Invalid user role.", "danger")
+                return redirect(url_for('auth.landing'))
+
+        except Exception as e:
+            flash(f"Login error: {str(e)}", "danger")
+
+        finally:
+            cur.close()
+
+    return render_template('auth/login.html')
