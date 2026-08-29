@@ -1216,3 +1216,512 @@
                 width: 190px;
                 height: 100px;
             }
+
+            .palkhi-roof {
+                width: 160px;
+            }
+
+            .route-line {
+                width: 300px;
+            }
+
+            .warkari-row {
+                font-size: 1.7rem;
+            }
+
+            .trust-box {
+                padding: 30px 20px;
+            }
+
+            .mobility-dashboard {
+                padding: 20px;
+            }
+
+            .map-area {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="loader">
+        <div class="loader-flag">🚩</div>
+        <div class="loader-title">Wari Annapurna</div>
+        <div class="loader-line">
+            <span></span>
+        </div>
+        <small class="mt-3 opacity-75">Technology for Seva</small>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="bi bi-flower1 brand-icon me-2"></i>
+                Wari Annapurna
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="#how-it-works">How It Works</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="#mobility">Crowd Mobility</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="#features">Features</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="#impact">Impact</a>
+                    </li>
+
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                        <a href="/login" class="nav-login">Login</a>
+                    </li>
+
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                        <a href="/register" class="nav-join">Join Wari Annapurna</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-grid"></div>
+
+        <div class="wari-particle" style="left:5%;animation-duration:12s;animation-delay:1s">🚩</div>
+        <div class="wari-particle" style="left:14%;animation-duration:16s;animation-delay:4s">✦</div>
+        <div class="wari-particle" style="left:28%;animation-duration:14s;animation-delay:2s">🚩</div>
+        <div class="wari-particle" style="left:72%;animation-duration:17s;animation-delay:3s">✦</div>
+        <div class="wari-particle" style="left:84%;animation-duration:13s;animation-delay:6s">🚩</div>
+        <div class="wari-particle" style="left:94%;animation-duration:15s;animation-delay:1s">✦</div>
+
+        <div class="container hero-content">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <div class="hero-badge">
+                        <i class="bi bi-flag-fill"></i>
+                        Serving the Warkaris of Pandharpur Wari
+                    </div>
+
+                    <h1>
+                        Annadan for Every
+                        <span>Warkari</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        A smart crowd-mobility and Annadan coordination platform
+                        that helps Warkaris discover nearby food centres,
+                        understand live availability, and helps Seva providers
+                        coordinate food where it is needed most.
+                    </p>
+
+                    <div class="hero-buttons">
+                        <a href="/register" class="btn-main">
+                            <i class="bi bi-geo-alt-fill me-2"></i>
+                            Find Annadan
+                        </a>
+
+                        <a href="{{ url_for('auth.register_centre') }}" class="btn-secondary">
+                            <i class="bi bi-heart-fill me-2"></i>
+                            Join Annadan Seva
+                        </a>
+                    </div>
+
+                    <div class="live-status">
+                        <span class="live-dot"></span>
+                        Live Wari Network
+                        <span class="mx-1">•</span>
+                        <span id="heroCrowd">2,847</span>
+                        Warkaris tracked
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="wari-visual" id="wariVisual">
+            <div class="palkhi-glow"></div>
+
+            <div class="palkhi">
+                <div class="palkhi-top"></div>
+                <div class="palkhi-roof"></div>
+                <div class="palkhi-body"></div>
+
+                <div class="palkhi-wheel wheel-left"></div>
+                <div class="palkhi-wheel wheel-right"></div>
+
+                <div class="route-line">
+                    <span class="route-dot"></span>
+                </div>
+
+                <div class="warkari-row">
+                    <span>👤</span>
+                    <span>👤</span>
+                    <span>👤</span>
+                    <span>👤</span>
+                    <span>👤</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="impact-section" id="impact">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="impact-card reveal">
+                        <div class="impact-icon">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <div class="counter" data-target="10000">0+</div>
+                        <p>Warkaris Supported</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="impact-card reveal">
+                        <div class="impact-icon">
+                            <i class="bi bi-shop"></i>
+                        </div>
+                        <div class="counter" data-target="100">0+</div>
+                        <p>Annadan Centres</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="impact-card reveal">
+                        <div class="impact-icon">
+                            <i class="bi bi-heart-fill"></i>
+                        </div>
+                        <div class="counter" data-target="500">0+</div>
+                        <p>Seva Volunteers</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="impact-card reveal">
+                        <div class="impact-icon">
+                            <i class="bi bi-broadcast-pin"></i>
+                        </div>
+                        <div class="counter" data-target="24">0/7</div>
+                        <p>Live Coordination</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section bg-white">
+        <div class="container">
+            <div class="text-center reveal">
+                <div class="section-label">The Wari Journey</div>
+
+                <h2 class="section-title">
+                    From Walking to Annadan
+                </h2>
+
+                <p class="section-description">
+                    Wari Annapurna connects the Warkari journey
+                    with the right food service at the right time.
+                </p>
+            </div>
+
+            <div class="journey mt-5">
+                <div class="journey-line"></div>
+
+                <div class="row g-4">
+                    <div class="col-md-3 journey-item reveal">
+                        <div class="journey-circle">
+                            <i class="bi bi-person-walking"></i>
+                        </div>
+                        <h5>Warkari</h5>
+                        <p>Walking along the Wari route</p>
+                    </div>
+
+                    <div class="col-md-3 journey-item reveal">
+                        <div class="journey-circle">
+                            <i class="bi bi-geo-alt"></i>
+                        </div>
+                        <h5>Locate</h5>
+                        <p>Find nearby Annadan centres</p>
+                    </div>
+
+                    <div class="col-md-3 journey-item reveal">
+                        <div class="journey-circle">
+                            <i class="bi bi-broadcast"></i>
+                        </div>
+                        <h5>Live Status</h5>
+                        <p>See availability and crowd levels</p>
+                    </div>
+
+                    <div class="col-md-3 journey-item reveal">
+                        <div class="journey-circle">
+                            <i class="bi bi-heart-fill"></i>
+                        </div>
+                        <h5>Seva</h5>
+                        <p>Receive food with dignity</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section mobility-section" id="mobility">
+        <div class="container">
+            <div class="text-center reveal">
+                <div class="section-label">Our Intelligent Layer</div>
+
+                <h2 class="section-title">
+                    Crowd Mobility Meets Annadan
+                </h2>
+
+                <p class="section-description">
+                    Wari Annapurna doesn't only ask
+                    <strong>"Where is food?"</strong>
+                    It also understands
+                    <strong>"Where are Warkaris moving?"</strong>
+                </p>
+            </div>
+
+            <div class="mobility-dashboard mt-5 reveal">
+                <div class="row g-4 align-items-center">
+                    <div class="col-lg-7">
+                        <div class="map-area">
+                            <div class="wari-road"></div>
+
+                            <div class="centre-marker marker-one"></div>
+                            <div class="centre-marker marker-two"></div>
+                            <div class="centre-marker marker-three"></div>
+
+                            <div class="crowd c1">👤</div>
+                            <div class="crowd c2">👤</div>
+                            <div class="crowd c3">👤</div>
+                            <div class="crowd c4">👤</div>
+                            <div class="crowd c5">👤</div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5">
+                        <h3 class="fw-bold">
+                            Live Crowd Intelligence
+                        </h3>
+
+                        <p class="text-white-50 mt-3">
+                            The platform can estimate crowd concentration
+                            and movement around Annadan centres using
+                            location updates and zone-based analysis.
+                        </p>
+
+                        <div class="row g-3 mt-3">
+                            <div class="col-6">
+                                <div class="mobility-stat">
+                                    <small>Current Crowd</small>
+                                    <div class="mobility-number" id="crowdNumber">
+                                        2,847
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="mobility-stat">
+                                    <small>Approaching</small>
+                                    <div class="mobility-number" id="approachingNumber">
+                                        1,126
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="mobility-stat">
+                                    <small>Food Capacity</small>
+                                    <div class="mobility-number">
+                                        3,200
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="mobility-stat">
+                                    <small>Demand Status</small>
+                                    <div class="mobility-number" style="color:#59ff91">
+                                        Healthy
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="how-it-works">
+        <div class="container">
+            <div class="text-center reveal">
+                <div class="section-label">Simple. Smart. Seva.</div>
+
+                <h2 class="section-title">
+                    How Wari Annapurna Works
+                </h2>
+
+                <p class="section-description">
+                    Technology meets Seva to make Annadan
+                    more discoverable, coordinated and efficient.
+                </p>
+            </div>
+
+            <div class="row g-4 mt-4">
+                <div class="col-md-4">
+                    <div class="process-card reveal">
+                        <div class="process-number">01</div>
+
+                        <div class="process-icon">
+                            <i class="bi bi-shop"></i>
+                        </div>
+
+                        <h4>Annadan Centres</h4>
+
+                        <p>
+                            Food providers share their centre location,
+                            meal timings, available meals and serving capacity.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="process-card reveal">
+                        <div class="process-number">02</div>
+
+                        <div class="process-icon">
+                            <i class="bi bi-person-walking"></i>
+                        </div>
+
+                        <h4>Warkaris Discover</h4>
+
+                        <p>
+                            Warkaris can discover nearby Annadan centres
+                            using their location and see current availability.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="process-card reveal">
+                        <div class="process-number">03</div>
+
+                        <div class="process-icon">
+                            <i class="bi bi-heart-fill"></i>
+                        </div>
+
+                        <h4>Seva Coordinates</h4>
+
+                        <p>
+                            Volunteers and administrators can coordinate
+                            food distribution and respond to changing demand.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section features-section" id="features">
+        <div class="container">
+            <div class="text-center reveal">
+                <div class="section-label">Technology for Seva</div>
+
+                <h2 class="section-title">
+                    One Platform. One Mission.
+                </h2>
+
+                <p class="section-description">
+                    A digital coordination layer for the Warkari,
+                    Annadan providers, volunteers and administrators.
+                </p>
+            </div>
+
+            <div class="row g-4 mt-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card reveal">
+                        <div class="feature-icon">
+                            <i class="bi bi-map"></i>
+                        </div>
+
+                        <h5>Nearby Annadan Discovery</h5>
+
+                        <p>
+                            Find food centres based on location,
+                            distance and availability.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card reveal">
+                        <div class="feature-icon">
+                            <i class="bi bi-people"></i>
+                        </div>
+
+                        <h5>Crowd Mobility</h5>
+
+                        <p>
+                            Understand crowd concentration and
+                            movement around Annadan centres.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card reveal">
+                        <div class="feature-icon">
+                            <i class="bi bi-bar-chart-line"></i>
+                        </div>
+
+                        <h5>Demand & Supply</h5>
+
+                        <p>
+                            Compare expected demand with available
+                            meals to identify potential shortages.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card reveal">
+                        <div class="feature-icon">
+                            <i class="bi bi-arrow-repeat"></i>
+                        </div>
+
+                        <h5>Surplus Redistribution</h5>
+
+                        <p>
+                            Redirect surplus food toward areas where
+                            additional food is required.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card reveal">
+                        <div class="feature-icon">
+                            <i class="bi bi-bell-fill"></i>
+                        </div>
+
+                        <h5>Real-Time Updates</h5>
+
+                        <p>
+                            Keep Warkaris and providers informed about
+                            changing food availability.
+                        </p>
+                    </div>
+                </div>

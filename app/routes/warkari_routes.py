@@ -153,3 +153,46 @@ def annadan():
         meal_type=meal_type,
         sort_by=sort_by
     )
+
+@warkari_bp.route('/map')
+def wari_map():
+
+    if 'user_id' not in session or session.get('role') != 'warkari':
+        return redirect(url_for('auth.login'))
+
+    cur = mysql.connection.cursor()
+
+    cur.execute("""
+        SELECT
+            id,
+            centre_name,
+            address,
+            city,
+            latitude,
+            longitude,
+            status
+        FROM annadan_centres
+        WHERE status = 'active'
+        ORDER BY id
+    """)
+
+    rows = cur.fetchall()
+    cur.close()
+
+    centres = []
+
+    for row in rows:
+        centres.append({
+            'id': row[0],
+            'name': row[1],
+            'address': row[2],
+            'city': row[3],
+            'latitude': float(row[4]) if row[4] is not None else None,
+            'longitude': float(row[5]) if row[5] is not None else None,
+            'status': row[6]
+        })
+
+    return render_template(
+        'warkari/wari_map.html',
+        centres=centres
+    )
