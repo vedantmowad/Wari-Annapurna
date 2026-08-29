@@ -508,3 +508,148 @@
                         </select>
 
                     </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Meal Name
+                        </label>
+
+                        <input
+                            type="text"
+                            name="meal_name"
+                            class="form-control"
+                            placeholder="Example: Mahaprasad Lunch"
+                            maxlength="100"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                Number of Meals
+                            </label>
+
+                            <input
+                                type="number"
+                                name="meal_count"
+                                class="form-control"
+                                placeholder="Example: 500"
+                                min="1"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                Food Type
+                            </label>
+
+                            <select
+                                name="food_type"
+                                class="form-select"
+                                required
+                            >
+
+                                <option value="Cooked">
+                                    Cooked
+                                </option>
+
+                                <option value="Raw">
+                                    Raw
+                                </option>
+
+                                <option value="Packed">
+                                    Packed
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div class="text-end mt-4">
+
+                        <button
+                            type="button"
+                            class="btn btn-next"
+                            onclick="nextStep()"
+                        >
+                            Next
+                            <i class="bi bi-arrow-right ms-2"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="step">
+
+                    <div class="section-icon">
+                        <i class="bi bi-clock-fill"></i>
+                    </div>
+
+                    <h5 class="step-title">
+                        Serving Schedule
+                    </h5>
+
+                    <p class="step-description">
+                        Enter when the Annadan service will be available.
+                    </p>
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                Serving Start Time
+                            </label>
+
+                            <input
+                                type="time"
+                                name="start_time"
+                                class="form-control"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                Serving End Time
+                            </label>
+
+                            <input
+                                type="time"
+                                name="end_time"
+                                class="form-control"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="col-md-12">
+
+                            <label class="form-label">
+                                Service Date
+                            </label>
+
+                            <input
+                                type="date"
+                                name="service_date"
+                                id="serviceDate"
+                                class="form-control"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
