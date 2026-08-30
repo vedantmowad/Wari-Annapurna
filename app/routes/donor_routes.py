@@ -78,7 +78,7 @@ def get_donation_recommendations():
                 END)
             FROM crowd_locations
             WHERE centre_id = %s
-            AND recorded_at >= NOW() - INTERVAL 30 MINUTE
+            AND recorded_at >= NOW() - INTERVAL 60 MINUTE
         """, (centre_id,))
 
         crowd_data = cur.fetchone()

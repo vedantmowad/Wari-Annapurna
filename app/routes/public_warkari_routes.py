@@ -138,7 +138,7 @@ def fetch_all_centres():
                     FROM crowd_locations cl
                     WHERE cl.centre_id = ac.id
                       AND cl.recorded_at >=
-                          NOW() - INTERVAL 10 MINUTE
+                          NOW() - INTERVAL 60 MINUTE
                       AND cl.movement IN (
                           'stationary',
                           'approaching'
@@ -158,7 +158,7 @@ def fetch_all_centres():
                     FROM crowd_locations cl
                     WHERE cl.centre_id = ac.id
                       AND cl.recorded_at >=
-                          NOW() - INTERVAL 10 MINUTE
+                          NOW() - INTERVAL 60 MINUTE
                       AND cl.movement = 'approaching'
                 ),
                 0

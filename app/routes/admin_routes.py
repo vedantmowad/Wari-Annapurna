@@ -57,7 +57,7 @@ def get_prediction_data():
                     SELECT COUNT(DISTINCT cl.varkari_id)
                     FROM crowd_locations cl
                     WHERE cl.centre_id = ac.id
-                    AND cl.recorded_at >= NOW() - INTERVAL 10 MINUTE
+                    AND cl.recorded_at >= NOW() - INTERVAL 60 MINUTE
                 ),
                 0
             ) AS current_crowd,
@@ -68,7 +68,7 @@ def get_prediction_data():
                     FROM crowd_locations cl
                     WHERE cl.centre_id = ac.id
                     AND cl.movement = 'approaching'
-                    AND cl.recorded_at >= NOW() - INTERVAL 10 MINUTE
+                    AND cl.recorded_at >= NOW() - INTERVAL 60 MINUTE
                 ),
                 0
             ) AS approaching
@@ -194,7 +194,7 @@ def dashboard():
     cur.execute("""
         SELECT COUNT(DISTINCT varkari_id)
         FROM crowd_locations
-        WHERE recorded_at >= NOW() - INTERVAL 10 MINUTE
+        WHERE recorded_at >= NOW() - INTERVAL 60 MINUTE
     """)
     total_current_crowd = cur.fetchone()[0] or 0
 
@@ -202,7 +202,7 @@ def dashboard():
         SELECT COUNT(DISTINCT varkari_id)
         FROM crowd_locations
         WHERE movement = 'approaching'
-        AND recorded_at >= NOW() - INTERVAL 10 MINUTE
+        AND recorded_at >= NOW() - INTERVAL 60 MINUTE
     """)
     total_approaching = cur.fetchone()[0] or 0
 

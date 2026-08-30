@@ -216,7 +216,7 @@ def centre_details(centre_id):
         SELECT COUNT(DISTINCT varkari_id)
         FROM crowd_locations
         WHERE centre_id = %s
-        AND recorded_at >= NOW() - INTERVAL 10 MINUTE
+        AND recorded_at >= NOW() - INTERVAL 60 MINUTE
     """, (centre_id,))
 
     current_crowd = int(cur.fetchone()[0] or 0)
@@ -226,7 +226,7 @@ def centre_details(centre_id):
         FROM crowd_locations
         WHERE centre_id = %s
         AND movement = 'approaching'
-        AND recorded_at >= NOW() - INTERVAL 10 MINUTE
+        AND recorded_at >= NOW() - INTERVAL 60 MINUTE
     """, (centre_id,))
 
     approaching = int(cur.fetchone()[0] or 0)
@@ -403,7 +403,7 @@ def nearby_centres():
             SELECT COUNT(DISTINCT varkari_id)
             FROM crowd_locations
             WHERE centre_id = %s
-            AND recorded_at >= NOW() - INTERVAL 10 MINUTE
+            AND recorded_at >= NOW() - INTERVAL 60 MINUTE
         """, (centre_id,))
 
         crowd = cur.fetchone()[0] or 0
@@ -413,7 +413,7 @@ def nearby_centres():
             FROM crowd_locations
             WHERE centre_id = %s
             AND movement = 'approaching'
-            AND recorded_at >= NOW() - INTERVAL 10 MINUTE
+            AND recorded_at >= NOW() - INTERVAL 60 MINUTE
         """, (centre_id,))
 
         approaching = cur.fetchone()[0] or 0
